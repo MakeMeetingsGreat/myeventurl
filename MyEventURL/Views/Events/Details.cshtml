@@ -1,0 +1,210 @@
+﻿@model MyEventURL.Event
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Start)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Organizer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Organizer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reminder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reminder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Format)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Format)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Views)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Views)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Engaged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Engaged)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sway)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sway)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.search)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.search)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timezone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timezone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Facebook)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Recurring)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Recurring)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SocialCommentsEngine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SocialCommentsEngine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TwitterDataWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TwitterDataWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YammerNetwork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YammerNetwork)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SummaryEngine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SummaryEngine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.youtube)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.youtube)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.storify)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.storify)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surveymonkey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surveymonkey)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

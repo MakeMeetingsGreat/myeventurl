@@ -1,0 +1,171 @@
+﻿@model IEnumerable<MyEventURL.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Organizer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reminder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Format)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Views)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Engaged)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sway)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.search)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timezone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recurring)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SocialCommentsEngine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TwitterDataWidget)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YammerNetwork)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SummaryEngine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.youtube)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.storify)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.surveymonkey)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Organizer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reminder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Format)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Views)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Engaged)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sway)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.search)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timezone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Facebook)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Recurring)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SocialCommentsEngine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TwitterDataWidget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YammerNetwork)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SummaryEngine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.youtube)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.storify)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.surveymonkey)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+        </td>
+    </tr>
+}
+
+</table>
