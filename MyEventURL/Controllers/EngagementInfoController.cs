@@ -32,14 +32,14 @@ namespace MyEventURL.Controllers
         [EnableQuery]
         public IQueryable<EngagementInfo> GetEngagementInfo()
         {
-            return db.EngagementInfoes;
+            return db.EngagementInfo;
         }
 
         // GET: odata/EngagementInfo(5)
         [EnableQuery]
         public SingleResult<EngagementInfo> GetEngagementInfo([FromODataUri] int key)
         {
-            return SingleResult.Create(db.EngagementInfoes.Where(engagementInfo => engagementInfo.EngagementInfoID == key));
+            return SingleResult.Create(db.EngagementInfo.Where(engagementInfo => engagementInfo.EngagementInfoID == key));
         }
 
         // PUT: odata/EngagementInfo(5)
@@ -52,7 +52,7 @@ namespace MyEventURL.Controllers
                 return BadRequest(ModelState);
             }
 
-            EngagementInfo engagementInfo = db.EngagementInfoes.Find(key);
+            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
             if (engagementInfo == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace MyEventURL.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.EngagementInfoes.Add(engagementInfo);
+            db.EngagementInfo.Add(engagementInfo);
             db.SaveChanges();
 
             return Created(engagementInfo);
@@ -104,7 +104,7 @@ namespace MyEventURL.Controllers
                 return BadRequest(ModelState);
             }
 
-            EngagementInfo engagementInfo = db.EngagementInfoes.Find(key);
+            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
             if (engagementInfo == null)
             {
                 return NotFound();
@@ -134,13 +134,13 @@ namespace MyEventURL.Controllers
         // DELETE: odata/EngagementInfo(5)
         public IHttpActionResult Delete([FromODataUri] int key)
         {
-            EngagementInfo engagementInfo = db.EngagementInfoes.Find(key);
+            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
             if (engagementInfo == null)
             {
                 return NotFound();
             }
 
-            db.EngagementInfoes.Remove(engagementInfo);
+            db.EngagementInfo.Remove(engagementInfo);
             db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -157,7 +157,7 @@ namespace MyEventURL.Controllers
 
         private bool EngagementInfoExists(int key)
         {
-            return db.EngagementInfoes.Count(e => e.EngagementInfoID == key) > 0;
+            return db.EngagementInfo.Count(e => e.EngagementInfoID == key) > 0;
         }
     }
 }

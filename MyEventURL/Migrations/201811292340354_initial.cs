@@ -3,7 +3,7 @@ namespace MyEventURL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class expandeddatamodel : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -18,7 +18,7 @@ namespace MyEventURL.Migrations
                 .PrimaryKey(t => t.BoardID);
             
             CreateTable(
-                "dbo.EngagementInfoes",
+                "dbo.EngagementInfo",
                 c => new
                     {
                         EngagementInfoID = c.Int(nullable: false, identity: true),
@@ -29,12 +29,12 @@ namespace MyEventURL.Migrations
                         ActionID = c.String(),
                     })
                 .PrimaryKey(t => t.EngagementInfoID);
-            
+                       
         }
         
         public override void Down()
         {
-            DropTable("dbo.EngagementInfoes");
+            DropTable("dbo.EngagementInfo");
             DropTable("dbo.Boards");
         }
     }

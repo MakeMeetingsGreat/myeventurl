@@ -21,7 +21,7 @@ namespace MyEventURL.Models
 
         public System.Data.Entity.DbSet<MyEventURL.Event> Events { get; set; }
 
-        public System.Data.Entity.DbSet<MyEventURL.Models.EngagementInfo> EngagementInfoes { get; set; }
+        public System.Data.Entity.DbSet<MyEventURL.Models.EngagementInfo> EngagementInfo { get; set; }
 
         public System.Data.Entity.DbSet<MyEventURL.Models.Board> Boards { get; set; }
     }
