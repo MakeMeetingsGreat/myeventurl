@@ -7,13 +7,13 @@ namespace MyEventURL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class expandeddatamodel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(expandeddatamodel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811292257239_initial"; }
+            get { return "201811292319232_expandeddatamodel"; }
         }
         
         string IMigrationMetadata.Source
