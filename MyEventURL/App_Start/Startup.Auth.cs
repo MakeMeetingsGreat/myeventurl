@@ -19,8 +19,13 @@ namespace MyEventURL
         private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
         private static string authority = aadInstance + tenantId;
 
+
         public void ConfigureAuth(IAppBuilder app)
         {
+#if DEBUG
+                postLogoutRedirectUri = "https://localhost:44311/";
+#endif
+
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
@@ -30,7 +35,8 @@ namespace MyEventURL
                 {
                     ClientId = clientId,
                     Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri
+                    PostLogoutRedirectUri = postLogoutRedirectUri,
+                    RedirectUri = postLogoutRedirectUri
                 });
         }
 
