@@ -21,28 +21,28 @@ namespace MyEventURL.Controllers
     using System.Web.Http.OData.Extensions;
     using MyEventURL.Models;
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<EngagementInfo>("EngagementInfo");
+    builder.EntitySet<EngagementInfo>("EngagementInfoes");
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class EngagementInfoController : ODataController
+    public class EngagementInfoesController : ODataController
     {
         private MyEventURLContext db = new MyEventURLContext();
 
-        // GET: odata/EngagementInfo
+        // GET: odata/EngagementInfoes
         [EnableQuery]
-        public IQueryable<EngagementInfo> GetEngagementInfo()
+        public IQueryable<EngagementInfo> GetEngagementInfoes()
         {
             return db.EngagementInfo;
         }
 
-        // GET: odata/EngagementInfo(5)
+        // GET: odata/EngagementInfoes(5)
         [EnableQuery]
         public SingleResult<EngagementInfo> GetEngagementInfo([FromODataUri] int key)
         {
             return SingleResult.Create(db.EngagementInfo.Where(engagementInfo => engagementInfo.EngagementInfoID == key));
         }
 
-        // PUT: odata/EngagementInfo(5)
+        // PUT: odata/EngagementInfoes(5)
         public IHttpActionResult Put([FromODataUri] int key, Delta<EngagementInfo> patch)
         {
             Validate(patch.GetEntity());
@@ -79,7 +79,7 @@ namespace MyEventURL.Controllers
             return Updated(engagementInfo);
         }
 
-        // POST: odata/EngagementInfo
+        // POST: odata/EngagementInfoes
         public IHttpActionResult Post(EngagementInfo engagementInfo)
         {
             if (!ModelState.IsValid)
@@ -93,7 +93,7 @@ namespace MyEventURL.Controllers
             return Created(engagementInfo);
         }
 
-        // PATCH: odata/EngagementInfo(5)
+        // PATCH: odata/EngagementInfoes(5)
         [AcceptVerbs("PATCH", "MERGE")]
         public IHttpActionResult Patch([FromODataUri] int key, Delta<EngagementInfo> patch)
         {
@@ -131,7 +131,7 @@ namespace MyEventURL.Controllers
             return Updated(engagementInfo);
         }
 
-        // DELETE: odata/EngagementInfo(5)
+        // DELETE: odata/EngagementInfoes(5)
         public IHttpActionResult Delete([FromODataUri] int key)
         {
             EngagementInfo engagementInfo = db.EngagementInfo.Find(key);

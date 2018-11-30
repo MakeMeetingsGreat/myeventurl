@@ -14,7 +14,7 @@ namespace MyEventURL
         {
             // Web API configuration and services
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<EngagementInfo>("EngagementInfo");
+            builder.EntitySet<EngagementInfo>("EngagementInfoes");
             config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
 

@@ -13,7 +13,7 @@ namespace MyEventURL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201811292340354_initial"; }
+            get { return "201811300021038_initial"; }
         }
         
         string IMigrationMetadata.Source

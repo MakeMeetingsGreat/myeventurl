@@ -220,15 +220,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
-    <Compile Include="Controllers\EngagementInfoController.cs" />
+    <Compile Include="Controllers\EngagementInfoesController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811292340354_initial.cs" />
-    <Compile Include="Migrations\201811292340354_initial.Designer.cs">
-      <DependentUpon>201811292340354_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201811300021038_initial.cs" />
+    <Compile Include="Migrations\201811300021038_initial.Designer.cs">
+      <DependentUpon>201811300021038_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
@@ -303,8 +303,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811292340354_initial.resx">
-      <DependentUpon>201811292340354_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811300021038_initial.resx">
+      <DependentUpon>201811300021038_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -18,7 +18,7 @@ namespace MyEventURL.Migrations
                 .PrimaryKey(t => t.BoardID);
             
             CreateTable(
-                "dbo.EngagementInfo",
+                "dbo.EngagementInfoes",
                 c => new
                     {
                         EngagementInfoID = c.Int(nullable: false, identity: true),
@@ -29,12 +29,12 @@ namespace MyEventURL.Migrations
                         ActionID = c.String(),
                     })
                 .PrimaryKey(t => t.EngagementInfoID);
-                       
+                        
         }
         
         public override void Down()
         {
-            DropTable("dbo.EngagementInfo");
+            DropTable("dbo.EngagementInfoes");
             DropTable("dbo.Boards");
         }
     }
