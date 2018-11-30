@@ -8,8 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using System.Web.Http.OData;
-using System.Web.Http.OData.Routing;
+using Microsoft.AspNet.OData;
 using MyEventURL.Models;
 
 namespace MyEventURL.Controllers
@@ -45,8 +44,6 @@ namespace MyEventURL.Controllers
         // PUT: odata/EngagementInfoes(5)
         public IHttpActionResult Put([FromODataUri] int key, Delta<EngagementInfo> patch)
         {
-            Validate(patch.GetEntity());
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -97,7 +94,6 @@ namespace MyEventURL.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public IHttpActionResult Patch([FromODataUri] int key, Delta<EngagementInfo> patch)
         {
-            Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
             {

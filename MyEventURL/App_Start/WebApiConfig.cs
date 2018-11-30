@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.OData.Builder;
-using System.Web.Http.OData.Extensions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Batch;
+using Microsoft.OData.Edm;
 using MyEventURL.Models;
 
 namespace MyEventURL
@@ -12,13 +15,6 @@ namespace MyEventURL
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<EngagementInfo>("EngagementInfoes");
-            config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-
-
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -27,6 +23,19 @@ namespace MyEventURL
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Count().Filter().OrderBy().Expand().Select().MaxTop(null); //new line
+            config.MapODataServiceRoute("odata", "odata", GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+            config.EnsureInitialized();
+        }
+
+
+        private static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<EngagementInfo>("EngagementInfoes");
+            var edmModel = builder.GetEdmModel();
+            return edmModel;
         }
     }
 }

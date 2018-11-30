@@ -14,6 +14,7 @@ namespace MyEventURL
         public int EventId { get; set;}
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public string Timezone { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
@@ -26,9 +27,12 @@ namespace MyEventURL
         public int Engaged { get; set; }
         public string sway { get; set; }
         public bool search { get; set; }
+        public bool? NoReply { get; set; }
+        public string Forms { get; set; }
+        public DateTime? Created { get; set; }
 
         //TBD Deleted
-        public string Timezone { get; set; }
+        
         public int Facebook { get; set; }
         public bool AllDay { get; set; }
         public string Recurring { get; set; }
@@ -39,6 +43,7 @@ namespace MyEventURL
         public string youtube { get; set; }
         public string storify { get; set; }
         public string surveymonkey { get; set; }
+        
 
 
         public Event()
@@ -47,6 +52,9 @@ namespace MyEventURL
             Engaged = 0;
             Facebook = 0;
             Format = "MM/DD/YYYY";
+            NoReply = false;
+            Forms = "";
+            Created = DateTime.UtcNow;
         }
 
     }
