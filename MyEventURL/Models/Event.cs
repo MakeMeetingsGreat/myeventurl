@@ -30,6 +30,7 @@ namespace MyEventURL
         public bool? NoReply { get; set; }
         public string Forms { get; set; }
         public DateTime? Created { get; set; }
+        public string Style { get; set; }
 
         //TBD Deleted
         

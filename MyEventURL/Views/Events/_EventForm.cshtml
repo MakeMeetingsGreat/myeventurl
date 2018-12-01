@@ -1,0 +1,136 @@
+﻿    <!-- Modal -->
+<div class="modal fade" id="eventform" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ModalTitle}}</h4>
+            </div>
+            <div class="modal-body" style="padding:20px">
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Background</div>
+                    <div class="col-md-5">
+                        <select v-model="Style" style="padding:3px">
+                            <option v-for="style in StyleList" value="style">{{style}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Organizer</div>
+                    <div class="col-md-9"><input v-model="Organizer" style="min-width:100%" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Subject</div>
+                    <div class="col-md-9"><input v-model="Subject" style="min-width:100%" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Location</div>
+                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Start</div>
+                    <div class="col-md-5"><input v-model="StartTime" id="starttime" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">End</div>
+                    <div class="col-md-5"><input v-model="EndTime" id="endtime" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">TimeZone</div>
+                    <div class="col-md-5">
+                        <select v-model="TimeZone" style="padding:3px">
+                            <option v-for="tz in TimeZoneList" value="tz.label">{{tz.label}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Description</div>
+                    <div class="col-md-9"><textarea v-model="Description" rows="4" style="max-width:100%; min-width:100%"></textarea></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Forms</div>
+                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-2">Sway</div>
+                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+                </div>
+                <div class="row" style="padding:3px">
+                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="NoReply" /></div>
+                    <div class="col-md-2">Mask Email</div>
+                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Search" /></div>
+                    <div class="col-md-2">Display in Search</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
+<script>
+    $(function () {
+        $('#starttime').datetimepicker({
+            timeFormat: "hh:mm tt"
+        });
+        $('#endtime').datetimepicker({
+            timeFormat: "hh:mm tt"
+        });
+    });
+</script>
+
+<script>
+    var EventForm = new Vue({
+        el: "#eventform",
+        data: {
+            ModalTitle: "Create Event",
+            TimeZoneList: [],
+            StyleList: [ "blue", "green", "grey", "orange", "pink", "yellow"],
+            Style: "grey",
+            Organizer: "",
+            Subject: "",
+            Location: "",
+            StartTime: "",
+            EndTime: "",
+            TimeZone: "",
+            Description: "",
+            Reminder: "",
+            NoReply: false,
+            Search: true
+        },
+        computed: {
+        },
+        beforeCreate: function() {
+            axios.get('https://www.addevent.com/api/v1/timezones')
+                .then(function (response) {
+                    EventForm.TimeZoneList = response.data.data;
+                })
+        },
+        methods: {
+            getUserID: function () {
+                UserID = "@User.Identity.Name";
+                if (UserID == "") UserID = "@Request.UserHostAddress";
+                return UserID;
+            },
+            runClearForm: function () {
+                this.ModalTitle = "Create Event";
+                this.Style = "grey";
+                this.Organizer = "";
+                this.Subject = "";
+                this.Location = "";
+                this.StartTime = "";
+                this.EndTime = "";
+                this.TimeZone = "";
+                this.Description = "";
+                this.Reminder = "";
+                this.NoReply = false;
+                this.Search = true;
+            },
+            setModalTitle: function (title) {
+                this.ModalTitle = title;
+            }
+
+        }
+    })
+</script>

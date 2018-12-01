@@ -228,6 +228,7 @@
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\DateController.cs" />
     <Compile Include="Controllers\EngagementInfoesController.cs" />
+    <Compile Include="Controllers\EventAPIController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -245,6 +246,10 @@
     <Compile Include="Migrations\201811301556079_expandevent1.Designer.cs">
       <DependentUpon>201811301556079_expandevent1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812010445064_style.cs" />
+    <Compile Include="Migrations\201812010445064_style.Designer.cs">
+      <DependentUpon>201812010445064_style.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\EngagementInfo.cs" />
@@ -258,8 +263,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -401,6 +414,7 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="Views\Events\_EventForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -427,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811301556079_expandevent1.resx">
       <DependentUpon>201811301556079_expandevent1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812010445064_style.resx">
+      <DependentUpon>201812010445064_style.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

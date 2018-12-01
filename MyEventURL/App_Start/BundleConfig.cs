@@ -22,6 +22,16 @@ namespace MyEventURL
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/vuejs").Include(
+                      "~/Scripts/vue.js",
+                      "~/Scripts/axios.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                      "~/Scripts/jquery-ui*"));
+
+            bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
+                      "~/Content/jquery-ui*"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
