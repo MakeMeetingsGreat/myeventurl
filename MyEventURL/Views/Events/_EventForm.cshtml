@@ -1,4 +1,6 @@
-﻿    <!-- Modal -->
+﻿
+
+    <!-- Modal -->
 <div class="modal fade" id="eventform" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -6,6 +8,15 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">{{ModalTitle}}</h4>
+                <div v-if="Error.Start.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.Start.Message}}
+                </div>
+                <div v-if="Error.End.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.End.Message}}
+                </div>
+                <div v-if="Error.TZ.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.TZ.Message}}
+                </div>
             </div>
             <div class="modal-body" style="padding:20px">
                 <div class="row" style="padding:3px">
@@ -120,7 +131,12 @@
             Sway: "",
             NoReply: false,
             Private: false,
-            Icon: false
+            Icon: false,
+            Error: {
+                Start: { Show: false, Message: "Start is not a valide date." },
+                End: { Show: false, Message: "End is not a valid date." },
+                TZ: { Show: false, Message: "TimeZone is not valid." }
+            }
         },
         computed: {
             TzOffset: function () {
@@ -134,6 +150,9 @@
                 })
         },
         methods: {
+            createEvent: function () {
+                this.runValidateForm();
+            },
             runClearForm: function () {
                 this.ModalTitle = "Create Event";
                 this.Style = "grey";
@@ -148,6 +167,13 @@
                 this.NoReply = false;
                 this.Private = false;
                 this.Icon = false;
+            },
+            runValidateForm: function () {
+                this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
+                this.Error.End.Show = !(moment(this.EndTime, momentjsformat).isValid());
+                this.Error.TZ.Show = (_.findWhere(EventForm.TimeZoneList, { label: EventForm.TimeZone }) == null);
+                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show) return false;
+                return true;
             },
             setStartTime: function () {
                 this.StartTime = $("#starttime").val();
