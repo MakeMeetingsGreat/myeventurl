@@ -11,6 +11,15 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/vuejs")
     @Scripts.Render("~/bundles/momentjs")
+    <script>
+        var Account = { Email: "", UserName: "", Domain: "" };
+        Account.Email = "@User.Identity.Name";
+        if (Account.Email != '') {
+            Account.UserName = /([^@@]+)\@@/.exec(Account.Email)[1];
+            Account.Domain = /\@@([^@@]+)/.exec(Account.Email)[1];
+        }
+
+    </script>
 
 </head>
 <body>
