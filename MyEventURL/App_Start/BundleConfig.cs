@@ -26,6 +26,10 @@ namespace MyEventURL
                       "~/Scripts/vue.js",
                       "~/Scripts/axios.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/momentjs").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/moment-timezone-with-data.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                       "~/Scripts/jquery-ui*"));
 

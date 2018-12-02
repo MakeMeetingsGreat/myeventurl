@@ -23,19 +23,20 @@ namespace MyEventURL
         public string Email { get; set; }
         public int Reminder { get; set; }
         public string Format { get; set; }
-        public int Views { get; set; }
-        public int Engaged { get; set; }
         public string sway { get; set; }
-        public bool search { get; set; }
         public bool? NoReply { get; set; }
         public string Forms { get; set; }
         public DateTime? Created { get; set; }
         public string Style { get; set; }
+        public bool? Private { get; set; }
+        public bool? Icon { get; set; }
 
         //TBD Deleted
-        
-        public int Facebook { get; set; }
-        public bool AllDay { get; set; }
+        public bool? search { get; set; }
+        public int? Views { get; set; }
+        public int? Engaged { get; set; }
+        public int? Facebook { get; set; }
+        public bool? AllDay { get; set; }
         public string Recurring { get; set; }
         public string SocialCommentsEngine { get; set; }
         public string TwitterDataWidget { get; set; }

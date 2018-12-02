@@ -12,7 +12,7 @@
                     <div class="col-md-2">Background</div>
                     <div class="col-md-5">
                         <select v-model="Style" style="padding:3px">
-                            <option v-for="style in StyleList" value="style">{{style}}</option>
+                            <option v-for="style in StyleList" :value="style">{{style}}</option>
                         </select>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <div class="col-md-2">TimeZone</div>
                     <div class="col-md-5">
                         <select v-model="TimeZone" style="padding:3px">
-                            <option v-for="tz in TimeZoneList" value="tz.label">{{tz.label}}</option>
+                            <option v-for="tz in TimeZoneList" :value="tz.label">{{tz.label}}</option>
                         </select>
                     </div>
                 </div>
@@ -49,18 +49,20 @@
                     <div class="col-md-9"><textarea v-model="Description" rows="4" style="max-width:100%; min-width:100%"></textarea></div>
                 </div>
                 <div class="row" style="padding:3px">
-                    <div class="col-md-2">Forms</div>
-                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+                    <div class="col-md-2">Forms URL</div>
+                    <div class="col-md-9"><input v-model="Forms" style="min-width:100%" /></div>
                 </div>
                 <div class="row" style="padding:3px">
-                    <div class="col-md-2">Sway</div>
-                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+                    <div class="col-md-2">Sway URL</div>
+                    <div class="col-md-9"><input v-model="Sway" style="min-width:100%" /></div>
                 </div>
                 <div class="row" style="padding:3px">
                     <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="NoReply" /></div>
                     <div class="col-md-2">Mask Email</div>
-                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Search" /></div>
-                    <div class="col-md-2">Display in Search</div>
+                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Private" /></div>
+                    <div class="col-md-2">Private Event</div>
+                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Icon" /></div>
+                    <div class="col-md-2">Use Icon</div>
                 </div>
 
             </div>
@@ -70,13 +72,23 @@
 <!-- Modal -->
 
 <script>
+    var Account = { Email: "", UserName: "", Domain: "" };
+    Account.Email = "@User.Identity.Name";
+    Account.UserName = /([^@@]+)\@@/.exec(Account.Email)[1];
+    Account.Domain = /\@@([^@@]+)/.exec(Account.Email)[1];
+
+
     $(function () {
         $('#starttime').datetimepicker({
             timeFormat: "hh:mm tt"
         });
+
         $('#endtime').datetimepicker({
             timeFormat: "hh:mm tt"
         });
+
+        EventForm.Organizer = Account.UserName;
+        EventForm.Email = Account.Email;
     });
 </script>
 
@@ -86,20 +98,22 @@
         data: {
             ModalTitle: "Create Event",
             TimeZoneList: [],
-            StyleList: [ "blue", "green", "grey", "orange", "pink", "yellow"],
-            Style: "grey",
+            StyleList: ["Blue", "Green", "Grey", "Orange", "Pink", "Yellow"],
+            Style: "Grey",
             Organizer: "",
+            Email: "",
             Subject: "",
             Location: "",
             StartTime: "",
             EndTime: "",
-            TimeZone: "",
+            TimeZone: moment.tz.guess(),
             Description: "",
             Reminder: "",
+            Forms: "",
+            Sway: "",
             NoReply: false,
-            Search: true
-        },
-        computed: {
+            Private: false,
+            Icon: false
         },
         beforeCreate: function() {
             axios.get('https://www.addevent.com/api/v1/timezones')
@@ -108,11 +122,6 @@
                 })
         },
         methods: {
-            getUserID: function () {
-                UserID = "@User.Identity.Name";
-                if (UserID == "") UserID = "@Request.UserHostAddress";
-                return UserID;
-            },
             runClearForm: function () {
                 this.ModalTitle = "Create Event";
                 this.Style = "grey";
@@ -121,11 +130,16 @@
                 this.Location = "";
                 this.StartTime = "";
                 this.EndTime = "";
-                this.TimeZone = "";
+                this.TimeZone = moment.tz.guess();
                 this.Description = "";
                 this.Reminder = "";
                 this.NoReply = false;
-                this.Search = true;
+                this.Private = false;
+                this.Icon = false;
+            },
+            setEndTime: function () {
+                var starttime = moment(this.StartTime).tz(this.TimeZone);
+                this.EndTime = starttime.add(1, 'hours');
             },
             setModalTitle: function (title) {
                 this.ModalTitle = title;

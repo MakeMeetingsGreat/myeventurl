@@ -250,6 +250,14 @@
     <Compile Include="Migrations\201812010445064_style.Designer.cs">
       <DependentUpon>201812010445064_style.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812020041521_private.cs" />
+    <Compile Include="Migrations\201812020041521_private.Designer.cs">
+      <DependentUpon>201812020041521_private.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812020044570_icon.cs" />
+    <Compile Include="Migrations\201812020044570_icon.Designer.cs">
+      <DependentUpon>201812020044570_icon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\EngagementInfo.cs" />
@@ -391,6 +399,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-timezone-utils.js" />
+    <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
+    <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
+    <Content Include="Scripts\moment-timezone-with-data.js" />
+    <Content Include="Scripts\moment-timezone-with-data.min.js" />
+    <Content Include="Scripts\moment-timezone.js" />
+    <Content Include="Scripts\moment-timezone.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
     <Content Include="Web.config" />
@@ -444,6 +463,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812010445064_style.resx">
       <DependentUpon>201812010445064_style.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812020041521_private.resx">
+      <DependentUpon>201812020041521_private.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812020044570_icon.resx">
+      <DependentUpon>201812020044570_icon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
