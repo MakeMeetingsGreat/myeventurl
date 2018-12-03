@@ -7,7 +7,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="col-md-4" style="float:right">
+                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCreateButton()" onclick="EventForm.createEvent()">Create</button>
+                </div>
+
                 <h4 class="modal-title">{{ModalTitle}}</h4>
+                <div v-if="Error.SignIn.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.SignIn.Message}}
+                </div>
                 <div v-if="Error.Start.Show" class="alert alert-danger hidden-print" style="margin:3px">
                     {{Error.Start.Message}}
                 </div>
@@ -74,14 +81,15 @@
                     <div class="col-md-9"><input v-model="Sway" style="min-width:100%" /></div>
                 </div>
                 <div class="row" style="padding:3px">
-                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="NoReply" /></div>
+                    <div class="col-md-1"><input type="checkbox" v-model="NoReply" /></div>
                     <div class="col-md-2">Mask Email</div>
-                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Private" /></div>
+                    <div class="col-md-1"><input type="checkbox" v-model="Private" /></div>
                     <div class="col-md-2">Private Event</div>
-                    <div class="col-md-1 col-md-offset-1"><input type="checkbox" v-model="Icon" /></div>
+                    <div class="col-md-1"><input type="checkbox" v-model="Icon" /></div>
                     <div class="col-md-2">Use Icon</div>
+                    <div class="col-md-1"><input type="checkbox" value="15" v-model="Reminder" /></div>
+                    <div class="col-md-2">Event Reminder</div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -121,6 +129,7 @@
         el: "#eventform",
         data: {
             ModalTitle: "Create Event",
+            ModalButton: "Create",
             TimeZoneList: [],
             StyleList: ["Blue", "Green", "Grey", "Orange", "Pink", "Yellow"],
             Style: "Grey",
@@ -132,7 +141,7 @@
             EndTime: "",
             TimeZone: moment.tz.guess(),
             Description: "",
-            Reminder: "",
+            Reminder: [15],
             Forms: "",
             Sway: "",
             NoReply: false,
@@ -143,7 +152,8 @@
                 End: { Show: false, Message: "End is not a valid date." },
                 TZ: { Show: false, Message: "TimeZone is not valid." },
                 Forms: { Show: false, Message: "The Forms URL is not valid." },
-                Sway: {Show: false, Message: "The Sway URL is not valid."}
+                Sway: { Show: false, Message: "The Sway URL is not valid." },
+                SignIn: { Show: false, Message: "You Must Sign In." }
             }
         },
         computed: {
@@ -162,10 +172,39 @@
         },
         methods: {
             createEvent: function () {
-                this.runValidateForm();
+                if (this.runValidateForm()) {
+                    var event = {
+                        Start: this.StartTime,
+                        End: this.EndTime,
+                        Timezone: this.TimeZone,
+                        Title: this.Subject,
+                        Description: this.Description,
+                        Location: this.Location,
+                        Organizer: this.Organizer,
+                        Email: Account.Email,
+                        Reminder: this.Reminder.length > 0 ? 15 : 0,
+                        sway: this.Sway,
+                        NoReply: this.NoReply,
+                        Forms: this.Forms,
+                        Style: this.Style,
+                        Private: this.Private,
+                        Icon: this.Icon
+                };
+
+                    axios.post('/api/EventAPI', event)
+                        .then(function (success) {
+                            EventForm.runClearForm();
+                            $("#eventform").modal('hide');
+                        })
+                        .catch(function (error) { console.log(error) });
+                };
+            },
+            evalCreateButton: function () {
+                return (this.ModalButton == "Create")
             },
             runClearForm: function () {
                 this.ModalTitle = "Create Event";
+                this.ModalButton = "Save";
                 this.Style = "grey";
                 this.Organizer = "";
                 this.Subject = "";
@@ -174,7 +213,7 @@
                 this.EndTime = "";
                 this.TimeZone = moment.tz.guess();
                 this.Description = "";
-                this.Reminder = "";
+                this.Reminder = [15];
                 this.Forms = "";
                 this.Sway = "";
                 this.NoReply = false;
@@ -187,7 +226,8 @@
                 this.Error.TZ.Show = (_.findWhere(EventForm.TimeZoneList, { label: EventForm.TimeZone }) == null);
                 this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\/Pages\/ResponsePage\.aspx\?id/.test(this.Forms)) || this.Forms == "");                
                 this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway)) || this.Sway == "");
-                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show) return false;
+                this.Error.SignIn.Show = (Account.Email == "");
+                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show || this.Error.SignIn.Show) return false;
                 return true;
             },
             setStartTime: function () {
