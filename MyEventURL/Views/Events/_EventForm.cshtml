@@ -17,6 +17,12 @@
                 <div v-if="Error.TZ.Show" class="alert alert-danger hidden-print" style="margin:3px">
                     {{Error.TZ.Message}}
                 </div>
+                <div v-if="Error.Forms.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.Forms.Message}}
+                </div>
+                <div v-if="Error.Sway.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.Sway.Message}}
+                </div>
             </div>
             <div class="modal-body" style="padding:20px">
                 <div class="row" style="padding:3px">
@@ -133,9 +139,11 @@
             Private: false,
             Icon: false,
             Error: {
-                Start: { Show: false, Message: "Start is not a valide date." },
+                Start: { Show: false, Message: "Start is not a valid date." },
                 End: { Show: false, Message: "End is not a valid date." },
-                TZ: { Show: false, Message: "TimeZone is not valid." }
+                TZ: { Show: false, Message: "TimeZone is not valid." },
+                Forms: { Show: false, Message: "The Forms URL is not valid." },
+                Sway: {Show: false, Message: "The Sway URL is not valid."}
             }
         },
         computed: {
@@ -148,6 +156,9 @@
                 .then(function (response) {
                     EventForm.TimeZoneList = response.data.data;
                 })
+        },
+        updated: function () {
+            if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show) this.runValidateForm();
         },
         methods: {
             createEvent: function () {
@@ -164,6 +175,8 @@
                 this.TimeZone = moment.tz.guess();
                 this.Description = "";
                 this.Reminder = "";
+                this.Forms = "";
+                this.Sway = "";
                 this.NoReply = false;
                 this.Private = false;
                 this.Icon = false;
@@ -172,7 +185,9 @@
                 this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
                 this.Error.End.Show = !(moment(this.EndTime, momentjsformat).isValid());
                 this.Error.TZ.Show = (_.findWhere(EventForm.TimeZoneList, { label: EventForm.TimeZone }) == null);
-                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show) return false;
+                this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\/Pages\/ResponsePage\.aspx\?id/.test(this.Forms)) || this.Forms == "");                
+                this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway)) || this.Sway == "");
+                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show) return false;
                 return true;
             },
             setStartTime: function () {
