@@ -7,8 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Batch;
+using Microsoft.OData.Edm;
 using MyEventURL.Models;
 
 namespace MyEventURL.Controllers
@@ -18,44 +21,45 @@ namespace MyEventURL.Controllers
 
     using System.Web.Http.OData.Builder;
     using System.Web.Http.OData.Extensions;
-    using MyEventURL.Models;
+    using MyEventURL;
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<EngagementInfo>("EngagementInfoes");
+    builder.EntitySet<Event>("GetEvent");
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class EngagementInfoesController : ODataController
+    public class GetEventController : ODataController
     {
         private MyEventURLContext db = new MyEventURLContext();
 
-        // GET: odata/EngagementInfoes
+        // GET: odata/GetEvent
         [EnableQuery]
-        public IQueryable<EngagementInfo> GetEngagementInfoes()
+        public IQueryable<Event> GetGetEvent()
         {
-            return db.EngagementInfo;
+            return db.Events;
         }
 
-        // GET: odata/EngagementInfoes(5)
+        // GET: odata/GetEvent(5)
         [EnableQuery]
-        public SingleResult<EngagementInfo> GetEngagementInfo([FromODataUri] int key)
+        public SingleResult<Event> GetEvent([FromODataUri] int key)
         {
-            return SingleResult.Create(db.EngagementInfo.Where(engagementInfo => engagementInfo.EngagementInfoID == key));
+            return SingleResult.Create(db.Events.Where(@event => @event.EventId == key));
         }
 
-        // PUT: odata/EngagementInfoes(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<EngagementInfo> patch)
+        // PUT: odata/GetEvent(5)
+        public IHttpActionResult Put([FromODataUri] int key, Delta<Event> patch)
         {
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
-            if (engagementInfo == null)
+            Event @event = db.Events.Find(key);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            patch.Put(engagementInfo);
+            patch.Put(@event);
 
             try
             {
@@ -63,7 +67,7 @@ namespace MyEventURL.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EngagementInfoExists(key))
+                if (!EventExists(key))
                 {
                     return NotFound();
                 }
@@ -73,40 +77,39 @@ namespace MyEventURL.Controllers
                 }
             }
 
-            return Updated(engagementInfo);
+            return Updated(@event);
         }
 
-        // POST: odata/EngagementInfoes
-        public IHttpActionResult Post(EngagementInfo engagementInfo)
+        // POST: odata/GetEvent
+        public IHttpActionResult Post(Event @event)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.EngagementInfo.Add(engagementInfo);
+            db.Events.Add(@event);
             db.SaveChanges();
 
-            return Created(engagementInfo);
+            return Created(@event);
         }
 
-        // PATCH: odata/EngagementInfoes(5)
+        // PATCH: odata/GetEvent(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<EngagementInfo> patch)
+        public IHttpActionResult Patch([FromODataUri] int key, Delta<Event> patch)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
-            if (engagementInfo == null)
+            Event @event = db.Events.Find(key);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            patch.Patch(engagementInfo);
+            patch.Patch(@event);
 
             try
             {
@@ -114,7 +117,7 @@ namespace MyEventURL.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EngagementInfoExists(key))
+                if (!EventExists(key))
                 {
                     return NotFound();
                 }
@@ -124,19 +127,19 @@ namespace MyEventURL.Controllers
                 }
             }
 
-            return Updated(engagementInfo);
+            return Updated(@event);
         }
 
-        // DELETE: odata/EngagementInfoes(5)
+        // DELETE: odata/GetEvent(5)
         public IHttpActionResult Delete([FromODataUri] int key)
         {
-            EngagementInfo engagementInfo = db.EngagementInfo.Find(key);
-            if (engagementInfo == null)
+            Event @event = db.Events.Find(key);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            db.EngagementInfo.Remove(engagementInfo);
+            db.Events.Remove(@event);
             db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -151,9 +154,9 @@ namespace MyEventURL.Controllers
             base.Dispose(disposing);
         }
 
-        private bool EngagementInfoExists(int key)
+        private bool EventExists(int key)
         {
-            return db.EngagementInfo.Count(e => e.EngagementInfoID == key) > 0;
+            return db.Events.Count(e => e.EventId == key) > 0;
         }
     }
 }

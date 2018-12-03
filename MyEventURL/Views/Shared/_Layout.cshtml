@@ -13,13 +13,13 @@
     @Scripts.Render("~/bundles/momentjs")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
     <script>
+        //Identifying Account Information
         var Account = { Email: "", UserName: "", Domain: "" };
         Account.Email = "@User.Identity.Name";
         if (Account.Email != '') {
             Account.UserName = /([^@@]+)\@@/.exec(Account.Email)[1];
             Account.Domain = /\@@([^@@]+)/.exec(Account.Email)[1];
         }
-
     </script>
 
 </head>

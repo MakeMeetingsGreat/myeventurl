@@ -33,7 +33,9 @@ namespace MyEventURL
         private static IEdmModel GetEdmModel()
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<EngagementInfo>("EngagementInfoes");
+            builder.EntitySet<Board>("GetBoard");
+            builder.EntitySet<Event>("GetEvent");
+            builder.EntitySet<EngagementInfo>("GetEngagementInfo");
             var edmModel = builder.GetEdmModel();
             return edmModel;
         }

@@ -183,12 +183,28 @@
                         Organizer: this.Organizer,
                         Email: Account.Email,
                         Reminder: this.Reminder.length > 0 ? 15 : 0,
+                        Format: "MM/DD/YYYY",
                         sway: this.Sway,
                         NoReply: this.NoReply,
                         Forms: this.Forms,
+                        Created: Date.now,
                         Style: this.Style,
                         Private: this.Private,
-                        Icon: this.Icon
+                        Icon: this.Icon,
+                        //To be removed from schema
+                        search: null,
+                        Views: null,
+                        Engaged: null,
+                        Facebook: null,
+                        AllDay: null,
+                        Recurring: null,
+                        SocialCommentsEngine: null,
+                        TwitterDataWidget: null,
+                        YammerNetwork: null,
+                        SummaryEngine: null,
+                        youtube: null,
+                        storify: null,
+                        surveymonkey: null
                 };
 
                     axios.post('/api/EventAPI', event)

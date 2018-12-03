@@ -16,25 +16,6 @@ namespace MyEventURL.Controllers
     {
         private MyEventURLContext db = new MyEventURLContext();
 
-        // GET: api/BoardAPI
-        public IQueryable<Board> GetBoards()
-        {
-            return db.Boards;
-        }
-
-        // GET: api/BoardAPI/5
-        [ResponseType(typeof(Board))]
-        public IHttpActionResult GetBoard(int id)
-        {
-            Board board = db.Boards.Find(id);
-            if (board == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(board);
-        }
-
         // PUT: api/BoardAPI/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutBoard(int id, Board board)
