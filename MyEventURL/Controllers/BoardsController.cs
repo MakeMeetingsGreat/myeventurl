@@ -2,103 +2,117 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web;
+using System.Web.Mvc;
 using MyEventURL.Models;
 
 namespace MyEventURL.Controllers
 {
-    public class BoardsController : ApiController
+    public class BoardsController : Controller
     {
         private MyEventURLContext db = new MyEventURLContext();
 
-        // GET: api/Boards
-        public IQueryable<Board> GetBoards()
+        // GET: Boards
+        public ActionResult Index()
         {
-            return db.Boards;
+            return RedirectToAction("Index","Events");
         }
 
-        // GET: api/Boards/5
-        [ResponseType(typeof(Board))]
-        public IHttpActionResult GetBoard(int id)
+        // GET: Boards/Details/5
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Board board = db.Boards.Find(id);
             if (board == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
-
-            return Ok(board);
+            return View(board);
         }
 
-        // PUT: api/Boards/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutBoard(int id, Board board)
+        // GET: Boards/Create
+        public ActionResult Create()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            return View();
+        }
 
-            if (id != board.BoardID)
+        // POST: Boards/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "BoardID,Created,View")] Board board)
+        {
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }
-
-            db.Entry(board).State = EntityState.Modified;
-
-            try
-            {
+                db.Boards.Add(board);
                 db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BoardExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToAction("Index");
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return View(board);
         }
 
-        // POST: api/Boards
-        [ResponseType(typeof(Board))]
-        public IHttpActionResult PostBoard(Board board)
+        // GET: Boards/Edit/5
+        public ActionResult Edit(int? id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return BadRequest(ModelState);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            db.Boards.Add(board);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = board.BoardID }, board);
-        }
-
-        // DELETE: api/Boards/5
-        [ResponseType(typeof(Board))]
-        public IHttpActionResult DeleteBoard(int id)
-        {
             Board board = db.Boards.Find(id);
             if (board == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
+            return View(board);
+        }
 
+        // POST: Boards/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "BoardID,Created,View")] Board board)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(board).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(board);
+        }
+
+        // GET: Boards/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Board board = db.Boards.Find(id);
+            if (board == null)
+            {
+                return HttpNotFound();
+            }
+            return View(board);
+        }
+
+        // POST: Boards/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Board board = db.Boards.Find(id);
             db.Boards.Remove(board);
             db.SaveChanges();
-
-            return Ok(board);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -108,11 +122,6 @@ namespace MyEventURL.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool BoardExists(int id)
-        {
-            return db.Boards.Count(e => e.BoardID == id) > 0;
         }
     }
 }
