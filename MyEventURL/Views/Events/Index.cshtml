@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyEventURL.Event>
+﻿@Html.Partial("_GridComponent")
 
 @{
     ViewBag.Title = "Index";
@@ -9,163 +9,55 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Start)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.End)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Organizer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Reminder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Format)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Views)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Engaged)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sway)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.search)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Timezone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Facebook)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AllDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Recurring)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SocialCommentsEngine)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TwitterDataWidget)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.YammerNetwork)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SummaryEngine)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.youtube)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.storify)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.surveymonkey)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.End)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Organizer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Reminder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Format)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Views)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Engaged)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.sway)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.search)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Timezone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Facebook)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AllDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Recurring)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SocialCommentsEngine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TwitterDataWidget)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.YammerNetwork)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SummaryEngine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.youtube)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.storify)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.surveymonkey)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
-        </td>
-    </tr>
-}
+<div id="eventlist">
+    <h3>Future Events:</h3>
+    <grid :data="future"
+          :columns="cols"
+          :filter-key="searchQuery"
+          edit="<a href='http://www.msn.com/{replace}'>Edit</a>"
+          view="<a href='http://www.msn.com/{replace}'>View</a>"
+          delete="<a href='http://www.msn.com/{replace}'>Delete</a>"
+          add="<a href='http://www.msn.com/{replace}'>Add</a>"
+          width="100%">
+    </grid>
+    <h3>Past Events:</h3>
+    <grid :data="past"
+          :columns="cols"
+          :filter-key="searchQuery"
+          width="100%">
+    </grid>
+</div>
 
-</table>
+<script>
+    var EventList = new Vue({
+        el: '#eventlist',
+        data: {
+            cols: [{ name:"Start", hide:false },
+                   { name:"Title", hide:false },
+                   { name:"Views", hide:true },
+                   { name:"Adds", hide:true },
+                   { name:"Actions", hide:false }],
+            future: [],
+            past: [],
+            searchQuery: ''
+        },
+        beforeCreate: function () {
+            axios.get('/odata/GetEvent?$orderby=Start desc')
+                .then(function (response) {
+                    response.data.value.forEach(function (fact) {
+                        var startmoment = moment(fact.Start);
+                        var event = {
+                            Start: startmoment.format("MMM D"),
+                            Title: fact.Title,
+                            Views: fact.Views,
+                            Adds: fact.Engaged,
+                            Actions: fact.EventId
+                        }
+                        var nowmoment = moment(Date.now());
+                        if (nowmoment.diff(startmoment) < 0) EventList.future.push(event); else EventList.past.push(event)
+                    })
+                })
+        }
+    })
+</script>

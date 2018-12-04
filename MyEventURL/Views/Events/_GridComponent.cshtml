@@ -11,18 +11,20 @@
         <thead>
             <tr>
                 <th v-for="key in columns"
-                    v-on:click="sortBy(key)"
-                    :class="{ active: sortKey == key }">
-                    {{ key | capitalize }}
-                    <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+                    v-on:click="sortBy(key.name)"
+                    :class="{ active: sortKey == key.name }"
+                    :class="key.hide == true ? 'hidden-xs' :''">
+                    {{ key.name | capitalize }}
+                    <span class="arrow" :class="sortOrders[key.name] > 0 ? 'asc' : 'dsc'">
                     </span>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="entry in filteredData">
-                <td v-for="key in columns">
-                    {{entry[key]}}
+                <td v-for="key in columns"  :class="key.hide == true ? 'hidden-xs' :''">
+                    {{key.name != 'Actions' ? entry[key.name] : ""}}
+                    <span v-if="key.name == 'Actions'" v-html="returnActions(entry[key.name])"></span>
                 </td>
             </tr>
         </tbody>
@@ -38,7 +40,11 @@
             columns: Array,
             filterKey: String,
             width: String,
-            sortKey: String
+            sort: String,
+            edit: String,
+            view: String,
+            delete: String,
+            add: String
         },
         data: function () {
             var sortOrders = {}
@@ -46,8 +52,9 @@
                 sortOrders[key] = -1
             })
             return {
+                sortKey: this.sort,
                 sortOrders: sortOrders,
-                Width: (this.width == '') ? 400 : this.width
+                Width: this.width,
             }
         },
         computed: {
@@ -79,6 +86,14 @@
             }
         },
         methods: {
+            returnActions: function (id) {
+                var returntext = [];
+                if (this.edit != null) returntext.push(this.edit);
+                if (this.view != null) returntext.push(this.view);
+                if (this.delete != null) returntext.push(this.delete);
+                if (this.add != null) returntext.push(this.add);
+                return (returntext.join(" | "));
+            },
             sortBy: function (key) {
                 this.sortKey = key
                 this.sortOrders[key] = this.sortOrders[key] * -1
