@@ -35,7 +35,6 @@ namespace MyEventURL
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Board>("GetBoard");
             builder.EntitySet<Event>("GetEvent");
-            builder.EntitySet<EngagementInfo>("GetEngagementInfo");
             var edmModel = builder.GetEdmModel();
             return edmModel;
         }

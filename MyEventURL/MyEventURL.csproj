@@ -228,11 +228,9 @@
     <Compile Include="Controllers\BoardAPIController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\DateController.cs" />
-    <Compile Include="Controllers\EngagementInfoAPIController.cs" />
     <Compile Include="Controllers\EventAPIController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\GetBoardController.cs" />
-    <Compile Include="Controllers\GetEngagementInfoController.cs" />
     <Compile Include="Controllers\GetEventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -262,9 +260,12 @@
     <Compile Include="Migrations\201812020044570_icon.Designer.cs">
       <DependentUpon>201812020044570_icon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812040642024_remove_ei.cs" />
+    <Compile Include="Migrations\201812040642024_remove_ei.Designer.cs">
+      <DependentUpon>201812040642024_remove_ei.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
-    <Compile Include="Models\EngagementInfo.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\MyEventURLContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -482,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812020044570_icon.resx">
       <DependentUpon>201812020044570_icon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812040642024_remove_ei.resx">
+      <DependentUpon>201812040642024_remove_ei.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
