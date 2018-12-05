@@ -44,6 +44,7 @@
             edit: String,
             view: String,
             delete: String,
+            copy: String,
             add: String
         },
         data: function () {
@@ -88,10 +89,11 @@
         methods: {
             returnActions: function (id) {
                 var returntext = [];
-                if (this.edit != null) returntext.push(this.edit);
-                if (this.view != null) returntext.push(this.view);
-                if (this.delete != null) returntext.push(this.delete);
-                if (this.add != null) returntext.push(this.add);
+                if (this.edit != null) returntext.push(this.edit.replace(/{replace}/, id));
+                if (this.view != null) returntext.push(this.view.replace(/{replace}/, id));
+                if (this.delete != null) returntext.push(this.delete.replace(/{replace}/, id));
+                if (this.add != null) returntext.push(this.add.replace(/{replace}/, id));
+                if (this.copy != null) returntext.push(this.copy.replace(/{replace}/, id));
                 return (returntext.join(" | "));
             },
             sortBy: function (key) {

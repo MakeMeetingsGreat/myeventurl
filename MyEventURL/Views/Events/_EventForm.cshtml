@@ -9,6 +9,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="col-md-4" style="float:right">
                     <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCreateButton()" onclick="EventForm.createEvent()">Create</button>
+                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalSaveButton()" onclick="EventForm.setServerEvent()">Save</button>
                 </div>
 
                 <h4 class="modal-title">{{ModalTitle}}</h4>
@@ -133,6 +134,7 @@
             TimeZoneList: [],
             StyleList: ["Blue", "Green", "Grey", "Orange", "Pink", "Yellow"],
             Style: "Grey",
+            EventId: "",
             Organizer: "",
             Email: "",
             Subject: "",
@@ -140,10 +142,13 @@
             StartTime: "",
             EndTime: "",
             TimeZone: moment.tz.guess(),
+            Created: "",
             Description: "",
             Reminder: [15],
             Forms: "",
             Sway: "",
+            Views: "",
+            Engaged: "",
             NoReply: false,
             Private: false,
             Icon: false,
@@ -209,32 +214,48 @@
 
                     axios.post('/api/EventAPI', event)
                         .then(function (success) {
-                            EventForm.runClearForm();
-                            $("#eventform").modal('hide');
+                            window.location.reload();
                         })
                         .catch(function (error) { console.log(error) });
                 };
             },
+            getServerEvent: function (id) {
+                axios.get('/odata/GetEvent('+id+')')
+                    .then(function (success) {
+                        EventForm.ModalTitle = "Edit Event";
+                        EventForm.ModalButton = "Save";
+                        EventForm.StartTime = moment(success.data.Start).format(momentjsformat);
+                        EventForm.EndTime = moment(success.data.End).format(momentjsformat);
+                        EventForm.Style = success.data.Style;
+                        EventForm.Organizer = success.data.Organizer;
+                        EventForm.Subject = success.data.Title;
+                        EventForm.Description = success.data.Description;
+                        EventForm.Location = success.data.Location;
+                        EventForm.Email = success.data.Email;
+                        EventForm.Reminder = success.data.Reminder;
+                        EventForm.Format = success.data.Format;
+                        EventForm.Sway = success.data.sway;
+                        EventForm.NoReply = success.data.NoReply;
+                        EventForm.Forms = success.data.Forms;
+                        EventForm.Created = success.data.Created;
+                        EventForm.Style = success.data.Style;
+                        EventForm.Private = success.data.Private;
+                        EventForm.Icon = success.data.Icon;
+                        EventForm.Views = success.data.Views;
+                        EventForm.Engaged = success.data.Engaged;
+                        EventForm.EventId = id;
+                    })
+            },
             evalCreateButton: function () {
                 return (this.ModalButton == "Create")
             },
-            runClearForm: function () {
-                this.ModalTitle = "Create Event";
-                this.ModalButton = "Save";
-                this.Style = "grey";
-                this.Organizer = "";
-                this.Subject = "";
-                this.Location = "";
-                this.StartTime = "";
-                this.EndTime = "";
-                this.TimeZone = moment.tz.guess();
-                this.Description = "";
-                this.Reminder = [15];
-                this.Forms = "";
-                this.Sway = "";
-                this.NoReply = false;
-                this.Private = false;
-                this.Icon = false;
+            evalSaveButton: function () {
+                return (this.ModalButton == "Save")
+            },
+            runEditEvent: function (id) {
+                this.getServerEvent(id);
+                $("#eventform").modal('show');
+
             },
             runValidateForm: function () {
                 this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
@@ -254,7 +275,52 @@
             },
             setModalTitle: function (title) {
                 this.ModalTitle = title;
+            },
+            setServerEvent: function () {
+                if (this.runValidateForm()) {
+                    var event = {
+                        EventId: this.EventId,
+                        Start: this.StartTime,
+                        End: this.EndTime,
+                        Timezone: this.TimeZone,
+                        Title: this.Subject,
+                        Description: this.Description,
+                        Location: this.Location,
+                        Organizer: this.Organizer,
+                        Email: Account.Email,
+                        Reminder: this.Reminder.length > 0 ? 15 : 0,
+                        Format: "MM/DD/YYYY",
+                        sway: this.Sway,
+                        NoReply: this.NoReply,
+                        Forms: this.Forms,
+                        Created: Date.now,
+                        Style: this.Style,
+                        Private: this.Private,
+                        Icon: this.Icon,
+                        Views: this.Views,
+                        Engaged: this.Engaged,
+                        //To be removed from schema
+                        search: null,
+                        Facebook: null,
+                        AllDay: null,
+                        Recurring: null,
+                        SocialCommentsEngine: null,
+                        TwitterDataWidget: null,
+                        YammerNetwork: null,
+                        SummaryEngine: null,
+                        youtube: null,
+                        storify: null,
+                        surveymonkey: null
+                    };
+
+                    axios.put('/api/EventAPI/'+event.EventId, event)
+                        .then(function (success) {
+                            window.location.reload();
+                        })
+                        .catch(function (error) { console.log(error) });
+                };
             }
+
 
         }
     })

@@ -1,4 +1,5 @@
 ﻿@Html.Partial("_GridComponent")
+@Html.Partial("_EventForm")
 
 @{
     ViewBag.Title = "Index";
@@ -12,19 +13,25 @@
 
 <div id="eventlist">
     <h3>Future Events:</h3>
+    <div style="margin:10px;">
+        Search <input name="query" v-model="FutureQuery" style="min-width:100%">
+    </div>
     <grid :data="future"
           :columns="cols"
-          :filter-key="searchQuery"
-          edit="<a href='http://www.msn.com/{replace}'>Edit</a>"
+          :filter-key="FutureQuery"
+          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
           view="<a href='http://www.msn.com/{replace}'>View</a>"
           delete="<a href='http://www.msn.com/{replace}'>Delete</a>"
           add="<a href='http://www.msn.com/{replace}'>Add</a>"
           width="100%">
     </grid>
     <h3>Past Events:</h3>
+    <div style="margin:10px;">
+        Search <input name="query" v-model="PastQuery" style="min-width:100%">
+    </div>
     <grid :data="past"
           :columns="cols"
-          :filter-key="searchQuery"
+          :filter-key="PastQuery"
           width="100%">
     </grid>
 </div>
@@ -40,7 +47,8 @@
                    { name:"Actions", hide:false }],
             future: [],
             past: [],
-            searchQuery: ''
+            FutureQuery: '',
+            PastQuery: ''
         },
         beforeCreate: function () {
             axios.get('/odata/GetEvent?$orderby=Start desc')
@@ -58,6 +66,8 @@
                         if (nowmoment.diff(startmoment) < 0) EventList.future.push(event); else EventList.past.push(event)
                     })
                 })
+        },
+        methods: {
         }
     })
 </script>
