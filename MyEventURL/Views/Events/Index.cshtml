@@ -19,9 +19,10 @@
     <grid :data="future"
           :columns="cols"
           :filter-key="FutureQuery"
+          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
           edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
           view="<a href='http://www.msn.com/{replace}'>View</a>"
-          delete="<a href='http://www.msn.com/{replace}'>Delete</a>"
+          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
           add="<a href='http://www.msn.com/{replace}'>Add</a>"
           width="100%">
     </grid>

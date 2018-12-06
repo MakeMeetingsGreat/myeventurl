@@ -8,8 +8,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="col-md-4" style="float:right">
+                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCopyButton()" onclick="EventForm.createEvent()">Create</button>
                     <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCreateButton()" onclick="EventForm.createEvent()">Create</button>
-                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalSaveButton()" onclick="EventForm.setServerEvent()">Save</button>
+                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalEditButton()" onclick="EventForm.setServerEvent()">Save</button>
                 </div>
 
                 <h4 class="modal-title">{{ModalTitle}}</h4>
@@ -219,11 +220,11 @@
                         .catch(function (error) { console.log(error) });
                 };
             },
-            getServerEvent: function (id) {
+            getServerEvent: function (id,modaltitle,modalbutton) {
                 axios.get('/odata/GetEvent('+id+')')
                     .then(function (success) {
-                        EventForm.ModalTitle = "Edit Event";
-                        EventForm.ModalButton = "Save";
+                        EventForm.ModalTitle = modaltitle;
+                        EventForm.ModalButton = modalbutton;
                         EventForm.StartTime = moment(success.data.Start).format(momentjsformat);
                         EventForm.EndTime = moment(success.data.End).format(momentjsformat);
                         EventForm.Style = success.data.Style;
@@ -246,16 +247,22 @@
                         EventForm.EventId = id;
                     })
             },
-            evalCreateButton: function () {
-                return (this.ModalButton == "Create")
+            evalCopyButton: function () {
+                return (this.ModalTitle == "Copy Event")
             },
-            evalSaveButton: function () {
-                return (this.ModalButton == "Save")
+            evalCreateButton: function () {
+                return (this.ModalTitle == "Create Event")
+            },
+            evalEditButton: function () {
+                return (this.ModalButton == "Edit Event")
+            },
+            runCopyEvent: function (id) {
+                this.getServerEvent(id, "Copy Event", "Create");
+                $("#eventform").modal('show');
             },
             runEditEvent: function (id) {
-                this.getServerEvent(id);
+                this.getServerEvent(id, "Edit Event", "Save");
                 $("#eventform").modal('show');
-
             },
             runValidateForm: function () {
                 this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
