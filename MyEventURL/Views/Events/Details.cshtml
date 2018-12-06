@@ -4,207 +4,130 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56cbf4936f9470b0"></script>
+@Html.Partial("_AddEvent")
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Start)
-        </dt>
+<div class="jumbotron" id="eventdetails">
+    <div class="row">
+        <div class="col-sm-4">
+            <h1 style="font-size:48px;">{{Start.format('dddd')}}</h1>
+            <h2>{{Start.format('LL')}}</h2>
+            <h2>{{Start.format('LT')}}</h2>
+            <h3>{{Start.tz().replace("_"," ")}}</h3>
 
-        <dd>
-            @Html.DisplayFor(model => model.Start)
-        </dd>
+            @{
+                if (@Model.surveymonkey != null)
+                {
+                    <a href="https://www.surveymonkey.com/r/@Model.surveymonkey" class="btn btn-default fancybox" data-fancybox-type="iframe" onclick="">Give Feedback</a>
+                }
+                if (Model.SummaryEngine == "youtube" && Model.youtube != null)
+                {
+                    <a href="https://youtu.be/@Model.youtube" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox">View Summary</a>
+                }
+                if (Model.SummaryEngine == "sway" && Model.sway != null)
+                {
+                    <a href="https://www.sway.com/s/@Model.sway/embed" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox" data-fancybox-type="iframe">View Summary</a>
+                }
+                if (Model.SummaryEngine == "storify" && Model.storify != null)
+                {
+                    <a href="https://storify.com/@Model.storify/embed?header=false&border=false" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox" data-fancybox-type="iframe">View Summary</a>
+                }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.End)
-        </dt>
+                var wolfram = @Model.Start.ToString("M") + ", " + @Model.Start.Year + " " + @Model.Start.ToString("t");
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.End)
-        </dd>
+            <a href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
+        </div>
+        <div class="col-sm-8">
+            <h2>{{Title}}</h2>
+            <h3>Location:</h3>
+            <p class="lead">{{Location}}</p>
+            <h3>Description:</h3>
+            <p class="lead">{{Description}}</p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <div title="Add to Calendar" class="addeventatc btn btn-primary btn-lg">
+                Add to Calendar &raquo;
+                <span class="start">{{Start.format(momentjsformat)}}</span>
+                <span class="end">{{End.format(momentjsformat)}}</span>
+                <span class="timezone">{{TimeZone}}</span>
+                <span class="title">{{Title}}</span>
+                <span class="description">{{Description}}</span>
+                <span class="location">{{Location}}</span>
+                <span class="organizer">{{AddEventOrganizer}}</span>
+                <span class="organizer_email">{{AddEventEmail}}</span>
+                <span class="date_format">{{Format}}</span>
+                <span class="alarm_reminder">{{Reminder}}</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <div><br /></div>
+            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+            <div class="addthis_sharing_toolbox" v-if="!Private"></div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Organizer)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Organizer)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Reminder)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Reminder)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Format)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Format)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Views)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Views)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Engaged)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Engaged)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.sway)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.sway)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.search)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.search)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Timezone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Timezone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Facebook)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Facebook)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AllDay)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AllDay)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Recurring)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Recurring)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SocialCommentsEngine)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SocialCommentsEngine)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TwitterDataWidget)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TwitterDataWidget)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YammerNetwork)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YammerNetwork)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SummaryEngine)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SummaryEngine)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.youtube)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.youtube)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.storify)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.storify)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.surveymonkey)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.surveymonkey)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div id="disqus_thread"></div>
+<script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    
+    var disqus_config = function () {
+    this.page.url = HttpContext.Current.Request.Url.AbsolutePath; 
+    this.page.identifier = @Model.EventId; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://myeventurl.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<script>
+    var EventDetails = new Vue({
+        el: '#eventdetails',
+        data: {
+            Title: '@Model.Title',
+            Location: '@Model.Location',
+            Description: '@Model.Description',
+            Start: moment('@Model.Start').tz('@Model.Timezone'),
+            End: moment('@Model.End').tz('@Model.Timezone'),
+            TimeZone: '@Model.Timezone',
+            Organizer: '@Model.Organizer',
+            Email: '@Model.Email',
+            Reminder: '@Model.Reminder',
+            Format: '@Model.Format',
+            NoReply: '@Model.NoReply',
+            LocalTz: moment.tz.guess(),
+            ConvertTz: (this.TimeZone == this.LocalTz),
+            momentjsformat: "MM/DD/YYYY hh:mm A",
+            Forms: '@Model.Forms',
+            Sway: '@Model.sway',
+            Private: '@Model.Private'
+
+        },
+        computed: {
+            AddEventEmail: function () { return this.NoReply ? this.runNoReply(this.Email) : this.Email },
+            AddEventOrganizer: function () { return this.NoReply ? "No Reply" : this.Organizer },
+        },
+        methods: {
+            runConvertTZ() {
+                this.Start = (this.Start.tz() == this.LocalTz) ? this.Start.tz(this.TimeZone) : this.Start.tz(this.LocalTz);
+            },
+            runNoReply(email) {
+                var splitemail = email.split("@@");
+                splitemail[0] = "no_reply";
+                return splitemail.join("@@");
+            }
+        }
+
+
+    })
+</script>

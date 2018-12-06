@@ -89,7 +89,7 @@
                     <div class="col-md-2">Private Event</div>
                     <div class="col-md-1"><input type="checkbox" v-model="Icon" /></div>
                     <div class="col-md-2">Use Icon</div>
-                    <div class="col-md-1"><input type="checkbox" value="15" v-model="Reminder" /></div>
+                    <div class="col-md-1"><input type="checkbox" v-model="Reminder" /></div>
                     <div class="col-md-2">Event Reminder</div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             TimeZone: moment.tz.guess(),
             Created: "",
             Description: "",
-            Reminder: [15],
+            Reminder: true,
             Forms: "",
             Sway: "",
             Views: "",
@@ -188,7 +188,7 @@
                         Location: this.Location,
                         Organizer: this.Organizer,
                         Email: Account.Email,
-                        Reminder: this.Reminder.length > 0 ? 15 : 0,
+                        Reminder: this.Reminder ? 15 : 0,
                         Format: "MM/DD/YYYY",
                         sway: this.Sway,
                         NoReply: this.NoReply,
@@ -233,7 +233,7 @@
                         EventForm.Description = success.data.Description;
                         EventForm.Location = success.data.Location;
                         EventForm.Email = success.data.Email;
-                        EventForm.Reminder = success.data.Reminder;
+                        EventForm.Reminder = (success.data.Reminder > 0) ? true : false;
                         EventForm.Format = success.data.Format;
                         EventForm.Sway = success.data.sway;
                         EventForm.NoReply = success.data.NoReply;
@@ -254,7 +254,7 @@
                 return (this.ModalTitle == "Create Event")
             },
             evalEditButton: function () {
-                return (this.ModalButton == "Edit Event")
+                return (this.ModalTitle == "Edit Event")
             },
             runCopyEvent: function (id) {
                 this.getServerEvent(id, "Copy Event", "Create");
@@ -295,7 +295,7 @@
                         Location: this.Location,
                         Organizer: this.Organizer,
                         Email: Account.Email,
-                        Reminder: this.Reminder.length > 0 ? 15 : 0,
+                        Reminder: this.Reminder ? 15 : 0,
                         Format: "MM/DD/YYYY",
                         sway: this.Sway,
                         NoReply: this.NoReply,
