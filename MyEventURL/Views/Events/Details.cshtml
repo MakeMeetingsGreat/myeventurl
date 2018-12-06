@@ -40,11 +40,11 @@
             <a href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
         </div>
         <div class="col-sm-8">
-            <h2>{{Title}}</h2>
+            <h2>@Model.Title</h2>
             <h3>Location:</h3>
-            <p class="lead">{{Location}}</p>
+            <p class="lead">@Model.Location</p>
             <h3>Description:</h3>
-            <p class="lead">{{Description}}</p>
+            <p class="lead">@Model.Description</p>
 
             <div title="Add to Calendar" class="addeventatc btn btn-primary btn-lg">
                 Add to Calendar &raquo;
@@ -94,9 +94,6 @@
     var EventDetails = new Vue({
         el: '#eventdetails',
         data: {
-            Title: '@Model.Title',
-            Location: '@Model.Location',
-            Description: '@Model.Description',
             Start: moment('@Model.Start').tz('@Model.Timezone'),
             End: moment('@Model.End').tz('@Model.Timezone'),
             TimeZone: '@Model.Timezone',
