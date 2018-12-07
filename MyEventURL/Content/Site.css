@@ -22,3 +22,26 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.Yellow {
+    background-color: rgb(250, 250, 48);
+}
+
+.Orange {
+    background-color: rgb(252, 190, 131);
+}
+
+.Green {
+    background-color: rgb(136, 246, 147);
+}
+
+.Blue {
+    background-color: rgb(206, 231, 252);
+}
+
+.Pink {
+    background-color: rgb(243, 172, 223);
+}
+
+.Grey {
+}

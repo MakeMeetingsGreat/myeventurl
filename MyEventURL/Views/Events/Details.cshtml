@@ -9,9 +9,10 @@
 @Html.Partial("_AddEvent")
 @Html.Partial("_EventForm")
 @Html.Partial("_IframeModal")
+
 <div id="eventdetails">
     <button v-if="evalUser()" data-backdrop="static" onclick="EventForm.runEditEvent(@Model.EventId)" style="left: 125px; width:200px; height:50px; position:absolute">Edit</button>
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color:" :class="Style">
 
         <div class="row">
             <div class="col-sm-4">
@@ -20,9 +21,9 @@
                 <h2>{{Start.format('LT')}}</h2>
                 <h3>{{Start.tz().replace("_"," ")}}</h3>
 
-                <a v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
-                <a v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
-                <a href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
+                <a style="margin:5px" v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
+                <a style="margin:5px" v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
+                <a style="margin:10px" href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
             </div>
             <div class="col-sm-8">
                 <h2>@Model.Title</h2>
@@ -31,7 +32,7 @@
                 <h3>Description:</h3>
                 <p class="lead">@Model.Description</p>
 
-                <div title="Add to Calendar" class="addeventatc btn btn-primary btn-lg" style="z-index:1;">
+                <div title="Add to Calendar" class="addeventatc btn btn-default btn-lg" style="z-index:1;">
                     Add to Calendar &raquo;
                     <span class="start">{{Start.format(momentjsformat)}}</span>
                     <span class="end">{{End.format(momentjsformat)}}</span>
@@ -53,8 +54,9 @@
         </div>
 
     </div>
+    <div v-if="Icon"><img height="16" :src="IconImage" /> A {{Domain}} event. </div>
 </div>
-<div id="disqus_thread"></div>
+<div style="margin:10px" id="disqus_thread"></div>
 <script>
 
     /**
@@ -75,6 +77,12 @@
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <script>
+    $(function() {
+        EventForm.getServerEvent(@Model.EventId);
+        setTimeout(EventForm.runAddView, 2000);
+    });
+</script>
+<script>
     var EventDetails = new Vue({
         el: '#eventdetails',
         data: {
@@ -87,12 +95,12 @@
             Format: '@Model.Format',
             NoReply: '@Model.NoReply',
             LocalTz: moment.tz.guess(),
-            ConvertTz: (this.TimeZone != this.LocalTz),
             momentjsformat: "MM/DD/YYYY hh:mm A",
             Forms: '@Model.Forms',
             Sway: '@Model.sway',
-            Private: '@Model.Private'
-
+            Private: '@Model.Private',
+            Style: '@Model.Style',
+            Icon: '@Model.Icon',
         },
         computed: {
             AddEventEmail: function () { return this.NoReply ? this.runNoReply(this.Email) : this.Email },
@@ -104,7 +112,15 @@
                 url = url.concat("/embed");
                 return url;
             },
-            FormsLink: function () { return this.Forms; }
+            FormsLink: function () { return this.Forms; },
+            ConvertTz: function () { return (this.TimeZone != this.LocalTz) },
+            Domain: function () {
+                string = /\@@([^@@]+)/.exec(this.Email)[1];
+                string = string.toLowerCase();
+                string = string.charAt(0).toUpperCase() + string.slice(1);
+                return string;
+            },
+            IconImage: function () { return "https://" + this.Domain + "/favicon.ico" }
         },
         methods: {
             evalUser() {
@@ -135,7 +151,5 @@
                 return splitemail.join("@@");
             }
         }
-
-
     })
 </script>
