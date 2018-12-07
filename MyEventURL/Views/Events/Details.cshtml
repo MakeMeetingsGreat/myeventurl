@@ -7,80 +7,64 @@
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56cbf4936f9470b0"></script>
 @Html.Partial("_AddEvent")
+@Html.Partial("_EventForm")
+@Html.Partial("_IframeModal")
+<div id="eventdetails">
+    <button v-if="evalUser()" data-backdrop="static" onclick="EventForm.runEditEvent(@Model.EventId)" style="left: 125px; width:200px; height:50px; position:absolute">Edit</button>
+    <div class="jumbotron">
 
-<div class="jumbotron" id="eventdetails">
-    <div class="row">
-        <div class="col-sm-4">
-            <h1 style="font-size:48px;">{{Start.format('dddd')}}</h1>
-            <h2>{{Start.format('LL')}}</h2>
-            <h2>{{Start.format('LT')}}</h2>
-            <h3>{{Start.tz().replace("_"," ")}}</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <h1 style="font-size:48px;">{{Start.format('dddd')}}</h1>
+                <h2>{{Start.format('LL')}}</h2>
+                <h2>{{Start.format('LT')}}</h2>
+                <h3>{{Start.tz().replace("_"," ")}}</h3>
 
-            @{
-                if (@Model.surveymonkey != null)
-                {
-                    <a href="https://www.surveymonkey.com/r/@Model.surveymonkey" class="btn btn-default fancybox" data-fancybox-type="iframe" onclick="">Give Feedback</a>
-                }
-                if (Model.SummaryEngine == "youtube" && Model.youtube != null)
-                {
-                    <a href="https://youtu.be/@Model.youtube" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox">View Summary</a>
-                }
-                if (Model.SummaryEngine == "sway" && Model.sway != null)
-                {
-                    <a href="https://www.sway.com/s/@Model.sway/embed" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox" data-fancybox-type="iframe">View Summary</a>
-                }
-                if (Model.SummaryEngine == "storify" && Model.storify != null)
-                {
-                    <a href="https://storify.com/@Model.storify/embed?header=false&border=false" onclick="record_eifact('myeventurl', 'engage', '@Model.EventId', ip);" class="btn btn-default fancybox" data-fancybox-type="iframe">View Summary</a>
-                }
-
-                var wolfram = @Model.Start.ToString("M") + ", " + @Model.Start.Year + " " + @Model.Start.ToString("t");
-            }
-
-            <a href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
-        </div>
-        <div class="col-sm-8">
-            <h2>@Model.Title</h2>
-            <h3>Location:</h3>
-            <p class="lead">@Model.Location</p>
-            <h3>Description:</h3>
-            <p class="lead">@Model.Description</p>
-
-            <div title="Add to Calendar" class="addeventatc btn btn-primary btn-lg">
-                Add to Calendar &raquo;
-                <span class="start">{{Start.format(momentjsformat)}}</span>
-                <span class="end">{{End.format(momentjsformat)}}</span>
-                <span class="timezone">{{TimeZone}}</span>
-                <span class="title">{{Title}}</span>
-                <span class="description">{{Description}}</span>
-                <span class="location">{{Location}}</span>
-                <span class="organizer">{{AddEventOrganizer}}</span>
-                <span class="organizer_email">{{AddEventEmail}}</span>
-                <span class="date_format">{{Format}}</span>
-                <span class="alarm_reminder">{{Reminder}}</span>
+                <a v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
+                <a v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
+                <a href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
             </div>
+            <div class="col-sm-8">
+                <h2>@Model.Title</h2>
+                <h3>Location:</h3>
+                <p class="lead">@Model.Location</p>
+                <h3>Description:</h3>
+                <p class="lead">@Model.Description</p>
+
+                <div title="Add to Calendar" class="addeventatc btn btn-primary btn-lg" style="z-index:1;">
+                    Add to Calendar &raquo;
+                    <span class="start">{{Start.format(momentjsformat)}}</span>
+                    <span class="end">{{End.format(momentjsformat)}}</span>
+                    <span class="timezone">{{TimeZone}}</span>
+                    <span class="title">@Model.Title</span>
+                    <span class="description">@Model.Description</span>
+                    <span class="location">@Model.Location</span>
+                    <span class="organizer">{{AddEventOrganizer}}</span>
+                    <span class="organizer_email">{{AddEventEmail}}</span>
+                    <span class="date_format">{{Format}}</span>
+                    <span class="alarm_reminder">{{Reminder}}</span>
+                </div>
 
 
-            <div><br /></div>
-            <!-- Go to www.addthis.com/dashboard to customize your tools -->
-            <div class="addthis_sharing_toolbox" v-if="!Private"></div>
+                <div><br /></div>
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_sharing_toolbox" v-if="!Private"></div>
+            </div>
         </div>
+
     </div>
-
 </div>
-
 <div id="disqus_thread"></div>
 <script>
 
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-    
+
     var disqus_config = function () {
-    this.page.url = HttpContext.Current.Request.Url.AbsolutePath; 
-    this.page.identifier = @Model.EventId; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    this.page.identifier = '@Model.EventId'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
-    
+
     (function () { // DON'T EDIT BELOW THIS LINE
         var d = document, s = d.createElement('script');
         s.src = 'https://myeventurl.disqus.com/embed.js';
@@ -103,7 +87,7 @@
             Format: '@Model.Format',
             NoReply: '@Model.NoReply',
             LocalTz: moment.tz.guess(),
-            ConvertTz: (this.TimeZone == this.LocalTz),
+            ConvertTz: (this.TimeZone != this.LocalTz),
             momentjsformat: "MM/DD/YYYY hh:mm A",
             Forms: '@Model.Forms',
             Sway: '@Model.sway',
@@ -113,8 +97,35 @@
         computed: {
             AddEventEmail: function () { return this.NoReply ? this.runNoReply(this.Email) : this.Email },
             AddEventOrganizer: function () { return this.NoReply ? "No Reply" : this.Organizer },
+            SwayLink: function () {
+                var url;
+                url = this.Sway.split("?")[0];
+                url = url.replace("https://sway.office.com", "https://sway.office.com/s");
+                url = url.concat("/embed");
+                return url;
+            },
+            FormsLink: function () { return this.Forms; }
         },
         methods: {
+            evalUser() {
+                return this.Email == Account.Email;
+            },
+            evalForms() {
+                return this.Forms != '';
+            },
+            evalSway() {
+                return this.Sway != '';
+            },
+            getForms() {
+                iframemodal.setTitle("Survey");
+                iframemodal.setSrc(this.FormsLink);
+                $("#iframemodal").modal("show");
+            },
+            getSway() {
+                iframemodal.setTitle("More Info");
+                iframemodal.setSrc(this.SwayLink);
+                $("#iframemodal").modal("show");
+            },
             runConvertTZ() {
                 this.Start = (this.Start.tz() == this.LocalTz) ? this.Start.tz(this.TimeZone) : this.Start.tz(this.LocalTz);
             },

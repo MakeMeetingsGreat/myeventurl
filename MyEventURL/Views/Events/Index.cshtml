@@ -5,11 +5,8 @@
     ViewBag.Title = "Index";
 }
 
+<button data-backdrop="static" data-toggle="modal" data-target="#eventform" style="position:absolute; min-width:200px; left:125px; height:50px">Create</button>
 <h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
 <div id="eventlist">
     <h3>Future Events:</h3>
@@ -23,7 +20,6 @@
           edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
           view="<a href='/Events/Details/{replace}'>View</a>"
           delete="<a href='/Events/Delete/{replace}'>Delete</a>"
-          add="<a href='http://www.msn.com/{replace}'>Add</a>"
           width="100%">
     </grid>
     <h3>Past Events:</h3>
@@ -33,6 +29,10 @@
     <grid :data="past"
           :columns="cols"
           :filter-key="PastQuery"
+          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
+          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
+          view="<a href='/Events/Details/{replace}'>View</a>"
+          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
           width="100%">
     </grid>
 </div>
@@ -41,11 +41,11 @@
     var EventList = new Vue({
         el: '#eventlist',
         data: {
-            cols: [{ name:"Start", hide:false },
-                   { name:"Title", hide:false },
-                   { name:"Views", hide:true },
-                   { name:"Adds", hide:true },
-                   { name:"Actions", hide:false }],
+            cols: [{ name: "Start", hide: false },
+            { name: "Title", hide: false },
+            { name: "Views", hide: true },
+            { name: "Adds", hide: true },
+            { name: "Actions", hide: false }],
             future: [],
             past: [],
             FutureQuery: '',

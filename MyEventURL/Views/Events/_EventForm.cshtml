@@ -258,18 +258,18 @@
             },
             runCopyEvent: function (id) {
                 this.getServerEvent(id, "Copy Event", "Create");
-                $("#eventform").modal('show');
+                $("#eventform").modal({ backdrop: 'static', keyboard: false, show: true });
             },
             runEditEvent: function (id) {
                 this.getServerEvent(id, "Edit Event", "Save");
-                $("#eventform").modal('show');
+                $("#eventform").modal({ backdrop: 'static', keyboard: false, show: true });
             },
             runValidateForm: function () {
                 this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
                 this.Error.End.Show = !(moment(this.EndTime, momentjsformat).isValid());
                 this.Error.TZ.Show = (_.findWhere(EventForm.TimeZoneList, { label: EventForm.TimeZone }) == null);
-                this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\/Pages\/ResponsePage\.aspx\?id/.test(this.Forms)) || this.Forms == "");                
-                this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway)) || this.Sway == "");
+                this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\//.test(this.Forms.substring(0, 25))) || this.Forms == "");                
+                this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway.substring(0,25))) || this.Sway == "");
                 this.Error.SignIn.Show = (Account.Email == "");
                 if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show || this.Error.SignIn.Show) return false;
                 return true;
