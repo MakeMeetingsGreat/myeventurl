@@ -30,6 +30,9 @@
                 <div v-if="Error.Sway.Show" class="alert alert-danger hidden-print" style="margin:3px">
                     {{Error.Sway.Message}}
                 </div>
+                <div v-if="Error.Icon.Show" class="alert alert-danger hidden-print" style="margin:3px">
+                    {{Error.Icon.Message}}
+                </div>
             </div>
             <div class="modal-body" style="padding:20px">
                 <div class="row" style="padding:3px">
@@ -89,6 +92,7 @@
                     <div class="col-md-2">Use Icon</div>
                     <div class="col-md-1"><input type="checkbox" v-model="Reminder" /></div>
                     <div class="col-md-2">Event Reminder</div>
+                    <div><img id="iconimage" :src="IconImage" hidden/></div>
                 </div>
             </div>
         </div>
@@ -157,13 +161,20 @@
                 TZ: { Show: false, Message: "TimeZone is not valid." },
                 Forms: { Show: false, Message: "The Forms URL is not valid." },
                 Sway: { Show: false, Message: "The Sway URL is not valid." },
-                SignIn: { Show: false, Message: "You Must Sign In." }
+                SignIn: { Show: false, Message: "You Must Sign In." },
+                Icon: {Show: false, Message: "The icon does not exist."}
             }
         },
         computed: {
             TzOffset: function () {
                 return $('#timezone').find("option:selected").prop("title")
-            }
+            },
+            IconImage: function () {
+                string = /\@@([^@@]+)/.exec(this.Email)[1];
+                string = string.toLowerCase();
+                string = string.charAt(0).toUpperCase() + string.slice(1);
+                return "https://" + string + "/favicon.ico";
+            },
         },
         beforeCreate: function() {
             axios.get('https://www.addevent.com/api/v1/timezones')
@@ -279,7 +290,8 @@
                 this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\//.test(this.Forms.substring(0, 25))) || this.Forms == "");                
                 this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway.substring(0, 25))) || this.Sway == "");
                 this.Error.SignIn.Show = (Account.Email == "" && this.Email == "");
-                if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show || this.Error.SignIn.Show) return false;
+                this.Error.Icon.Show = (!($("#iconimage")[0].width > 0) && this.Icon);
+                if (this.Error.Icon.Show || this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show || this.Error.SignIn.Show) return false;
                 return true;
             },
             setStartTime: function () {

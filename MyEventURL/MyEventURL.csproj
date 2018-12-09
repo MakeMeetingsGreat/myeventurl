@@ -448,6 +448,7 @@
     <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Events\_AddEvent.cshtml" />
     <Content Include="Views\Events\_IframeModal.cshtml" />
+    <Content Include="Views\Events\_EventCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
