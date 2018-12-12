@@ -6,9 +6,9 @@
 
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56cbf4936f9470b0"></script>
-@Html.Partial("_AddEvent")
-@Html.Partial("_EventForm")
-@Html.Partial("_IframeModal")
+@Html.Partial("~/Views/Components/_AddEvent.cshtml")
+@Html.Partial("~/Views/Components/_EventForm.cshtml")
+@Html.Partial("~/Views/Components/_IframeModal.cshtml")
 
 <div id="eventdetails">
     <button v-if="evalUser()" data-backdrop="static" onclick="EventForm.runEditEvent(@Model.EventId)" style="left: 125px; width:200px; height:50px; position:absolute">Edit</button>

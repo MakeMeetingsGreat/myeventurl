@@ -1,0 +1,41 @@
+﻿<!-- Grid Component
+<eventcard  :id="eventID"
+            :title="Title"
+            :description="Description"
+            :location="Location"
+            :start="Start"
+            :timezone="TimeZone"
+            width="650"
+            chars="100"
+/>
+-->
+<script type="text/x-template" id="eventcard-template">
+    <div :width="width">
+        {{description}}
+    </div>
+</script>
+
+<script>
+    // register the grid component
+    Vue.component('eventcard', {
+        template: '#eventcard-template',
+        props: {
+            id: String,
+            title: String,
+            description: String,
+            location: String,
+            start: String,
+            timezone: String,
+            cstyle: String,
+            width: String,
+            chars: String
+        },
+        computed: {
+            shortened: function () { return this.description },
+        },
+        methods: {
+        }
+    })
+</script>
+
+<!-- End Grid Component -->

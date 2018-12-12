@@ -438,17 +438,17 @@
     <Content Include="Views\Events\Delete.cshtml" />
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\Events\_EventForm.cshtml" />
+    <Content Include="Views\Components\_EventForm.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
-    <Content Include="Views\Events\_GridComponent.cshtml" />
+    <Content Include="Views\Components\_GridComponent.cshtml" />
     <Content Include="Views\Boards\Create.cshtml" />
     <Content Include="Views\Boards\Delete.cshtml" />
     <Content Include="Views\Boards\Details.cshtml" />
     <Content Include="Views\Boards\Edit.cshtml" />
     <Content Include="Views\Boards\Index.cshtml" />
-    <Content Include="Views\Events\_AddEvent.cshtml" />
-    <Content Include="Views\Events\_IframeModal.cshtml" />
-    <Content Include="Views\Events\_EventCard.cshtml" />
+    <Content Include="Views\Components\_AddEvent.cshtml" />
+    <Content Include="Views\Components\_IframeModal.cshtml" />
+    <Content Include="Views\Components\_EventCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

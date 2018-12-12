@@ -32,9 +32,10 @@ namespace MyEventURL.Controllers
 
         // GET: odata/GetEvent
         [EnableQuery]
-        public IQueryable<Event> GetGetEvent()
+        public IQueryable<Event> GetGetEvent(bool past = true)
         {
-            return db.Events;
+            if (past) return db.Events;
+            else return db.Events.Where(e => e.Start > DateTime.Now);
         }
 
         // GET: odata/GetEvent(5)
