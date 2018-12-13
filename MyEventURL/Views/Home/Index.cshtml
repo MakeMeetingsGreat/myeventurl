@@ -3,16 +3,26 @@
 }
 @Html.Partial("~/Views/Components/_EventCard.cshtml")
 
+<div class="row" style="padding-top:100px">
+    <div class="col-md-6 col-md-offset-3">
+        <img src="~/Content/color_logo_transparent.png" width="100%" />
+    </div>
+</div>
 
-<div id="index">
-    <eventcard id="eventID"
-               title="Title"
-               description="Description"
-               location="Location"
-               start="Start"
-               timezone="TimeZone"
-               width="650"
-               chars="100" />
+<div id="index" class="row">
+    Search <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px">
+    <div v-for="Card in FilteredEvents" class="col-md-4">
+        <eventcard :id="Card.EventId"
+                   :title="Card.Title"
+                   :description="Card.Description"
+                   :location="Card.Location"
+                   :start="Card.Start"
+                   :timezone="Card.Timezone"
+                   :cstyle="Card.Style"
+                   width="100%"
+                   chars="100">
+        </eventcard>
+    </div>
 </div>
 
 <script>
@@ -21,6 +31,20 @@
         data: {
             Events: [],
             SearchQuery: '',
+        },
+        computed: {
+            FilteredEvents: function () {
+                return this.Events.filter(function (elem) {
+                    return _.toArray(elem).toString().indexOf(index.SearchQuery) > -1;
+                })
+            }
+        },
+        mounted: function () {
+            axios.get("/odata/GetEvent?$orderby=Views&$select=Title,Description,Location,Start,TimeZone,Style,EventId&past=false&$top=100")
+                .then(function (results) {
+                    index.Events = results.data.value;
+                    //index.FilteredEvents = results.data.value;
+                })
         },
         methods: {
         }

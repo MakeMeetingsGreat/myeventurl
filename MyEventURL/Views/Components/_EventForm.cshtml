@@ -33,6 +33,7 @@
                 <div v-if="Error.Icon.Show" class="alert alert-danger hidden-print" style="margin:3px">
                     {{Error.Icon.Message}}
                 </div>
+                <div><img id="iconimage" src="" hidden /></div>
             </div>
             <div class="modal-body" style="padding:20px">
                 <div class="row" style="padding:3px">
@@ -92,7 +93,7 @@
                     <div class="col-md-2">Use Icon</div>
                     <div class="col-md-1"><input type="checkbox" v-model="Reminder" /></div>
                     <div class="col-md-2">Event Reminder</div>
-                    <div><img id="iconimage" :src="IconImage" hidden/></div>
+                    
                 </div>
             </div>
         </div>
@@ -180,6 +181,9 @@
             axios.get('https://www.addevent.com/api/v1/timezones')
                 .then(function (response) {
                     EventForm.TimeZoneList = response.data.data;
+                })
+                .then(function () {
+                    $("#iconimage").src = this.IconImage;
                 })
         },
         updated: function () {

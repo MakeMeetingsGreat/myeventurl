@@ -17,6 +17,8 @@
         var Account = { Email: "", UserName: "", Domain: "" };
         Account.Email = "@User.Identity.Name";
         if (Account.Email != '') {
+            Account.Email = Account.Email.split('#');
+            Account.Email = (Account.Email.length > 0) ? Account.Email[1] : Account.Email[0];
             Account.UserName = /([^@@]+)\@@/.exec(Account.Email)[1];
             Account.Domain = /\@@([^@@]+)/.exec(Account.Email)[1];
         }
@@ -32,7 +34,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <input type="image" src="~/Content/white_logo_transparent.png" style="height:40px">
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -48,7 +50,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - MakeMeetingsGreat.com</p>
         </footer>
     </div>
 

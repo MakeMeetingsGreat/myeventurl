@@ -1,0 +1,155 @@
+﻿@model MyEventURL.Event
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56cbf4936f9470b0"></script>
+@Html.Partial("~/Views/Components/_AddEvent.cshtml")
+@Html.Partial("~/Views/Components/_EventForm.cshtml")
+@Html.Partial("~/Views/Components/_IframeModal.cshtml")
+
+<div id="eventdetails">
+    <button v-if="evalUser()" data-backdrop="static" onclick="EventForm.runEditEvent(@Model.EventId)" style="left: 125px; width:200px; height:50px; position:absolute">Edit</button>
+    <div class="jumbotron" style="background-color:" :class="Style">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <h1 style="font-size:48px;">{{Start.format('dddd')}}</h1>
+                <h2>{{Start.format('LL')}}</h2>
+                <h2>{{Start.format('LT')}}</h2>
+                <h3>{{Start.tz().replace("_"," ")}}</h3>
+
+                <a style="margin:5px" v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
+                <a style="margin:5px" v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
+                <a style="margin:10px" href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(Start.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
+            </div>
+            <div class="col-sm-8">
+                <h2>@Model.Title</h2>
+                <h3>Location:</h3>
+                <p class="lead">@Model.Location</p>
+                <h3>Description:</h3>
+                <p class="lead">@Model.Description</p>
+
+                <div title="Add to Calendar" class="addeventatc btn btn-default btn-lg" style="z-index:1;">
+                    Add to Calendar &raquo;
+                    <span class="start">{{Start.format(momentjsformat)}}</span>
+                    <span class="end">{{End.format(momentjsformat)}}</span>
+                    <span class="timezone">{{TimeZone}}</span>
+                    <span class="title">@Model.Title</span>
+                    <span class="description">@Model.Description</span>
+                    <span class="location">@Model.Location</span>
+                    <span class="organizer">{{AddEventOrganizer}}</span>
+                    <span class="organizer_email">{{AddEventEmail}}</span>
+                    <span class="date_format">{{Format}}</span>
+                    <span class="alarm_reminder">{{Reminder}}</span>
+                </div>
+
+
+                <div><br /></div>
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_sharing_toolbox" v-if="!Private"></div>
+            </div>
+        </div>
+
+    </div>
+    <div v-if="Icon"><img height="16" :src="IconImage" /> A {{Domain}} event. </div>
+</div>
+<div style="margin:10px" id="disqus_thread"></div>
+<script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+    var disqus_config = function () {
+    this.page.identifier = '@Model.EventId'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://myeventurl.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<script>
+    $(function() {
+        EventForm.getServerEvent(@Model.EventId);
+        setTimeout(EventForm.runAddView, 2000);
+    });
+</script>
+<script>
+    var EventDetails = new Vue({
+        el: '#eventdetails',
+        data: {
+            Start: moment('@Model.Start').tz('@Model.Timezone'),
+            End: moment('@Model.End').tz('@Model.Timezone'),
+            TimeZone: '@Model.Timezone',
+            Organizer: '@Model.Organizer',
+            Email: '@Model.Email',
+            Reminder: '@Model.Reminder',
+            Format: '@Model.Format',
+            NoReply: '@Model.NoReply',
+            LocalTz: moment.tz.guess(),
+            momentjsformat: "MM/DD/YYYY hh:mm A",
+            Forms: '@Model.Forms',
+            Sway: '@Model.sway',
+            Private: '@Model.Private',
+            Style: '@Model.Style',
+            Icon: '@Model.Icon',
+        },
+        computed: {
+            AddEventEmail: function () { return this.NoReply ? this.runNoReply(this.Email) : this.Email },
+            AddEventOrganizer: function () { return this.NoReply ? "No Reply" : this.Organizer },
+            SwayLink: function () {
+                var url;
+                url = this.Sway.split("?")[0];
+                url = url.replace("https://sway.office.com", "https://sway.office.com/s");
+                url = url.concat("/embed");
+                return url;
+            },
+            FormsLink: function () { return this.Forms; },
+            ConvertTz: function () { return (this.TimeZone != this.LocalTz) },
+            Domain: function () {
+                string = /\@@([^@@]+)/.exec(this.Email)[1];
+                string = string.toLowerCase();
+                string = string.charAt(0).toUpperCase() + string.slice(1);
+                return string;
+            },
+            IconImage: function () { return "https://" + this.Domain + "/favicon.ico" }
+        },
+        methods: {
+            evalUser() {
+                return this.Email == Account.Email;
+            },
+            evalForms() {
+                return this.Forms != '';
+            },
+            evalSway() {
+                return this.Sway != '';
+            },
+            getForms() {
+                iframemodal.setTitle("Survey");
+                iframemodal.setSrc(this.FormsLink);
+                $("#iframemodal").modal("show");
+            },
+            getSway() {
+                iframemodal.setTitle("More Info");
+                iframemodal.setSrc(this.SwayLink);
+                $("#iframemodal").modal("show");
+            },
+            runConvertTZ() {
+                this.Start = (this.Start.tz() == this.LocalTz) ? this.Start.tz(this.TimeZone) : this.Start.tz(this.LocalTz);
+            },
+            runNoReply(email) {
+                var splitemail = email.split("@@");
+                splitemail[0] = "no_reply";
+                return splitemail.join("@@");
+            }
+        }
+    })
+</script>

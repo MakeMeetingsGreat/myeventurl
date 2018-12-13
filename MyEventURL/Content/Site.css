@@ -23,6 +23,15 @@ textarea {
     max-width: 280px;
 }
 
+.EventCard {
+    margin: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+}
+
 .Yellow {
     background-color: rgb(250, 250, 48);
 }

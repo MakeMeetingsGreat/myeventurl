@@ -1,0 +1,74 @@
+﻿@Html.Partial("~/Views/Components/_GridComponent.cshtml")
+@Html.Partial("~/Views/Components/_EventForm.cshtml")
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<button data-backdrop="static" data-toggle="modal" data-target="#eventform" style="position:absolute; min-width:200px; left:125px; height:50px">Create</button>
+<h2>Index</h2>
+
+<div id="eventlist">
+    <h3>Future Events:</h3>
+    <div style="margin:10px;">
+        Search <input name="query" v-model="FutureQuery" style="min-width:100%">
+    </div>
+    <grid :data="future"
+          :columns="cols"
+          :filter-key="FutureQuery"
+          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
+          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
+          view="<a href='/Events/Details/{replace}'>View</a>"
+          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
+          width="100%">
+    </grid>
+    <h3>Past Events:</h3>
+    <div style="margin:10px;">
+        Search <input name="query" v-model="PastQuery" style="min-width:100%">
+    </div>
+    <grid :data="past"
+          :columns="cols"
+          :filter-key="PastQuery"
+          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
+          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
+          view="<a href='/Events/Details/{replace}'>View</a>"
+          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
+          width="100%">
+    </grid>
+</div>
+
+<script>
+    var EventList = new Vue({
+        el: '#eventlist',
+        data: {
+            cols: [{ name: "Start", hide: false },
+            { name: "Title", hide: false },
+            { name: "Views", hide: true },
+            { name: "Adds", hide: true },
+            { name: "Actions", hide: false }],
+            future: [],
+            past: [],
+            FutureQuery: '',
+            PastQuery: ''
+        },
+        beforeCreate: function () {
+            axios.get('/odata/GetEvent?$filter=Email eq \'' + Account.Email + '\'&$orderby=Start desc')
+                .then(function (response) {
+                    response.data.value.forEach(function (fact) {
+                        var startmoment = moment(fact.Start);
+                        var event = {
+                            Start: startmoment.format("MMM D"),
+                            Title: fact.Title,
+                            Views: fact.Views,
+                            Adds: fact.Engaged,
+                            Actions: fact.EventId
+                        }
+                        var nowmoment = moment(Date.now());
+                        if (nowmoment.diff(startmoment) < 0) EventList.future.push(event); else EventList.past.push(event)
+                    })
+                })
+        },
+        methods: {
+        }
+    })
+</script>
