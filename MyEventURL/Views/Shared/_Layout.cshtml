@@ -2,7 +2,6 @@
     ViewBag.Email = User.Identity.Name;
     if (ViewBag.Email != "")
     {
-        string[] emailarray = new string[2];
         if (ViewBag.Email.Contains("#")) {
             emailarray = ViewBag.Email.Split('#');
             ViewBag.Email = emailarray[emailarray.Length-1];
