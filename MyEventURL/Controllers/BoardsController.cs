@@ -17,12 +17,14 @@ namespace MyEventURL.Controllers
         // GET: Boards
         public ActionResult Index()
         {
+            this.getUser();
             return RedirectToAction("Index","Events");
         }
 
         // GET: Boards/Details/5
         public ActionResult Details(int? id)
         {
+            this.getUser();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +40,7 @@ namespace MyEventURL.Controllers
         // GET: Boards/Create
         public ActionResult Create()
         {
+            this.getUser();
             return View();
         }
 
@@ -50,6 +53,7 @@ namespace MyEventURL.Controllers
         {
             if (ModelState.IsValid)
             {
+                this.getUser();
                 db.Boards.Add(board);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -61,6 +65,7 @@ namespace MyEventURL.Controllers
         // GET: Boards/Edit/5
         public ActionResult Edit(int? id)
         {
+            this.getUser();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +85,7 @@ namespace MyEventURL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "BoardID,Created,View")] Board board)
         {
+            this.getUser();
             if (ModelState.IsValid)
             {
                 db.Entry(board).State = EntityState.Modified;
@@ -92,6 +98,7 @@ namespace MyEventURL.Controllers
         // GET: Boards/Delete/5
         public ActionResult Delete(int? id)
         {
+            this.getUser();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,11 +116,31 @@ namespace MyEventURL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            this.getUser();
             Board board = db.Boards.Find(id);
             db.Boards.Remove(board);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        private void getUser()
+        {
+            string[] emailarray = null;
+            ViewBag.Email = User.Identity.Name;
+            if (ViewBag.Email != "")
+            {
+                if (ViewBag.Email.Contains("#"))
+                {
+                    emailarray = ViewBag.Email.Split('#');
+                    ViewBag.Email = emailarray[emailarray.Length - 1];
+                }
+                emailarray = ViewBag.Email.Split('@');
+                ViewBag.UserName = emailarray[0];
+                ViewBag.Domain = emailarray[1];
+            }
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -5,19 +5,6 @@
 
 
 @{
-    ViewBag.Email = User.Identity.Name;
-    if (ViewBag.Email != "")
-    {
-        if (ViewBag.Email.Contains("#"))
-        {
-            emailarray = ViewBag.Email.Split('#');
-            ViewBag.Email = emailarray[emailarray.Length-1];
-        }
-        emailarray = ViewBag.Email.Split('@');
-        ViewBag.UserName = emailarray[0];
-        ViewBag.Domain = emailarray[1];
-    }
-
     if (ViewBag.Email != Model.Email)
     {
         <div class="alert alert-danger" style="margin:10px">
