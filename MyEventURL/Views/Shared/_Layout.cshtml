@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.Email = User.Identity.Name;
+    if (ViewBag.Email != "")
+    {
+        string[] emailarray = ViewBag.Email.Split('#');
+        ViewBag.Email = (emailarray.Length > 0) ? emailarray[1] : emailarray[0];
+        emailarray = ViewBag.Email.Split('@');
+        ViewBag.UserName = emailarray[0];
+        ViewBag.Domain = emailarray[1];
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,14 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
     <script>
         //Identifying Account Information
-        var Account = { Email: "", UserName: "", Domain: "" };
-        Account.Email = "@User.Identity.Name";
-        if (Account.Email != '') {
-            Account.Email = Account.Email.split('#');
-            Account.Email = (Account.Email.length > 0) ? Account.Email[1] : Account.Email[0];
-            Account.UserName = /([^@@]+)\@@/.exec(Account.Email)[1];
-            Account.Domain = /\@@([^@@]+)/.exec(Account.Email)[1];
-        }
+        var Account = { Email: "@ViewBag.Email", UserName: "@ViewBag.UserName", Domain: "@ViewBag.Domain" };
     </script>
 
 </head>

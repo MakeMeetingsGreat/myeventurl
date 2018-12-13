@@ -1,14 +1,26 @@
 ﻿@{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
 }
 
 
 
 @{
-    if (User.Identity.Name != Model.Email)
+        ViewBag.Email = User.Identity.Name;
+        if (ViewBag.Email != "")
+        {
+            string[] emailarray1 = ViewBag.Email.Split('#');
+            ViewBag.Email = (emailarray1.Length > 0) ? emailarray1[1] : emailarray1[0];
+            emailarray1 = ViewBag.Email.Split('@');
+            ViewBag.UserName = emailarray1[0];
+            ViewBag.Domain = emailarray1[1];
+        }
+
+
+    string[] emailarray = Model.Email.Split('@');
+    if ((Model.Private == true) && (ViewBag.Domain != emailarray[1]))
     {
         <div class="alert alert-danger" style="margin:10px">
-            You can only delete boards you own.
+            This is a private event.  Only @emailarray[1] users can view the event.
         </div>
         @Html.Partial("_DetailsLogin") }
     else

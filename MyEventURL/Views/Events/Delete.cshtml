@@ -5,14 +5,24 @@
 
 
 @{
-    if (User.Identity.Name != Model.OwnerID && !Model.Debug)
+    ViewBag.Email = User.Identity.Name;
+    if (ViewBag.Email != "")
+    {
+        string[] emailarray1 = ViewBag.Email.Split('#');
+        ViewBag.Email = (emailarray1.Length > 0) ? emailarray1[1] : emailarray1[0];
+        emailarray1 = ViewBag.Email.Split('@');
+        ViewBag.UserName = emailarray1[0];
+        ViewBag.Domain = emailarray1[1];
+    }
+
+    if (ViewBag.Email != Model.Email)
     {
         <div class="alert alert-danger" style="margin:10px">
-            You can only delete boards you own.
+            You can only delete events you own.
         </div>
         @Html.Partial("_DetailsLogin") }
     else
     {
-        @Html.Partial("_DetailsDelete");
+        @Html.Partial("_Delete");
     }
 }

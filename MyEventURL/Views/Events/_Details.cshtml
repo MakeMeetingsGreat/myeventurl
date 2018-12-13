@@ -54,7 +54,7 @@
         </div>
 
     </div>
-    <div v-if="Icon"><img height="16" :src="IconImage" /> A {{Domain}} event. </div>
+    <div v-if="evalIcon()"><img height="16" :src="IconImage" /> A {{Domain}} event. </div>
 </div>
 <div style="margin:10px" id="disqus_thread"></div>
 <script>
@@ -128,6 +128,9 @@
             },
             evalForms() {
                 return this.Forms != '';
+            },
+            evalIcon() {
+                return this.Icon == true;
             },
             evalSway() {
                 return this.Sway != '';
