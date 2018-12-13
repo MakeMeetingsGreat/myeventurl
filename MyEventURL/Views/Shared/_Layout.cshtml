@@ -5,7 +5,7 @@
         string[] emailarray = new string[2];
         if (ViewBag.Email.Contains("#")) {
             emailarray = ViewBag.Email.Split('#');
-            ViewBag.Email = emailarray[1];
+            ViewBag.Email = emailarray[emailarray.Length-1];
         }
         emailarray = ViewBag.Email.Split('@');
         ViewBag.UserName = emailarray[0];
