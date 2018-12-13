@@ -5,16 +5,16 @@
 
 
 @{
-        ViewBag.Email = User.Identity.Name;
-        if (ViewBag.Email != "")
-        {
-            string[] emailarray1 = ViewBag.Email.Split('#');
-            ViewBag.Email = (emailarray1.Length > 0) ? emailarray1[1] : emailarray1[0];
-            emailarray1 = ViewBag.Email.Split('@');
-            ViewBag.UserName = emailarray1[0];
-            ViewBag.Domain = emailarray1[1];
-        }
-
+    ViewBag.Email = User.Identity.Name;
+    if (ViewBag.Email != "")
+    {
+        string[] emailarray = new string[2];
+        emailarray = ViewBag.Email.Split('#');
+        ViewBag.Email = (emailarray.Length > 0) ? emailarray[1] : emailarray[0];
+        emailarray = ViewBag.Email.Split('@');
+        ViewBag.UserName = emailarray[0];
+        ViewBag.Domain = emailarray[1];
+    }
 
     string[] emailarray = Model.Email.Split('@');
     if ((Model.Private == true) && (ViewBag.Domain != emailarray[1]))
