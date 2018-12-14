@@ -1,5 +1,6 @@
-﻿<script src="/Scripts/grid.js"></script>
+﻿@Html.Partial("~/Views/Components/_GridComponent.cshtml")
 @Html.Partial("~/Views/Components/_EventForm.cshtml")
+@Html.Partial("~/Views/Components/_Admin.cshtml")
 
 @{
     ViewBag.Title = "Index";
@@ -9,47 +10,18 @@
 <h2>Index</h2>
 
 <div id="eventlist">
-    <h3>Future Events:</h3>
-    <div style="margin:10px;">
-        Search <input name="query" v-model="FutureQuery" style="min-width:100%">
-    </div>
-    <grid :data="future"
-          :columns="cols"
-          :filter-key="FutureQuery"
-          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
-          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
-          view="<a href='/Events/Details/{replace}'>View</a>"
-          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
-          width="100%">
-    </grid>
-    <h3>Past Events:</h3>
-    <div style="margin:10px;">
-        Search <input name="query" v-model="PastQuery" style="min-width:100%">
-    </div>
-    <grid :data="past"
-          :columns="cols"
-          :filter-key="PastQuery"
-          copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
-          edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
-          view="<a href='/Events/Details/{replace}'>View</a>"
-          delete="<a href='/Events/Delete/{replace}'>Delete</a>"
-          width="100%">
-    </grid>
+  <adminmenu :future="future" :past="past"></adminmenu>
 </div>
 
 <script>
     var EventList = new Vue({
         el: '#eventlist',
+        components: {
+            'adminmenu': admincomponent
+        },
         data: {
-            cols: [{ name: "Start", hide: false },
-            { name: "Title", hide: false },
-            { name: "Views", hide: true },
-            { name: "Adds", hide: true },
-            { name: "Actions", hide: false }],
             future: [],
             past: [],
-            FutureQuery: '',
-            PastQuery: ''
         },
         beforeCreate: function () {
             axios.get('/odata/GetEvent?$filter=Email eq \'' + Account.Email + '\'&$orderby=Start desc')
@@ -68,6 +40,7 @@
                     })
                 })
         },
+
         methods: {
         }
     })

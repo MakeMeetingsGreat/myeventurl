@@ -225,6 +225,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddinController.cs" />
     <Compile Include="Controllers\BoardAPIController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\DateController.cs" />
@@ -272,6 +273,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AddIn\AddIn.css" />
+    <Content Include="Content\AddIn\icon-16.png" />
+    <Content Include="Content\AddIn\icon-32.png" />
+    <Content Include="Content\AddIn\icon-80.png" />
+    <Content Include="Content\AddIn\logo-filled.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -336,6 +342,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\AddIn.js" />
     <Content Include="Scripts\axios.js" />
     <Content Include="Scripts\axios.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -345,6 +352,7 @@
     </Content>
     <Content Include="Scripts\axios.min.map" />
     <Content Include="Scripts\axios.map" />
+    <None Include="Properties\PublishProfiles\MEUTest - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
@@ -423,6 +431,11 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
+    <Content Include="Views\Addin\.gitignore" />
+    <Content Include="Views\Addin\app.css" />
+    <Content Include="Views\Addin\function-file\function-file.html" />
+    <Content Include="Views\Addin\function-file\function-file.js" />
+    <Content Include="Views\Addin\manifest.xml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -457,10 +470,11 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
     <Content Include="Views\Events\_DetailsLogin.cshtml" />
+    <Content Include="Views\Components\_Admin.cshtml" />
+    <Content Include="Views\Addin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
