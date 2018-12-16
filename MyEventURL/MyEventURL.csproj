@@ -282,6 +282,10 @@
     <Compile Include="Migrations\201812152320471_updatingschema.Designer.cs">
       <DependentUpon>201812152320471_updatingschema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812161642444_Validation.cs" />
+    <Compile Include="Migrations\201812161642444_Validation.Designer.cs">
+      <DependentUpon>201812161642444_Validation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Event.cs" />
@@ -775,6 +779,8 @@
     <Content Include="Scripts\Office\metadata\features.xml" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\url.js" />
+    <Content Include="Scripts\url.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
     <Content Include="Views\Addin\.gitignore" />
@@ -866,6 +872,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812152320471_updatingschema.resx">
       <DependentUpon>201812152320471_updatingschema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812161642444_Validation.resx">
+      <DependentUpon>201812161642444_Validation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

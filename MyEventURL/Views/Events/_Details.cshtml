@@ -30,6 +30,7 @@
 
                 <a style="margin:5px" v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
                 <a style="margin:5px" v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
+                <br />
                 <a style="margin:10px" href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(StartMoment.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
             </div>
             <div class="col-sm-8">

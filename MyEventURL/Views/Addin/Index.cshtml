@@ -124,11 +124,14 @@
                 }
             },
         })
+        if (url("?action") == "create") createform();
         setTimeout(function () {
-            EventList.office.Mailbox = Office.context.mailbox;
-            EventList.office.Email = EventList.office.Mailbox.userProfile.emailAddress;
-            EventList.office.Item = EventList.office.Mailbox.item;
-            EventList.getEvents()
+            if (Office.context.mailbox != null) {
+                EventList.office.Mailbox = Office.context.mailbox;
+                EventList.office.Email = EventList.office.Mailbox.userProfile.emailAddress;
+                EventList.office.Item = EventList.office.Mailbox.item;
+                EventList.getEvents()
+            }
         }, 2000)
     </script>
 </body>

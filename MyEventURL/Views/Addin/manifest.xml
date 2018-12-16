@@ -28,9 +28,8 @@
 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
-    <AppDomain>localhost</AppDomain>
+    <AppDomain>localhost:44311</AppDomain>
     <AppDomain>myeventurl.com</AppDomain>
-    <AppDomain>addevent.com</AppDomain>
   </AppDomains>
   <!--End Basic Settings. -->
 
@@ -75,14 +74,14 @@
           <ExtensionPoint xsi:type="AppointmentAttendeeCommandSurface">
             <OfficeTab id="TabDefault">
               <!-- Up to 6 Groups added per Tab -->
-              <Group id="msgReadGroup">
-                <Label resid="groupLabel" />
+              <Group id="calAttendeeGroup">
+                <Label resid="calLabel" />
                 <!-- Launch the add-in : task pane button -->
-                <Control xsi:type="Button" id="msgReadOpenPaneButton">
+                <Control xsi:type="Button" id="calAttendeeButton">
                   <Label resid="paneReadButtonLabel" />
                   <Supertip>
-                    <Title resid="paneReadSuperTipTitle" />
-                    <Description resid="paneReadSuperTipDescription" />
+                    <Title resid="calSuperTipTitle" />
+                    <Description resid="calSuperTipDescription" />
                   </Supertip>
                   <Icon>
                     <bt:Image size="16" resid="icon16" />
@@ -90,16 +89,42 @@
                     <bt:Image size="80" resid="icon80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
-                    <SourceLocation resid="messageReadTaskPaneUrl" />
+                    <SourceLocation resid="createevent" />
                   </Action>
                 </Control>
                 <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
               </Group>
             </OfficeTab>
           </ExtensionPoint>
-          
-          
-          
+
+          <!-- Appointment Organizer-->
+          <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+            <OfficeTab id="TabDefault">
+              <!-- Up to 6 Groups added per Tab -->
+              <Group id="calOrganizerGroup">
+                <Label resid="calLabel" />
+                <!-- Launch the add-in : task pane button -->
+                <Control xsi:type="Button" id="calOrganizerButton">
+                  <Label resid="paneReadButtonLabel" />
+                  <Supertip>
+                    <Title resid="calSuperTipTitle" />
+                    <Description resid="calSuperTipDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="createevent" />
+                  </Action>
+                </Control>
+                <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+
           <!-- Message Read -->
           <ExtensionPoint xsi:type="MessageReadCommandSurface">
             <!-- Use the default tab of the ExtensionPoint or create your own with <CustomTab id="myTab"> -->
@@ -120,7 +145,7 @@
                     <bt:Image size="80" resid="icon80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
-                    <SourceLocation resid="messageReadTaskPaneUrl" />
+                    <SourceLocation resid="manageevent" />
                   </Action>
                 </Control>
                 <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
@@ -139,16 +164,20 @@
         <bt:Image id="icon80" DefaultValue="https://localhost:44311/Content/Addin/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://localhost:44311/Events/Create"/>
+        <bt:Url id="manageevent" DefaultValue="https://localhost:44311/AddIn/Index"/>
+        <bt:Url id="createevent" DefaultValue="https://localhost:44311/AddIn/Index?action=create"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="Manage Events"/>
         <bt:String id="customTabLabel"  DefaultValue="MMG Apps"/>
+        <bt:String id="calLabel" DefaultValue="Publish Event"/>
+        <bt:String id="calSuperTipTitle" DefaultValue="Publish Event"/>
         <bt:String id="paneReadButtonLabel" DefaultValue="Manage Events"/>
         <bt:String id="paneReadSuperTipTitle" DefaultValue="Manage All Events"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="paneReadSuperTipDescription" DefaultValue="Opens a pane displaying all available properties. This is an example of a button that opens a task pane."/>
+        <bt:String id="calSuperTipDescription" DefaultValue="Publish your a meeting to a website through a task pane."/>
+        <bt:String id="paneReadSuperTipDescription" DefaultValue="Manage your meetings that are published on MyEventURL.com"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

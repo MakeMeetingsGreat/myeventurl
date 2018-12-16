@@ -1,6 +1,7 @@
 ﻿@model MyEventURL.Event
 
 @{  
+
     //This Form is currently leveraged by Events Create and Edit Views.
 
     //Preload a BackGround array for to populate the Background Select
@@ -13,10 +14,10 @@
     Background[5] = new SelectListItem { Text = "Pink", Value = "Pink" };
 
     //Load Paramerters default values
-    bool paramNoReply = false; 
-    bool paramPrivate = false; 
-    bool paramIcon = false; 
-    bool paramReminder = true; 
+    bool paramNoReply = false;
+    bool paramPrivate = false;
+    bool paramIcon = false;
+    bool paramReminder = true;
     string paramTimezone = "";
     string paramEmail = "";
     int paramEventId = 0;
@@ -32,6 +33,7 @@
         paramEmail = Model.Email;
         paramEventId = Model.EventId;
     }
+
 }
 
 @using (Html.BeginForm())
@@ -177,21 +179,43 @@
 
     //Load Account details from Office Context
     setTimeout(function () {
-        if (Office.context != null && Account.UserName == '') {
+        if (Office.context.mailbox != null && Account.UserName == '') {
             var mailbox = Office.context.mailbox;
             var email = mailbox.userProfile.emailAddress;
             var item = mailbox.item;
             Account.Email = email;
             var emailarray = email.split("@@")
             Account.UserName = emailarray[0];
-            Account.Domain = emailarray[2];
+            Account.Domain = emailarray[1];
         }
-    }, 2000);
+    }, 1000);
 
     //Document is read, start loading valuse for the form
     $(function () {
-        //$('#Organizer').val(Account.UserName);
-        //$('#Email').val(Account.Email);
+
+        //if this is a new form, load data.
+        if (@paramEventId == 0) {
+
+            //Load Account Data
+            setTimeout(function () {
+                $('#Organizer').val(Account.UserName);
+                $('#Email').val(Account.Email);
+            }, 2000)
+            
+        }
+
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                // client validation passed successfully
+            } else {
+                alert('there was an error during client validation');
+                $('#Email').val(Account.Email);
+                return false;
+            }
+
+        });
+        
+        
 
         var startDateTextBox = $('#Start');
         var endDateTextBox = $('#End');
