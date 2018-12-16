@@ -1,109 +1,102 @@
 ﻿    <!-- Modal -->
-<div class="modal fade" id="eventform" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content" :class="Style">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="col-md-4" style="float:right">
-                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCopyButton()" onclick="EventForm.createEvent()">Create</button>
-                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalCreateButton()" onclick="EventForm.createEvent()">Create</button>
-                    <button style="margin: 0px; min-width:100%; min-height:100%;" v-if="evalEditButton()" onclick="EventForm.setServerEvent()">Save</button>
-                </div>
+<div id="eventform">
+    <div class="modal-header">
+        <div class="col-md-4" style="float:right; max-height:50px;">
+            <button style="margin: 0px; min-width:100%;" v-if="evalCopyButton()" onclick="EventForm.createEvent()">Create</button>
+            <button style="margin: 0px; min-width:100%;" v-if="evalCreateButton()" onclick="EventForm.createEvent()">Create</button>
+            <button style="margin: 0px; min-width:100%;" v-if="evalEditButton()" onclick="EventForm.setServerEvent()">Save</button>
+        </div>
 
-                <h4 class="modal-title">{{ModalTitle}}</h4>
-                <div v-if="Error.SignIn.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.SignIn.Message}}
-                </div>
-                <div v-if="Error.Start.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.Start.Message}}
-                </div>
-                <div v-if="Error.End.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.End.Message}}
-                </div>
-                <div v-if="Error.TZ.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.TZ.Message}}
-                </div>
-                <div v-if="Error.Forms.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.Forms.Message}}
-                </div>
-                <div v-if="Error.Sway.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.Sway.Message}}
-                </div>
-                <div v-if="Error.Icon.Show" class="alert alert-danger hidden-print" style="margin:3px">
-                    {{Error.Icon.Message}}
-                </div>
-                <div><img id="iconimage" src="" hidden /></div>
+        <h4 class="modal-title">{{ModalTitle}}</h4>
+        <div v-if="Error.SignIn.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.SignIn.Message}}
+        </div>
+        <div v-if="Error.Start.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.Start.Message}}
+        </div>
+        <div v-if="Error.End.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.End.Message}}
+        </div>
+        <div v-if="Error.TZ.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.TZ.Message}}
+        </div>
+        <div v-if="Error.Forms.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.Forms.Message}}
+        </div>
+        <div v-if="Error.Sway.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.Sway.Message}}
+        </div>
+        <div v-if="Error.Icon.Show" class="alert alert-danger hidden-print" style="margin:3px">
+            {{Error.Icon.Message}}
+        </div>
+        <div><img id="iconimage" src="" hidden /></div>
+    </div>
+    <div class="modal-body" style="padding:20px">
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Background</div>
+            <div class="col-md-5">
+                <select v-model="Style" style="padding:3px">
+                    <option v-for="style in StyleList" :value="style">{{style}}</option>
+                </select>
             </div>
-            <div class="modal-body" style="padding:20px">
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Background</div>
-                    <div class="col-md-5">
-                        <select v-model="Style" style="padding:3px">
-                            <option v-for="style in StyleList" :value="style">{{style}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Organizer</div>
-                    <div class="col-md-9"><input v-model="Organizer" style="min-width:100%" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Subject</div>
-                    <div class="col-md-9"><input v-model="Subject" style="min-width:100%" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Location</div>
-                    <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Start</div>
-                    <div class="col-md-5"><input onchange="EventForm.setStartTime()" v-model="StartTime" id="starttime" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">End</div>
-                    <div class="col-md-5"><input onchange="EventForm.setEndTime()" v-model="EndTime" id="endtime" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">TimeZone</div>
-                    <div class="col-md-5">
-                        <select v-model="TimeZone" id="timezone" style="padding:3px">
-                            <option v-for="tz in TimeZoneList" :title="tz.offset" :value="tz.label">{{tz.label}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Description</div>
-                    <div class="col-md-9"><textarea v-model="Description" rows="4" style="max-width:100%; min-width:100%"></textarea></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Forms URL</div>
-                    <div class="col-md-9"><input v-model="Forms" style="min-width:100%" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-2">Sway URL</div>
-                    <div class="col-md-9"><input v-model="Sway" style="min-width:100%" /></div>
-                </div>
-                <div class="row" style="padding:3px">
-                    <div class="col-md-1"><input type="checkbox" v-model="NoReply" /></div>
-                    <div class="col-md-2">Mask Email</div>
-                    <div class="col-md-1"><input type="checkbox" v-model="Private" /></div>
-                    <div class="col-md-2">Private Event</div>
-                    <div class="col-md-1"><input type="checkbox" v-model="Icon" /></div>
-                    <div class="col-md-2">Use Icon</div>
-                    <div class="col-md-1"><input type="checkbox" v-model="Reminder" /></div>
-                    <div class="col-md-2">Event Reminder</div>
-                    
-                </div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Organizer</div>
+            <div class="col-md-9"><input v-model="Organizer" style="min-width:100%" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Subject</div>
+            <div class="col-md-9"><input v-model="Subject" style="min-width:100%" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Location</div>
+            <div class="col-md-9"><input v-model="Location" style="min-width:100%" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Start</div>
+            <div class="col-md-5"><input onchange="EventForm.setStartTime()" v-model="StartTime" id="starttime" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">End</div>
+            <div class="col-md-5"><input onchange="EventForm.setEndTime()" v-model="EndTime" id="endtime" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">TimeZone</div>
+            <div class="col-md-5">
+                <select v-model="TimeZone" id="timezone" style="padding:3px">
+                    <option v-for="tz in TimeZoneList" :title="tz.offset" :value="tz.label">{{tz.label}}</option>
+                </select>
             </div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Description</div>
+            <div class="col-md-9"><textarea v-model="Description" rows="4" style="max-width:100%; min-width:100%"></textarea></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Forms URL</div>
+            <div class="col-md-9"><input v-model="Forms" style="min-width:100%" /></div>
+        </div>
+        <div class="row" style="padding:3px">
+            <div class="col-md-2">Sway URL</div>
+            <div class="col-md-9"><input v-model="Sway" style="min-width:100%" /></div>
+        </div>
+        <div class="row" style="padding:3px; left:100px; min-width:100%">
+            <div class="col-md-2">Options</div>
+            <div class="col-md-9">
+                <div class="col-md-2"><input type="checkbox" v-model="NoReply" /> Mask Email</div>
+                <div class="col-md-2"><input type="checkbox" v-model="Private" /> Private Event</div>
+                <div class="col-md-2"><input type="checkbox" v-model="Icon" /> Use Icon</div>
+                <div class="col-md-2"><input type="checkbox" v-model="Reminder" /> Event Reminder</div>
+            </div>
+        </div>
+        <div class="row" style="padding:3px; min-width:100%">
         </div>
     </div>
 </div>
-<!-- Modal -->
 
 <script>
     var momentjsformat = "MM/DD/YYYY hh:mm A";
-
+    var Account = {UserName: "@ViewBag.UserName", Email: "@ViewBag.Email", Domain: "@ViewBag.Domain"}
 
     $(function () {
         //EventForm.StartTime = "04/19/2019 03:00 pm";
@@ -120,16 +113,14 @@
                 dateFormat: 'mm/dd/yy',
                 timeFormat: 'hh:mm tt',
                 start: {}, // start picker options
-                end: {} // end picker options					
+                end: {} // end picker options
             }
         );
 
         EventForm.Organizer = Account.UserName;
         EventForm.Email = Account.Email;
     });
-</script>
 
-<script>
     var EventForm = new Vue({
         el: "#eventform",
         data: {
@@ -163,7 +154,7 @@
                 Forms: { Show: false, Message: "The Forms URL is not valid." },
                 Sway: { Show: false, Message: "The Sway URL is not valid." },
                 SignIn: { Show: false, Message: "You Must Sign In." },
-                Icon: {Show: false, Message: "The icon does not exist."}
+                Icon: { Show: false, Message: "The icon does not exist." }
             }
         },
         computed: {
@@ -177,7 +168,7 @@
                 return "https://" + string + "/favicon.ico";
             },
         },
-        beforeCreate: function() {
+        beforeCreate: function () {
             axios.get('https://www.addevent.com/api/v1/timezones')
                 .then(function (response) {
                     EventForm.TimeZoneList = response.data.data;
@@ -185,6 +176,7 @@
                 .then(function () {
                     $("#iconimage").src = this.IconImage;
                 })
+            
         },
         updated: function () {
             if (this.Error.Start.Show || this.Error.End.Show || this.Error.TZ.Show || this.Error.Forms.Show || this.Error.Sway.Show) this.runValidateForm();
@@ -224,7 +216,7 @@
                         youtube: null,
                         storify: null,
                         surveymonkey: null
-                };
+                    };
 
                     axios.post('/api/EventAPI', event)
                         .then(function (success) {
@@ -233,8 +225,8 @@
                         .catch(function (error) { console.log(error) });
                 };
             },
-            getServerEvent: function (id,modaltitle,modalbutton) {
-                axios.get('/odata/GetEvent('+id+')')
+            getServerEvent: function (id, modaltitle, modalbutton) {
+                axios.get('/odata/GetEvent(' + id + ')')
                     .then(function (success) {
                         EventForm.ModalTitle = modaltitle;
                         EventForm.ModalButton = modalbutton;
@@ -272,12 +264,12 @@
             runAddView: function () {
                 this.Views = (parseInt(this.Views) < 1) ? 0 : parseInt(this.Views);
                 this.Views += 1;
-                this.setServerEvent(reload=false);
+                this.setServerEvent(reload = false);
             },
             runAddEngage: function () {
                 this.Engaged = (parseInt(this.Engaged) < 1) ? 0 : parseInt(this.Engaged);
                 this.Engaged += 1;
-                this.setServerEvent(reload=false);
+                this.setServerEvent(reload = false);
             },
             runCopyEvent: function (id) {
                 this.getServerEvent(id, "Copy Event", "Create");
@@ -291,7 +283,7 @@
                 this.Error.Start.Show = !(moment(this.StartTime, momentjsformat).isValid());
                 this.Error.End.Show = !(moment(this.EndTime, momentjsformat).isValid());
                 this.Error.TZ.Show = (_.findWhere(EventForm.TimeZoneList, { label: EventForm.TimeZone }) == null);
-                this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\//.test(this.Forms.substring(0, 25))) || this.Forms == "");                
+                this.Error.Forms.Show = !((/https:\/\/forms\.office\.com\//.test(this.Forms.substring(0, 25))) || this.Forms == "");
                 this.Error.Sway.Show = !((/https:\/\/sway\.office\.com\//.test(this.Sway.substring(0, 25))) || this.Sway == "");
                 this.Error.SignIn.Show = (Account.Email == "" && this.Email == "");
                 this.Error.Icon.Show = (!($("#iconimage")[0].width > 0) && this.Icon);
@@ -344,7 +336,7 @@
                         surveymonkey: null
                     };
 
-                    axios.put('/api/EventAPI/'+event.EventId, event)
+                    axios.put('/api/EventAPI/' + event.EventId, event)
                         .then(function (success) {
                             if (reload) window.location.reload();
                         })

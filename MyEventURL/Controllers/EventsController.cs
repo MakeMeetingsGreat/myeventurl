@@ -38,6 +38,71 @@ namespace MyEventURL.Controllers
             return View(@event);
         }
 
+        // GET: Events/Create
+        public ActionResult Create(int? id)
+        {
+            this.getUser();
+            if (id == null)
+            {
+                return View();                ;
+            }
+            Event @event = db.Events.Find(id);
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+            return View(@event);
+        }
+
+        // POST: Events/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Start,End,Timezone,Title,Description,Location,Organizer,Email,Reminder,sway,NoReply,Forms,Style,Private,Icon,search,Views,Engaged")] Event @event)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Events.Add(@event);
+                db.SaveChanges();
+                return View("Close");
+            }
+
+            return View(@event);
+        }
+
+        // GET: Events/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            this.getUser();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Event @event = db.Events.Find(id);
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+            return View(@event);
+        }
+
+        // POST: Events/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "EventId,Start,End,Timezone,Title,Description,Location,Organizer,Email,Reminder,sway,NoReply,Forms,Created,Style,Private,Icon,search,Views,Engaged")] Event @event)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(@event).State = EntityState.Modified;
+                db.SaveChanges();
+                return View("Close");
+            }
+            return View(@event);
+        }
+
 
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)

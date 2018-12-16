@@ -1,16 +1,25 @@
 ﻿@Html.Partial("~/Views/Components/_GridComponent.cshtml")
-@Html.Partial("~/Views/Components/_EventForm.cshtml")
 @Html.Partial("~/Views/Components/_Admin.cshtml")
+@Html.Partial("~/Views/Components/_IframeModal.cshtml")
 
 @{
     ViewBag.Title = "Index";
 }
 
-<button data-backdrop="static" data-toggle="modal" data-target="#eventform" style="position:absolute; min-width:200px; left:125px; height:50px">Create</button>
+<script>
+    function runCreateEvent() {
+        iframemodal.setTitle("Create an Event");
+        iframemodal.setSrc("/Events/Create");
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+</script>
+
+<div style="width:200px; float:left; position:absolute; left:100px; height:50px;" v-if="evalUser()"><a href="javascript:runCreateEvent()" style="width:200px; height:50px;" class="btn btn-info">Create</a></div>
+
 <h2>Index</h2>
 
 <div id="eventlist">
-  <adminmenu :future="future" :past="past"></adminmenu>
+    <adminmenu :future="future" :past="past"></adminmenu>
 </div>
 
 <script>

@@ -7,9 +7,9 @@
         <grid :data="future"
               :columns="cols"
               :filter-key="FutureQuery"
-              copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
-              edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
-              view="<a href='/Events/Details/{replace}'>View</a>"
+              copy="<a href='javascript:runCopyEvent({replace})'>Copy</a>"
+              edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
+              view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
               delete="<a href='/Events/Delete/{replace}'>Delete</a>"
               width="100%">
         </grid>
@@ -20,9 +20,9 @@
         <grid :data="past"
               :columns="cols"
               :filter-key="PastQuery"
-              copy="<a href='javascript:EventForm.runCopyEvent({replace})'>Copy</a>"
-              edit="<a href='javascript:EventForm.runEditEvent({replace})'>Edit</a>"
-              view="<a href='/Events/Details/{replace}'>View</a>"
+              copy="<a href='javascript:runCopyEvent({replace})'>Copy</a>"
+              edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
+              view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
               delete="<a href='/Events/Delete/{replace}'>Delete</a>"
               width="100%">
         </grid>
@@ -30,6 +30,18 @@
 </script>
 
 <script>
+    function runEditEvent(EventId) {
+        iframemodal.setTitle("Edit an Event");
+        iframemodal.setSrc("/Events/Edit/" + EventId);
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+
+    function runCopyEvent(EventId) {
+        iframemodal.setTitle("Copy an Event");
+        iframemodal.setSrc("/Events/Create?id=" + EventId);
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+
     // register the grid component
     var admincomponent =
     {
@@ -40,17 +52,15 @@
         },
         data: function () {
             return {
-                cols:   [{ name: "Start", hide: false },
-                        { name: "Title", hide: false },
-                        { name: "Views", hide: true },
-                        { name: "Adds", hide: true },
-                        { name: "Actions", hide: false }],
+                cols: [{ name: "Start", hide: false },
+                { name: "Title", hide: false },
+                { name: "Views", hide: true },
+                { name: "Adds", hide: true },
+                { name: "Actions", hide: false }],
                 FutureQuery: '',
                 PastQuery: ''
-           }
+            }
         },
-        methods: {
-        }
     }
 </script>
 

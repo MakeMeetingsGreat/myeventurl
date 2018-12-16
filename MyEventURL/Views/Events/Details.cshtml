@@ -11,9 +11,10 @@
         <div class="alert alert-danger" style="margin:10px">
             This is a private event.  Only @emailarray[1] users can view the event.
         </div>
-        @Html.Partial("~/Views/Events/_DetailsLogin.cshmtl") }
+        @Html.Partial("_DetailsLogin") 
+    }
     else
     {
-        @Html.Partial("~/Views/Events/_Details.cshtml");
+        @Html.Partial("_Details");
     }
 }

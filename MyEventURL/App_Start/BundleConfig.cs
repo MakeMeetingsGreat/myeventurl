@@ -25,6 +25,7 @@ namespace MyEventURL
 
             bundles.Add(new ScriptBundle("~/bundles/vuejs").Include(
                       "~/Scripts/vue.js",
+                      "~/Scripts/bluebird*",
                       "~/Scripts/axios.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/momentjs").Include(
@@ -33,6 +34,13 @@ namespace MyEventURL
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                       "~/Scripts/jquery-ui*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/officejs").Include(
+                       "~/Scripts/Office/1/office.js"));
+
+            bundles.Add(new StyleBundle("~/Content/officefabric").Include(
+                      "~/Content/fabric*",
+                      "~/Content/AddIn/AddIn.css"));
 
             bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
                       "~/Content/jquery-ui*"));

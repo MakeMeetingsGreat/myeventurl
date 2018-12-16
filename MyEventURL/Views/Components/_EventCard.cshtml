@@ -35,7 +35,7 @@
             chars: String,
         },
         computed: {
-            shortened: function () { return this.description.substring(0,this.chars) },
+            shortened: function () { return (this.description != null) ? this.description.substring(0, this.chars) : this.description },
             starttime: function () { return moment(this.start).tz(this.timezone) },
             href: function () { return "/Events/Details/" + this.id;}
         },

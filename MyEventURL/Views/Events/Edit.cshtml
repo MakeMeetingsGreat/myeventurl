@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Button = "Edit";
+    Layout = null;
+}
+
+
+
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryui")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/momentjs")
+    @Scripts.Render("~/bundles/officejs")
+    @Scripts.Render("~/bundles/vuejs")
+</head>
+<body style="padding-top:20px">
+    @Html.Partial("_EventForm")
+</body>
+</html>

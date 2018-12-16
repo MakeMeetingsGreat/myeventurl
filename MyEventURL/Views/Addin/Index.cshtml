@@ -15,49 +15,62 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    <!-- Office JavaScript API -->
+    <!-- Office JavaScript API
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.debug.js"></script>
-    <script src="~/Scripts/AddIn.js"></script>
+    -->
+    @Scripts.Render("~/bundles/officejs")
     <!-- LOCAL
     <link rel="stylesheet" href="node_modules/office-ui-fabric-js/dist/css/fabric.min.css" />
     <link rel="stylesheet" href="node_modules/office-ui-fabric-js/dist/css/fabric.components.css" />
     -->
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/vuejs")
-    @Scripts.Render("~/bundles/momentjs")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
 
     <!-- CDN -->
-    <!-- For the Office UI Fabric, go to http://aka.ms/office-ui-fabric to learn more. -->
+    <!-- For the Office UI Fabric, go to http://aka.ms/office-ui-fabric to learn more.
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.min.css" />
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.components.min.css" />
-
+    -->
+    @Styles.Render("~/Content/officefabric")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/jqueryui")
 
-    <!-- Template styles -->
-    <link href="~/Content/AddIn/AddIn.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="ms-font-m ms-welcome">
+    @Scripts.Render("~/bundles/vuejs")
+    @Scripts.Render("~/bundles/momentjs")
+
     <header class="ms-welcome__header ms-bgColor-neutralLighter ms-u-fadeIn500">
         <img width="90" height="90" src="~/Content/AddIn/logo-filled.png" alt="addin" title="addin" />
         <h1 class="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary">Welcome</h1>
     </header>
     <main id="app-body" class="ms-welcome__main">
         @Html.Partial("~/Views/Components/_GridComponent.cshtml")
-        @Html.Partial("~/Views/Components/_EventForm.cshtml")
         @Html.Partial("~/Views/Components/_Admin.cshtml")
+        @Html.Partial("~/Views/Components/_IframeModal.cshtml")
 
         @{
             ViewBag.Title = "Index";
         }
 
-        <button data-backdrop="static" data-toggle="modal" data-target="#eventform" style="position:absolute; min-width:200px; left:125px; height:50px">Create</button>
-        <h2>Index</h2>
+        @{
+            ViewBag.Title = "Index";
+        }
+
+        <script>
+            function createform() {
+                iframemodal.setTitle("Create an Event");
+                iframemodal.setSrc("/Events/Create");
+                $("#iframemodal").modal("show");
+            }
+        </script>
 
         <div id="eventlist">
+            <a href="javascript:createform()">Create</a>
+            <h2>Welcome<br /> {{Account.Email}}</h2>
+
+
             <adminmenu :future="future" :past="past"></adminmenu>
         </div>
 
@@ -73,8 +86,6 @@
     </main>
 
     <script>
-        var Account = { Email: "avisuj@microsoft.com", Domain: "microsoft.com", UserName: "avisuj" };
-
         var EventList = new Vue({
             el: '#eventlist',
             components: {
@@ -83,30 +94,44 @@
             data: {
                 future: [],
                 past: [],
+                office: { Mailbox: '', Email: '', Item: '' }
             },
-            beforeCreate: function () {
-                axios.get('/odata/GetEvent?$filter=Email eq \'' + Account.Email + '\'&$orderby=Start desc')
-                    .then(function (response) {
-                        response.data.value.forEach(function (fact) {
-                            var startmoment = moment(fact.Start);
-                            var event = {
-                                Start: startmoment.format("MMM D"),
-                                Title: fact.Title,
-                                Views: fact.Views,
-                                Adds: fact.Engaged,
-                                Actions: fact.EventId
-                            }
-                            var nowmoment = moment(Date.now());
-                            if (nowmoment.diff(startmoment) < 0) EventList.future.push(event); else EventList.past.push(event)
-                        })
-                    })
+            computed: {
+                Account: function () {
+                    var email = this.office.Email;
+                    var emailarray = email.split("@@");
+                    return ({ Email: email, Domain: emailarray[1], UserName: emailarray[0]})
+                }
             },
-
             methods: {
-            }
+                getEvents: function () {
+                    axios.get('/odata/GetEvent?$filter=Email eq \'' + this.Account.Email + '\'&$orderby=Start desc')
+                        .then(function (response) {
+                            response.data.value.forEach(function (fact) {
+                                var startmoment = moment(fact.Start);
+                                var event = {
+                                    Start: startmoment.format("MMM D"),
+                                    Title: fact.Title,
+                                    Views: fact.Views,
+                                    Adds: fact.Engaged,
+                                    Actions: fact.EventId
+                                }
+                                var nowmoment = moment(Date.now());
+                                if (nowmoment.diff(startmoment) < 0) EventList.future.push(event); else EventList.past.push(event)
+                            })
+                        })
+
+                }
+            },
         })
+        setTimeout(function () {
+            EventList.office.Mailbox = Office.context.mailbox;
+            EventList.office.Email = EventList.office.Mailbox.userProfile.emailAddress;
+            EventList.office.Item = EventList.office.Mailbox.item;
+            EventList.getEvents()
+        }, 2000)
     </script>
-</body >
+</body>
 
 
 

@@ -14,48 +14,39 @@ namespace MyEventURL
         public int EventId { get; set;}
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        [Display(Name = "Time Zone")]
         public string Timezone { get; set; }
+        [Display(Name = "Subject")]
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
         public string Organizer { get; set; }
+        [Required(ErrorMessage = "Please sign in")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        public int Reminder { get; set; }
+        [Display(Name = "Event Reminder")]
+        public bool? Reminder { get; set; }
         public string Format { get; set; }
+        [Display(Name = "Sway URL")]
         public string sway { get; set; }
+        [Display(Name = "Mask Email")]
         public bool? NoReply { get; set; }
+        [Display(Name = "Forms URL")]
         public string Forms { get; set; }
         public DateTime? Created { get; set; }
+        [Display(Name = "Background")]
         public string Style { get; set; }
+        [Display(Name = "Private Event")]
         public bool? Private { get; set; }
+        [Display(Name = "Use Icon")]
         public bool? Icon { get; set; }
-
-        //TBD Deleted
-        public bool? search { get; set; }
         public int? Views { get; set; }
         public int? Engaged { get; set; }
-        public int? Facebook { get; set; }
-        public bool? AllDay { get; set; }
-        public string Recurring { get; set; }
-        public string SocialCommentsEngine { get; set; }
-        public string TwitterDataWidget { get; set; }
-        public string YammerNetwork { get; set; }
-        public string SummaryEngine { get; set; }
-        public string youtube { get; set; }
-        public string storify { get; set; }
-        public string surveymonkey { get; set; }
-        
-
 
         public Event()
         {
             Views = 0;
             Engaged = 0;
-            Facebook = 0;
-            Format = "MM/DD/YYYY";
-            NoReply = false;
-            Forms = "";
             Created = DateTime.UtcNow;
         }
 
