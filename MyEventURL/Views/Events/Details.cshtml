@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = Model.Title + " Details";
+    ViewBag.description = Model.Description;
+}
+
+
+
+@{
+    string[] emailarray = Model.Email.Split('@');
+    if ((Model.Private == true) && (ViewBag.Domain != emailarray[1]))
+    {
+        <div class="alert alert-danger" style="margin:10px">
+            This is a private event.  Only @emailarray[1] users can view the event.
+        </div>
+        @Html.Partial("_DetailsLogin") 
+    }
+    else
+    {
+        @Html.Partial("_Details");
+    }
+}

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+          xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+          xsi:type="MailApp">
+
+  <!-- Begin Basic Settings: Add-in metadata, used for all versions of Office unless override provided. -->
+
+  <!-- IMPORTANT! Id must be unique for your add-in, if you reuse this manifest ensure that you change this id to a new GUID. -->
+  <Id>f86ff091-94fa-49f2-82e0-777ef3652ab9</Id>
+
+  <!--Version. Updates from the store only get triggered if there is a version change. -->
+  <Version>2.0.0.0</Version>
+  <ProviderName>Make Meetings Great</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
+  <DisplayName DefaultValue="MyEventURL" />
+  <Description DefaultValue="An app that makes it easy to publish a meeting from your calendar.  Sharing meetings  should be easy."/>
+
+  <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
+  <IconUrl DefaultValue="https://myeventurl.com/Content/Addin/icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://www.myeventurl.com/Content/Addin/mini_128_128.png"/>
+
+  <!--If you plan to submit this add-in to the Office Store, uncomment the SupportUrl element below-->
+  <SupportUrl DefaultValue="http://chat.makemeetingsgreat.com" />
+
+  <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
+  <AppDomains>
+    <AppDomain>localhost:44311</AppDomain>
+    <AppDomain>www.myeventurl.com</AppDomain>
+  </AppDomains>
+  <!--End Basic Settings. -->
+
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://www.myeventurl.com/AddIn/Index"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.3">
+        <bt:Set Name="Mailbox" />
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+
+        <DesktopFormFactor>
+          <!-- Location of the Functions that UI-less buttons can trigger (ExecuteFunction Actions). -->
+          <FunctionFile resid="functionFile" />
+
+          
+          <!-- Appointment Attendee-->
+          <ExtensionPoint xsi:type="AppointmentAttendeeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <!-- Up to 6 Groups added per Tab -->
+              <Group id="calAttendeeGroup">
+                <Label resid="calLabel" />
+                <!-- Launch the add-in : task pane button -->
+                <Control xsi:type="Button" id="calAttendeeButton">
+                  <Label resid="paneReadButtonLabel" />
+                  <Supertip>
+                    <Title resid="calSuperTipTitle" />
+                    <Description resid="calSuperTipDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="createevent" />
+                  </Action>
+                </Control>
+                <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- Appointment Organizer-->
+          <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+            <OfficeTab id="TabDefault">
+              <!-- Up to 6 Groups added per Tab -->
+              <Group id="calOrganizerGroup">
+                <Label resid="calLabel" />
+                <!-- Launch the add-in : task pane button -->
+                <Control xsi:type="Button" id="calOrganizerButton">
+                  <Label resid="paneReadButtonLabel" />
+                  <Supertip>
+                    <Title resid="calSuperTipTitle" />
+                    <Description resid="calSuperTipDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="createevent" />
+                  </Action>
+                </Control>
+                <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+
+          <!-- Message Read -->
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
+            <!-- Use the default tab of the ExtensionPoint or create your own with <CustomTab id="myTab"> -->
+            <OfficeTab id="TabDefault">
+              <!-- Up to 6 Groups added per Tab -->
+              <Group id="msgReadGroup">
+                <Label resid="groupLabel" />
+                <!-- Launch the add-in : task pane button -->
+                <Control xsi:type="Button" id="msgReadOpenPaneButton">
+                  <Label resid="paneReadButtonLabel" />
+                  <Supertip>
+                    <Title resid="paneReadSuperTipTitle" />
+                    <Description resid="paneReadSuperTipDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="manageevent" />
+                  </Action>
+                </Control>
+                <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+          <!-- Go to http://aka.ms/ExtensionPointsCommands to learn how to add more Extension Points: MessageRead, AppointmentOrganizer, AppointmentAttendee -->
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="icon16" DefaultValue="https://www.myeventurl.com/Content/Addin/icon-16.png"/>
+        <bt:Image id="icon32" DefaultValue="https://www.myeventurl.com/Content/Addin/icon-32.png"/>
+        <bt:Image id="icon80" DefaultValue="https://www.myeventurl.com/Content/Addin/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="manageevent" DefaultValue="https://www.myeventurl.com/AddIn/Index"/>
+        <bt:Url id="createevent" DefaultValue="https://www.myeventurl.com/AddIn/Index?action=create"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="groupLabel" DefaultValue="Manage Events"/>
+        <bt:String id="customTabLabel"  DefaultValue="MMG Apps"/>
+        <bt:String id="calLabel" DefaultValue="Publish Event"/>
+        <bt:String id="calSuperTipTitle" DefaultValue="Publish Event"/>
+        <bt:String id="paneReadButtonLabel" DefaultValue="Manage Events"/>
+        <bt:String id="paneReadSuperTipTitle" DefaultValue="Manage All Events"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="calSuperTipDescription" DefaultValue="Publish your a meeting to a website through a task pane."/>
+        <bt:String id="paneReadSuperTipDescription" DefaultValue="Manage your meetings that are published on MyEventURL.com"/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

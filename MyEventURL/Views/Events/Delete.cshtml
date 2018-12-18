@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Button = "Edit";
+    Layout = "~/Views/Shared/_BlankLayout.cshtml";
+}
+
+@model MyEventURL.Event
+
+<h3>Are you sure you want to delete this?</h3>
+<div style="padding:10px" id="deleteform">
+    <div class="alert alert-danger" style="margin:10px" v-if="!evalEmail()">
+        You can only delete events you own.
+    </div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Start)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timezone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timezone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Views)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Views)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Engaged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Engaged)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color" v-if="evalEmail()">
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+        </div>
+    }
+</div>
+
+<script>
+    var DeleteForm = new Vue({
+        el: "#deleteform",
+        data: {
+            email: "@User.Identity.Name",
+        },
+        created: function() {
+
+        },
+        methods: {
+            evalEmail: function () {
+                return (this.email == "@Model.Email");
+            }
+        }
+    })
+</script>

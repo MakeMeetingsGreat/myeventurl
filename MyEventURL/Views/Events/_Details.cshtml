@@ -1,0 +1,173 @@
+﻿@model MyEventURL.Event
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56cbf4936f9470b0"></script>
+@Html.Partial("~/Views/Components/_AddEvent.cshtml")
+@Html.Partial("~/Views/Components/_IframeModal.cshtml")
+
+<script>
+    function runEditEvent(EventId) {
+        iframemodal.setTitle("Edit an Event");
+        iframemodal.setSrc("/Events/Edit/" + EventId);
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+</script>
+
+<div id="eventdetails">
+    <div style="width:200px; float:left; position:absolute; left:100px; height:50px;" v-if="evalUser()" ><a href="javascript:runEditEvent(@Model.EventId)" style="width:200px; height:50px;" class="btn btn-info">Edit</a></div>
+    <div class="jumbotron" style="background-color:" :class="Event.Style">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <h1 style="font-size:48px;">{{StartMoment.format('dddd')}}</h1>
+                <h2>{{StartMoment.format('LL')}}</h2>
+                <h2>{{StartMoment.format('LT')}}</h2>
+                <h3>{{StartMoment.tz().replace("_"," ")}}</h3>
+
+                <a style="margin:5px" v-if="evalForms()" onclick="EventDetails.getForms()" class="btn btn-default">Survey</a>
+                <a style="margin:5px" v-if="evalSway()" onclick="EventDetails.getSway()" class="btn btn-default">More Info</a>
+                <br />
+                <a style="margin:10px" href="#" v-if="ConvertTz" class="btn btn-default" onclick="EventDetails.runConvertTZ()">{{(StartMoment.tz() == LocalTz) ? "Convert to Published Time" : "Convert to Local Time"}}</a>
+            </div>
+            <div class="col-sm-8">
+                <h2>{{Event.Title}}</h2>
+                <h3>Location:</h3>
+                <p class="lead">{{Event.Location}}</p>
+                <h3>Description:</h3>
+                <p class="lead">{{Event.Description}}</p>
+
+                <div title="Add to Calendar" class="addeventatc btn btn-default btn-lg" style="z-index:1;">
+                    Add to Calendar &raquo;
+                    <span class="start">{{StartMoment.format(momentjsformat)}}</span>
+                    <span class="end">{{EndMoment.format(momentjsformat)}}</span>
+                    <span class="timezone">{{Event.Timezone}}</span>
+                    <span class="title">{{Event.Title}}</span>
+                    <span class="description">{{Event.Description}}</span>
+                    <span class="location">{{Event.Location}}</span>
+                    <span class="organizer">{{AddEventOrganizer}}</span>
+                    <span class="organizer_email">{{AddEventEmail}}</span>
+                    <span class="date_format">{{momentjsformat}}</span>
+                    <span class="alarm_reminder">{{Event.Reminder}}</span>
+                </div>
+
+
+                <div><br /></div>
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_sharing_toolbox" v-if="!Event.Private"></div>
+            </div>
+        </div>
+
+    </div>
+    <div v-if="evalIcon()"><img height="16" :src="IconImage" /> A {{Domain}} event. </div>
+</div>
+<div style="margin:10px" id="disqus_thread"></div>
+<script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+    var disqus_config = function () {
+    this.page.identifier = '@Model.EventId'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://myeventurl.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<script>
+    var EventDetails = new Vue({
+        el: '#eventdetails',
+        data: {
+            Event: [],
+            StartMoment: moment('@Model.Start').tz('@Model.Timezone'),
+            EndMoment: moment('@Model.End').tz('@Model.Timezone'),
+            LocalTz: moment.tz.guess(),
+            momentjsformat: "MM/DD/YYYY hh:mm A",
+        },
+        computed: {
+            AddEventEmail: function () { return this.Event.NoReply ? this.runNoReply(this.Event.Email) : this.Event.Email },
+            AddEventOrganizer: function () { return this.Event.NoReply ? "No Reply" : this.Event.Organizer },
+            SwayLink: function () {
+                var url;
+                url = this.Sway.split("?")[0];
+                url = url.replace("https://sway.office.com", "https://sway.office.com/s");
+                url = url.concat("/embed");
+                return url;
+            },
+            FormsLink: function () { return this.Event.Forms; },
+            ConvertTz: function () { return (this.Event.Timezone != this.LocalTz) },
+            Domain: function () {
+                string = /\@@([^@@]+)/.exec(this.Event.Email)[1];
+                string = string.toLowerCase();
+                string = string.charAt(0).toUpperCase() + string.slice(1);
+                return string;
+            },
+            IconImage: function () { return "https://" + this.Domain + "/favicon.ico" }
+        },
+        created: function () {
+            this.runAddView();
+        },
+        methods: {
+            evalUser() {
+                return this.Event.Email == Account.Email;
+            },
+            evalForms() {
+                return this.Event.Forms != null;
+            },
+            evalIcon() {
+                return this.Event.Icon == true;
+            },
+            evalSway() {
+                return this.Event.Sway != null;
+            },
+            getForms() {
+                iframemodal.setTitle("Survey");
+                iframemodal.setSrc(this.FormsLink);
+                $("#iframemodal").modal("show");
+            },
+            getSway() {
+                iframemodal.setTitle("More Info");
+                iframemodal.setSrc(this.SwayLink);
+                $("#iframemodal").modal("show");
+            },
+            runAddView() {
+                axios.get("/odata/GetEvent(@Model.EventId)")
+                    .then(function (success) {
+                        EventDetails.Event = success.data;
+                    })
+                    .then(function () {
+                        EventDetails.Event.Views += 1;
+                        axios.put("/api/EventAPI/" + EventDetails.Event.EventId, EventDetails.Event);
+                    })
+            },
+            runAddEngagement() {
+                axios.get("/odata/GetEvent(@Model.EventId)")
+                    .then(function (success) {
+                        EventDetails.Event = success.data;
+                    })
+                    .then(function () {
+                        EventDetails.Event.Engaged += 1;
+                        axios.put("/api/EventAPI/" + EventDetails.Event.EventId, EventDetails.Event);
+                    })
+            },
+            runConvertTZ() {
+                this.StartMoment = (this.StartMoment.tz() == this.LocalTz) ? this.StartMoment.tz(this.Event.Timezone) : this.StartMoment.tz(this.LocalTz);
+            },
+            runNoReply(email) {
+                var splitemail = email.split("@@");
+                splitemail[0] = "no_reply";
+                return splitemail.join("@@");
+            }
+        }
+    })
+</script>

@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryui")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/momentjs")
+    @Scripts.Render("~/bundles/vuejs")
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.debug.js"></script>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "My Boards";
+}
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_Index");
+    }
+    else
+    {
+        @Html.Partial("_DetailsLogin")
+    }
+}

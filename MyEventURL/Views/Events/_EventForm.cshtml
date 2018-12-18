@@ -1,0 +1,236 @@
+﻿@model MyEventURL.Event
+
+@{  
+
+    //This Form is currently leveraged by Events Create and Edit Views.
+
+    //Preload a BackGround array for to populate the Background Select
+    var Background = new SelectListItem[6];
+    Background[0] = new SelectListItem { Text = "Grey", Value = "Grey" };
+    Background[1] = new SelectListItem { Text = "Yellow", Value = "Yellow" };
+    Background[2] = new SelectListItem { Text = "Orange", Value = "Orange" };
+    Background[3] = new SelectListItem { Text = "Green", Value = "Green" };
+    Background[4] = new SelectListItem { Text = "Blue", Value = "Blue" };
+    Background[5] = new SelectListItem { Text = "Pink", Value = "Pink" };
+
+    //Load Paramerters default values
+    bool paramNoReply = false;
+    bool paramPrivate = false;
+    bool paramIcon = false;
+    bool paramReminder = true;
+    string paramTimezone = "";
+    string paramEmail = "";
+    int paramEventId = 0;
+
+    //If Model exists, Load Model values for Parameter
+    if (Model != null)
+    {
+        paramNoReply = Model.NoReply ?? false;
+        paramPrivate = Model.Private ?? false;
+        paramIcon = Model.Icon ?? false;
+        paramReminder = Model.Reminder ?? true;
+        paramTimezone = Model.Timezone;
+        paramEmail = Model.Email;
+        paramEventId = Model.EventId;
+    }
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<!--The Event Form-->    
+<div class="form-horizontal" id="EventForm" style="padding-left:20px; max-width:800px; overflow:hidden;">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div>
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <input type="submit" value="@ViewBag.Button" class="btn btn-primary" style="min-width:100%;" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3" style="left:10px; float:left">
+            <!-- Start Date-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- End Date-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Time Zone-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Timezone, htmlAttributes: new { @class = "control-label" }) @Html.DropDownList("Timezone", Background, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Timezone, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Title -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Style -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Style, htmlAttributes: new { @class = "control-label" }) @Html.DropDownList("Style", Background, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Style, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Organizer -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Organizer, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.Organizer, new { @value = ViewBag.UserName, htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Organizer, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Forms -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Forms, htmlAttributes: new { @class = "control-label " }) @Html.EditorFor(model => model.Forms, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Forms, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Sway -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.sway, htmlAttributes: new { @class = "control-label" }) @Html.EditorFor(model => model.sway, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sway, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="col-md-2 col-md-offset-1" style="left:10px; padding-right:80px; float:right">
+            <!-- Description -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" }) @Html.TextAreaFor(model => model.Description, new { @rows = 20, @cols = 100, @style = "max-width:450px", @class = "form-control text-box" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" style="padding:10px;">
+        <!-- NoReply -->
+        <div class="col-md-3">
+            @Html.CheckBox("NoReply", paramNoReply) @Html.LabelFor(model => model.NoReply, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.NoReply, "", new { @class = "text-danger" })
+        </div>
+        <!-- Private -->
+        <div class="col-md-3">
+            @Html.CheckBox("Private", paramPrivate) @Html.LabelFor(model => model.Private, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.Private, "", new { @class = "text-danger" })
+        </div>
+        <!-- Icon -->
+        <div class="col-md-3">
+            @Html.CheckBox("Icon", paramIcon) @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
+        </div>
+        <!-- Reminder -->
+        <div class="col-md-3">
+            @Html.CheckBox("Reminder", paramReminder) @Html.LabelFor(model => model.Reminder, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.Reminder, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <!-- EventId -->
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.EventId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EventId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Created -->
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Created, new { htmlAttributes = new {@class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>
+}
+
+<script>
+    //Set the default values for Account
+    var Account = { UserName: '', Email: '@User.Identity.Name', Domain: '' };
+
+    var emailarray = Account.Email.split("@@")
+    Account.UserName = emailarray[0];
+    Account.Domain = emailarray[1];
+
+    //Load Account details from Office Context
+    Office.onReady()
+        .then(function () {
+            if (Office.context != null && Account.UserName == '') {
+                var mailbox = Office.context.mailbox;
+                var email = mailbox.userProfile.emailAddress;
+                var item = mailbox.item;
+                Account.Email = email;
+            }
+        })
+   
+
+    //Document is read, start loading valuse for the form
+    $(function () {
+
+        //if this is a new form, load data.
+        if (@paramEventId == 0) {
+
+            //Load Account Data
+            setTimeout(function () {
+                $('#Organizer').val(Account.UserName);
+                $('#Email').val(Account.Email);
+            }, 2000);            
+        }        
+
+        var startDateTextBox = $('#Start');
+        var endDateTextBox = $('#End');
+
+        $.timepicker.datetimeRange(
+            startDateTextBox,
+            endDateTextBox,
+            {
+                minInterval: (1000 * 60 * 60), // 1hr
+                dateFormat: 'mm/dd/yy',
+                timeFormat: 'hh:mm:ss TT',
+                start: {}, // start picker options
+                end: {} // end picker options
+            });
+
+        var selectedtimezone = "@paramTimezone";
+        if (selectedtimezone == "") selectedtimezone = moment.tz.guess();
+        axios.get('https://www.addevent.com/api/v1/timezones')
+            .then(function (response) {
+                $('#Timezone').empty();
+                response.data.data.forEach(function (timezone) {
+                    $('#Timezone').append(
+                        (timezone.label == selectedtimezone) ? $("<option></option>").text(timezone.label).val(timezone.label).prop('selected', true)
+                        : $("<option></option>").text(timezone.label).val(timezone.label)
+                    );
+                });
+            })
+    });
+</script>

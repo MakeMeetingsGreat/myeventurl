@@ -1,0 +1,47 @@
+﻿<!-- EventCard Component
+<eventcard  :id="eventID"
+            :title="Title"
+            :description="Description"
+            :location="Location"
+            :start="Start"
+            :timezone="TimeZone"
+            width="650"
+            chars="100"
+/>
+-->
+<script type="text/x-template" id="eventcard-template">
+    <div :width="width" class="EventCard" :class="cstyle">
+        <h3>{{title}}</h3>
+        <p><b>&raquo; When:</b> {{starttime.format("LL")}}</p>
+        <p><b>&raquo; Where:</b> {{location}}</p>
+        <p><b>&raquo; Description:</b> {{shortened}}</p>
+        <a style="margin:5px" :href="href" class="btn btn-default">More</a>
+    </div>
+</script>
+
+<script>
+    // register the grid component
+    Vue.component('eventcard', {
+        template: '#eventcard-template',
+        props: {
+            id: Number,
+            title: String,
+            description: String,
+            location: String,
+            start: String,
+            timezone: String,
+            cstyle: String,
+            width: String,
+            chars: String,
+        },
+        computed: {
+            shortened: function () { return (this.description != null) ? this.description.substring(0, this.chars) : this.description },
+            starttime: function () { return moment(this.start).tz(this.timezone) },
+            href: function () { return "/Events/Details/" + this.id;}
+        },
+        methods: {
+        }
+    })
+</script>
+
+<!-- End EventCard Component -->

@@ -1,0 +1,72 @@
+﻿<script type="text/x-template" id="admin-template">
+    <div id="adminmenu">
+        <h3>Future Events:</h3>
+        <div style="margin:10px;">
+            Search <input name="query" v-model="FutureQuery" style="min-width:100%">
+        </div>
+        <grid :data="future"
+              :columns="cols"
+              :filter-key="FutureQuery"
+              copy="<a href='javascript:runCopyEvent({replace})'>Copy</a>"
+              edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
+              view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
+              delete="<a href='javascript:runDeleteEvent({replace})'>Delete</a>"
+              width="100%">
+        </grid>
+        <h3>Past Events:</h3>
+        <div style="margin:10px;">
+            Search <input name="query" v-model="PastQuery" style="min-width:100%">
+        </div>
+        <grid :data="past"
+              :columns="cols"
+              :filter-key="PastQuery"
+              copy="<a href='javascript:runCopyEvent({replace})'>Copy</a>"
+              edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
+              view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
+              delete="<a href='javascript:runDeleteEvent({replace})'>Delete</a>"
+              width="100%">
+        </grid>
+    </div>
+</script>
+
+<script>
+    function runEditEvent(EventId) {
+        iframemodal.setTitle("Edit an Event");
+        iframemodal.setSrc("/Events/Edit/" + EventId + "?embed=true");
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+
+    function runCopyEvent(EventId) {
+        iframemodal.setTitle("Copy an Event");
+        iframemodal.setSrc("/Events/Create?embed=true&id=" + EventId);
+        $("#iframemodal").modal({ backdrop: 'static', show: true });
+    }
+
+    function runDeleteEvent(EventId) {
+        iframemodal.setTitle("Delete an Event");
+        iframemodal.setSrc("/Events/Delete?embed=true&id=" + EventId);
+        $("#iframemodal").modal({ show: true });
+    }
+
+    // register the grid component
+    var admincomponent =
+    {
+        template: '#admin-template',
+        props: {
+            future: Array,
+            past: Array,
+        },
+        data: function () {
+            return {
+                cols: [{ name: "Start", hide: true },
+                { name: "Title", hide: false },
+                { name: "Views", hide: true },
+                { name: "Adds", hide: true },
+                { name: "Actions", hide: false }],
+                FutureQuery: '',
+                PastQuery: ''
+            }
+        },
+    }
+</script>
+
