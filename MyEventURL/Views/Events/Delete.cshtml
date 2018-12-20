@@ -97,4 +97,13 @@
             }
         }
     })
+
+    Office.onReady()
+        .then(function () {
+            if (Office.context.mailbox != null) {
+                var email = Office.context.mailbox.userProfile.emailAddress;
+                var item = Office.context.mailbox.item;
+                DeleteForm.email = email;
+            }
+        }
 </script>

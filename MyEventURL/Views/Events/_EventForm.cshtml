@@ -255,17 +255,6 @@
 
     //Document is read, start loading valuse for the form
     $(function () {
-
-        //if this is a new form, load data.
-        if (@paramEventId == 0) {
-
-            //Load Account Data
-            setTimeout(function () {
-                $('#Organizer').val(Account.UserName);
-                $('#Email').val(Account.Email);
-            }, 2000);            
-        }        
-
         var startDateTextBox = $('#Start');
         var endDateTextBox = $('#End');
 
