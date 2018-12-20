@@ -133,7 +133,7 @@ namespace MyEventURL.Controllers
             Event @event = db.Events.Find(id);
             db.Events.Remove(@event);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return View("Close");
         }
 
         private void getUser()
