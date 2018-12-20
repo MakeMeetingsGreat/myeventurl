@@ -49,7 +49,8 @@
             view: String,
             delete: String,
             copy: String,
-            add: String
+            add: String,
+            clipboard: String,
         },
         data: function () {
             var sortOrders = {}
@@ -98,6 +99,7 @@
                 if (this.view != null) returntext.push(this.view.replace(/{replace}/, id));
                 if (this.delete != null) returntext.push(this.delete.replace(/{replace}/, id));
                 if (this.add != null) returntext.push(this.add.replace(/{replace}/, id));
+                if (this.clipboard != null) returntext.push(this.clipboard.replace(/{replace}/, id));
                 return (returntext.join(" | "));
             },
             evalfilteredData: function () {

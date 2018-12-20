@@ -75,10 +75,10 @@
             <OfficeTab id="TabDefault">
               <!-- Up to 6 Groups added per Tab -->
               <Group id="calAttendeeGroup">
-                <Label resid="calLabel" />
+                <Label resid="groupLabel" />
                 <!-- Launch the add-in : task pane button -->
                 <Control xsi:type="Button" id="calAttendeeButton">
-                  <Label resid="paneReadButtonLabel" />
+                  <Label resid="msgButtonLabel" />
                   <Supertip>
                     <Title resid="calSuperTipTitle" />
                     <Description resid="calSuperTipDescription" />
@@ -102,10 +102,10 @@
             <OfficeTab id="TabDefault">
               <!-- Up to 6 Groups added per Tab -->
               <Group id="calOrganizerGroup">
-                <Label resid="calLabel" />
+                <Label resid="groupLabel" />
                 <!-- Launch the add-in : task pane button -->
                 <Control xsi:type="Button" id="calOrganizerButton">
-                  <Label resid="paneReadButtonLabel" />
+                  <Label resid="msgButtonLabel" />
                   <Supertip>
                     <Title resid="calSuperTipTitle" />
                     <Description resid="calSuperTipDescription" />
@@ -133,11 +133,39 @@
               <Group id="msgReadGroup">
                 <Label resid="groupLabel" />
                 <!-- Launch the add-in : task pane button -->
-                <Control xsi:type="Button" id="msgReadOpenPaneButton">
-                  <Label resid="paneReadButtonLabel" />
+                <Control xsi:type="Button" id="msgReadButton">
+                  <Label resid="msgButtonLabel" />
                   <Supertip>
-                    <Title resid="paneReadSuperTipTitle" />
-                    <Description resid="paneReadSuperTipDescription" />
+                    <Title resid="msgSuperTipTitle" />
+                    <Description resid="msgSuperTipDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="manageevent" />
+                  </Action>
+                </Control>
+                <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- Message Read -->
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <!-- Use the default tab of the ExtensionPoint or create your own with <CustomTab id="myTab"> -->
+            <OfficeTab id="TabDefault">
+              <!-- Up to 6 Groups added per Tab -->
+              <Group id="msgComposeCmdGroup">
+                <Label resid="groupLabel" />
+                <!-- Launch the add-in : task pane button -->
+                <Control xsi:type="Button" id="msgComposeButton">
+                  <Label resid="msgButtonLabel" />
+                  <Supertip>
+                    <Title resid="msgSuperTipTitle" />
+                    <Description resid="msgSuperTipDescription" />
                   </Supertip>
                   <Icon>
                     <bt:Image size="16" resid="icon16" />
@@ -168,16 +196,15 @@
         <bt:Url id="createevent" DefaultValue="https://www.myeventurl.com/AddIn/Index?action=create"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="groupLabel" DefaultValue="Manage Events"/>
+        <bt:String id="groupLabel" DefaultValue="Make Meetings Great"/>
         <bt:String id="customTabLabel"  DefaultValue="MMG Apps"/>
-        <bt:String id="calLabel" DefaultValue="Publish Event"/>
         <bt:String id="calSuperTipTitle" DefaultValue="Publish Event"/>
-        <bt:String id="paneReadButtonLabel" DefaultValue="Manage Events"/>
-        <bt:String id="paneReadSuperTipTitle" DefaultValue="Manage All Events"/>
+        <bt:String id="msgButtonLabel" DefaultValue="Manage Events"/>
+        <bt:String id="msgSuperTipTitle" DefaultValue="Manage All Events"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="calSuperTipDescription" DefaultValue="Publish your a meeting to a website through a task pane."/>
-        <bt:String id="paneReadSuperTipDescription" DefaultValue="Manage your meetings that are published on MyEventURL.com"/>
+        <bt:String id="msgSuperTipDescription" DefaultValue="Manage your meetings that are published on MyEventURL.com"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

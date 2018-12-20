@@ -176,19 +176,79 @@
 <script>
     //Set the default values for Account
     var Account = { UserName: '', Email: '@User.Identity.Name', Domain: '' };
+    
 
-    var emailarray = Account.Email.split("@@")
-    Account.UserName = emailarray[0];
-    Account.Domain = emailarray[1];
+    function runLoadAccount() {
+        var emailarray = Account.Email.split("@@");
+        Account.UserName = emailarray[0];
+        Account.Domain = emailarray[1];
+    }
 
     //Load Account details from Office Context
     Office.onReady()
         .then(function () {
-            if (Office.context != null && Account.UserName == '') {
-                var mailbox = Office.context.mailbox;
-                var email = mailbox.userProfile.emailAddress;
-                var item = mailbox.item;
-                Account.Email = email;
+            if (Office.context.mailbox != null) {
+                var email = Office.context.mailbox.userProfile.emailAddress;
+                var item = Office.context.mailbox.item;
+                Account.Email = email;                
+            }
+            runLoadAccount();
+
+            if (@paramEventId == 0) {
+                $('#Organizer').val(Account.UserName);
+                $('#Email').val(Account.Email);
+
+                if (item != null) {
+                    item.start.getAsync(function (result) {
+                        if (result.error) {
+                            //console.log(result.error);
+                        } else {
+                            // Access the asyncContext that was passed to the setAsync function
+                            var start = moment(result.value).format('MM/DD/YYYY HH:mm:ss A');
+                            $("#Start").val(start);
+                        }
+                    });
+
+                    item.end.getAsync(function (result) {
+                        if (result.error) {
+                            //console.log(result.error);
+                        } else {
+                            // Access the asyncContext that was passed to the setAsync function
+                            var end = moment(result.value).format('MM/DD/YYYY HH:mm:ss A');
+                            $("#End").val(end);
+                        }
+                    })
+
+                    item.location.getAsync(function (result) {
+                        if (result.error) {
+                            //console.log(result.error);
+                        } else {
+                            // Access the asyncContext that was passed to the setAsync function
+                            $("#Location").val(result.value);
+                        }
+                    });
+
+                    item.subject.getAsync(function (result) {
+                        if (result.error) {
+                            //console.log(result.error);
+                        } else {
+                            // Access the asyncContext that was passed to the setAsync function
+                            $("#Title").val(result.value);
+                        }
+                    });
+
+
+                    item.body.getAsync("text",function (result) {
+                        if (result.error) {
+                            //console.log(result.error);
+                        } else {
+                            // Access the asyncContext that was passed to the setAsync function
+                            var body = result.value.replace(/(\r\n|\n|\r)/gm, "");
+                            //console.log(body);
+                            $("#Description").val(body);
+                        }
+                    });
+                }               
             }
         })
    

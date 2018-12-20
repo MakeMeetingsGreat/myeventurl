@@ -1,5 +1,6 @@
 ﻿<script type="text/x-template" id="admin-template">
     <div id="adminmenu">
+        <div id="ClipBoardSuccess" class="alert alert-success" hidden>Link Copied!</div>
         <h3>Future Events:</h3>
         <div style="margin:10px;">
             Search <input name="query" v-model="FutureQuery" style="min-width:100%">
@@ -11,6 +12,7 @@
               edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
               view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
               delete="<a href='javascript:runDeleteEvent({replace})'>Delete</a>"
+              clipboard="<a href='javascript:runClipBoard({replace})'>Get Link</a>"
               width="100%">
         </grid>
         <h3>Past Events:</h3>
@@ -24,12 +26,25 @@
               edit="<a href='javascript:runEditEvent({replace})'>Edit</a>"
               view="<a href='/Events/Details/{replace}' target='_blank'>View</a>"
               delete="<a href='javascript:runDeleteEvent({replace})'>Delete</a>"
+              clipboard="<a href='javascript:runClipBoard({replace})'>Get Link</a>"
               width="100%">
         </grid>
     </div>
 </script>
 
 <script>
+    $("#ClipBoardSuccess").hide();
+
+    function runClipBoard(EventID) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", location.protocol + "//" + location.hostname + "/Events/Details/" + EventID);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        $("#ClipBoardSuccess").show();
+        $("#ClipBoardSuccess").hide(2000);
+    }
     function runEditEvent(EventId) {
         iframemodal.setTitle("Edit an Event");
         iframemodal.setSrc("/Events/Edit/" + EventId + "?embed=true");

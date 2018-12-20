@@ -21,28 +21,19 @@
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.debug.js"></script>
-
-    <!-- For the Office UI Fabric, go to http://aka.ms/office-ui-fabric to learn more. -->
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.min.css" />
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.components.min.css" />
 </head>
 
 <body class="ms-font-m ms-welcome" style="padding: 5px;">
     @Scripts.Render("~/bundles/vuejs")
     @Scripts.Render("~/bundles/momentjs")
 
-    <header class="ms-welcome__header ms-bgColor-neutralLighter ms-u-fadeIn500">
-        <img width="90" height="90" src="~/Content/AddIn/logo-filled.png" alt="addin" title="addin" />
-        <h1 class="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary">Welcome</h1>
+    <header >
+            <div style="min-width:100%; display:table-cell; text-align:center; vertical-align:middle" class="navbar navbar-inverse navbar-fixed-top"><a style="margin-top:8px;" class="btn btn-default" href="javascript:createform()">Create</a></div>
     </header>
     <main id="app-body" class="ms-welcome__main">
         @Html.Partial("~/Views/Components/_GridComponent.cshtml")
         @Html.Partial("~/Views/Components/_Admin.cshtml")
         @Html.Partial("~/Views/Components/_IframeModal.cshtml")
-
-        @{
-            ViewBag.Title = "Index";
-        }
 
         @{
             ViewBag.Title = "Index";
@@ -56,9 +47,9 @@
             }
         </script>
 
-        <div id="eventlist">
-            <a href="javascript:createform()">Create</a>
-            <h2>Welcome<br /> {{Account.Email}}</h2>
+        <div style="margin-top:50px" id="eventlist">
+            
+            <h2>Welcome<br /> {{Account.UserName}}</h2>
 
 
             <adminmenu :future="future" :past="past"></adminmenu>
