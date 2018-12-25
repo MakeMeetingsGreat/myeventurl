@@ -40,6 +40,7 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Events/Create
+        [Authorize]
         [RemoveXFrameOptions]
         public ActionResult Create(int? id)
         {
@@ -74,6 +75,7 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Events/Edit/5
+        [Authorize]
         [RemoveXFrameOptions]
         public ActionResult Edit(int? id)
         {
@@ -108,6 +110,7 @@ namespace MyEventURL.Controllers
 
 
         // GET: Events/Delete/5
+        [Authorize]
         [RemoveXFrameOptions]
         public ActionResult Delete(int? id)
         {

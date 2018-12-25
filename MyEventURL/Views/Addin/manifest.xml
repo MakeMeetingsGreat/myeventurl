@@ -192,8 +192,8 @@
         <bt:Image id="icon80" DefaultValue="https://www.myeventurl.com/Content/Addin/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="manageevent" DefaultValue="https://www.myeventurl.com/AddIn/Index"/>
-        <bt:Url id="createevent" DefaultValue="https://www.myeventurl.com/AddIn/Index?action=create"/>
+        <bt:Url id="manageevent" DefaultValue="https://localhost:44311/AddIn/Index"/>
+        <bt:Url id="createevent" DefaultValue="https://localhost:44311/AddIn/Index?action=create"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="Make Meetings Great"/>

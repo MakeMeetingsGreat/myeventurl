@@ -17,14 +17,12 @@ namespace MyEventURL.Controllers
         // GET: Boards
         public ActionResult Index()
         {
-            this.getUser();
-            return RedirectToAction("Index","Events");
+            return View(db.Boards.ToList());
         }
 
         // GET: Boards/Details/5
         public ActionResult Details(int? id)
         {
-            this.getUser();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,7 +38,7 @@ namespace MyEventURL.Controllers
         // GET: Boards/Create
         public ActionResult Create()
         {
-            this.getUser();
+            ViewBag.EventsList = getEventList(User.Identity.Name);
             return View();
         }
 
@@ -49,11 +47,10 @@ namespace MyEventURL.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BoardID,Created,View")] Board board)
+        public ActionResult Create([Bind(Include = "BoardID,Created,Events,View")] Board board)
         {
             if (ModelState.IsValid)
             {
-                this.getUser();
                 db.Boards.Add(board);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -65,7 +62,7 @@ namespace MyEventURL.Controllers
         // GET: Boards/Edit/5
         public ActionResult Edit(int? id)
         {
-            this.getUser();
+            ViewBag.EventsList = getEventList(User.Identity.Name);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,9 +80,8 @@ namespace MyEventURL.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BoardID,Created,View")] Board board)
+        public ActionResult Edit([Bind(Include = "BoardID,Created,Events,View")] Board board)
         {
-            this.getUser();
             if (ModelState.IsValid)
             {
                 db.Entry(board).State = EntityState.Modified;
@@ -98,7 +94,6 @@ namespace MyEventURL.Controllers
         // GET: Boards/Delete/5
         public ActionResult Delete(int? id)
         {
-            this.getUser();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -116,31 +111,16 @@ namespace MyEventURL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            this.getUser();
             Board board = db.Boards.Find(id);
             db.Boards.Remove(board);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        private void getUser()
+        public SelectListItem[] getEventList(string email)
         {
-            string[] emailarray = null;
-            ViewBag.Email = User.Identity.Name;
-            if (ViewBag.Email != "")
-            {
-                if (ViewBag.Email.Contains("#"))
-                {
-                    emailarray = ViewBag.Email.Split('#');
-                    ViewBag.Email = emailarray[emailarray.Length - 1];
-                }
-                emailarray = ViewBag.Email.Split('@');
-                ViewBag.UserName = emailarray[0];
-                ViewBag.Domain = emailarray[1];
-            }
-
+            return db.Events.Select(e => new SelectListItem { Value = e.EventId.ToString(), Text = e.Title }).ToArray() ;
         }
-
 
         protected override void Dispose(bool disposing)
         {

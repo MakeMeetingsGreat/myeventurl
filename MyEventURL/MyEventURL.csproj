@@ -252,6 +252,14 @@
     <Compile Include="Migrations\201812182147255_initial.Designer.cs">
       <DependentUpon>201812182147255_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812221108536_board.cs" />
+    <Compile Include="Migrations\201812221108536_board.Designer.cs">
+      <DependentUpon>201812221108536_board.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812250055593_boardemail.cs" />
+    <Compile Include="Migrations\201812250055593_boardemail.Designer.cs">
+      <DependentUpon>201812250055593_boardemail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Event.cs" />
@@ -260,6 +268,15 @@
     <Compile Include="Startup.cs" />
     <Content Include="Content\AddIn\mini_128_128.png" />
     <Content Include="Content\AddIn\mini_200_200.png" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
+    <Content Include="Scripts\prototype.js" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -447,11 +464,6 @@
     <Content Include="Views\Events\_Index.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Components\_GridComponent.cshtml" />
-    <Content Include="Views\Boards\Create.cshtml" />
-    <Content Include="Views\Boards\Delete.cshtml" />
-    <Content Include="Views\Boards\Details.cshtml" />
-    <Content Include="Views\Boards\Edit.cshtml" />
-    <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Components\_AddEvent.cshtml" />
     <Content Include="Views\Components\_IframeModal.cshtml" />
     <Content Include="Views\Components\_EventCard.cshtml" />
@@ -465,6 +477,12 @@
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\_EventForm.cshtml" />
     <Content Include="Views\Events\Close.cshtml" />
+    <Content Include="Views\Boards\Create.cshtml" />
+    <Content Include="Views\Boards\Delete.cshtml" />
+    <Content Include="Views\Boards\Details.cshtml" />
+    <Content Include="Views\Boards\Edit.cshtml" />
+    <Content Include="Views\Boards\Index.cshtml" />
+    <Content Include="Views\Boards\_BoardForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -485,6 +503,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812182147255_initial.resx">
       <DependentUpon>201812182147255_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812221108536_board.resx">
+      <DependentUpon>201812221108536_board.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812250055593_boardemail.resx">
+      <DependentUpon>201812250055593_boardemail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

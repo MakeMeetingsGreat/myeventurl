@@ -2,8 +2,12 @@
 
 @{
     ViewBag.Title = "Index";
+    string Events = "1,2,3";
+    var EventsList = Events.Split(',');
+    Events = "";
+    Events = EventsList.ToString();
+    Output.Write(EventList[0]);
 }
-
 <h2>Index</h2>
 
 <p>
@@ -15,6 +19,9 @@
             @Html.DisplayNameFor(model => model.Created)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Events)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.View)
         </th>
         <th></th>
@@ -24,6 +31,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Created)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Events)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.View)

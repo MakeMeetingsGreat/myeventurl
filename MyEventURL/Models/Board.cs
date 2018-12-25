@@ -9,7 +9,13 @@ namespace MyEventURL.Models
     {
         public int BoardID { get; set; }
         public DateTime Created { get; set; }
-        public int[] Events { get; set; }
+        public string Events { get; set; }
         public string View { get; set; }
+        public string Email { get; set; }
+
+        public Board()
+        {
+            Created = DateTime.UtcNow;
+        }
     }
 }
