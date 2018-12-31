@@ -260,6 +260,10 @@
     <Compile Include="Migrations\201812250055593_boardemail.Designer.cs">
       <DependentUpon>201812250055593_boardemail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812300951307_BoardName.cs" />
+    <Compile Include="Migrations\201812300951307_BoardName.Designer.cs">
+      <DependentUpon>201812300951307_BoardName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Event.cs" />
@@ -509,6 +513,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812250055593_boardemail.resx">
       <DependentUpon>201812250055593_boardemail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812300951307_BoardName.resx">
+      <DependentUpon>201812300951307_BoardName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

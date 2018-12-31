@@ -1,27 +1,26 @@
 ﻿@model MyEventURL.Models.Board
 
 @{
-    var EventsList = new SelectListItem[1];
-    EventsList[0] = new SelectListItem { Text = "Loading", Value = "Loading" };
-    EventsList = ViewBag.EventsList;
-    var BoardViews = new SelectListItem[2];
-    BoardViews[0] = new SelectListItem { Text = "Cards", Value = "Cards" };
-    BoardViews[1] = new SelectListItem { Text = "Calendar", Value = "Calendar" };
+        IEnumerable<SelectListItem> EventsList = null;
+        EventsList = ViewBag.EventsList;
+        var BoardViews = new SelectListItem[2];
+        BoardViews[0] = new SelectListItem { Text = "Cards", Value = "Cards" };
+        BoardViews[1] = new SelectListItem { Text = "Calendar", Value = "Calendar" };
 
-    //Load Paramerters default values
-    string paramEmail = User.Identity.Name;
+        //Load Paramerters default values
+        string paramEmail = User.Identity.Name;
 
-    //If Model exists, Load Model values for Parameter
-    if (Model != null)
-    {
-        paramEmail = Model.Email;
-    }
+        //If Model exists, Load Model values for Parameter
+        if (Model != null)
+        {
+            paramEmail = Model.Email;
+        }
 
     }
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-    
+
 
 <div class="form-horizontal" id="boardform">
     <h4>Board</h4>
@@ -33,6 +32,16 @@
         </div>
     </div>
 
+    <!-- BoardName -->
+    <div class="form-group" style="visibility:visible">
+        @Html.LabelFor(model => model.BoardName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BoardName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.BoardName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- View -->
     <div class="form-group">
         @Html.LabelFor(model => model.View, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -41,10 +50,39 @@
         </div>
     </div>
 
+    <!-- EventList -->
     <div class="form-group">
         @Html.LabelFor(model => model.Events, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.ListBox("EventsList", EventsList, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Events, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- TeamCalendar -->
+    <div class="form-group" style="visibility:visible">
+        @Html.LabelFor(model => model.TeamCalendar, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TeamCalendar, new { })
+            @Html.ValidationMessageFor(model => model.TeamCalendar, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Events -->
+    <div class="form-group" id="BoardEvents" style="visibility:hidden">
+        @Html.LabelFor(model => model.Events, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Events, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Events, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- BoardID -->
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.BoardID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BoardID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.BoardID, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -57,19 +95,38 @@
         </div>
     </div>
 
-     <!-- Email -->
-     <div class="form-group" style="visibility:hidden">
-         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-     </div>    
+    <!-- Email -->
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
 
 </div>
 }
 <script>
     $('#EventsList').chosen({ width: "100%" });
-    
+    $('#EventsList').chosen().change(function () { BoardEvents.setEventsList(); })
+
+    var BoardEvents = new Vue({
+        el: "#BoardEvents",
+        data: {
+            EventsList: [],
+        },
+        mounted: function () {
+            this.EventsList = $("#Events").val().split(";");
+            $('#EventsList').val(this.EventsList).trigger("chosen:updated");
+        },
+        methods: {
+            setEventsList: function () {
+                this.EventsList = $('#EventsList').val();
+                var EventsString = this.EventsList.join(";");
+                $('#Events').val(EventsString);
+            },
+        }
+    });
+
 </script>
 <div>
     @Html.ActionLink("Back to List", "Index")

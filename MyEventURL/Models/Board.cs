@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MyEventURL.Models
 {
@@ -12,6 +13,8 @@ namespace MyEventURL.Models
         public string Events { get; set; }
         public string View { get; set; }
         public string Email { get; set; }
+        public string BoardName { get; set; }
+        public bool TeamCalendar { get; set; }
 
         public Board()
         {
