@@ -32,9 +32,10 @@ namespace MyEventURL
                       "~/Scripts/moment-timezone-with-data.js"));
 
             bundles.Add(new StyleBundle("~/Content/styles").Include(
-                      "~/Content/chosen*",
-                      "~/Content/jquery-ui*",
                       "~/Content/bootstrap.css",
+                      "~/Content/chosen.css",
+                      "~/Content/jquery-ui.css",
+                      "~/Content/jquery-ui-timepicker-addon.css",
                       "~/Content/site.css"));
         }
     }
