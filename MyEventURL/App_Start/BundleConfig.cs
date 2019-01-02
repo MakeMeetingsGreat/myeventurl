@@ -33,10 +33,10 @@ namespace MyEventURL
 
             bundles.Add(new StyleBundle("~/Content/styles").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/chosen.css",
                       "~/Content/jquery-ui.css",
                       "~/Content/jquery-ui-timepicker-addon.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/chosen.css"));
         }
     }
 }

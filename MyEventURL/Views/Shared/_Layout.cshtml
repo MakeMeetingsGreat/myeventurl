@@ -10,11 +10,11 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="MyEventURL">
     <title>@ViewBag.Title - MyEventURL.com</title>
-    @Styles.Render("~/Content/styles")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/vuejs")
     @Scripts.Render("~/bundles/momentjs")
+    @Styles.Render("~/Content/styles")
     <script>
         //Identifying Account Information
         var Account = { Email: "@ViewBag.Email", UserName: "@ViewBag.UserName", Domain: "@ViewBag.Domain" };
