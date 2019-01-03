@@ -1,20 +1,50 @@
 ﻿@model MyEventURL.Models.Board
 
 @{
-        IEnumerable<SelectListItem> EventsList = null;
-        EventsList = ViewBag.EventsList;
-        var BoardViews = new SelectListItem[2];
-        BoardViews[0] = new SelectListItem { Text = "Cards", Value = "Cards" };
-        BoardViews[1] = new SelectListItem { Text = "Calendar", Value = "Calendar" };
-
-        //Load Paramerters default values
-        string paramEmail = User.Identity.Name;
-
-        //If Model exists, Load Model values for Parameter
-        if (Model != null)
+    //Populate UserName, Domain, and Email info
+    string[] emailarray = null;
+    string email = null;
+    email = User.Identity.Name;
+    if (email != "")
+    {
+        if (email.Contains("#"))
         {
-            paramEmail = Model.Email;
+            emailarray = email.Split('#');
+            email = emailarray[emailarray.Length - 1];
         }
+        emailarray = email.Split('@');
+        ViewBag.UserName = emailarray[0];
+        ViewBag.Domain = emailarray[1];
+        ViewBag.Email = email;
+    }
+
+    //Populate EventsList info
+    int[] eventslist = new int[0];
+
+    if (Model != null)
+    {
+        eventslist = Array.ConvertAll(Model.Events.Split(';'), int.Parse);
+    }
+
+    MyEventURL.Models.MyEventURLContext db = new MyEventURL.Models.MyEventURLContext();
+    ViewBag.EventsList = db.Events.Where(e => eventslist.Contains(e.EventId) || e.Email == email).Select(e => new SelectListItem { Value = e.EventId.ToString(), Text = e.Title });
+
+
+    //Load Data for Form
+    IEnumerable<SelectListItem> EventsList = null;
+    EventsList = ViewBag.EventsList;
+    var BoardViews = new SelectListItem[2];
+    BoardViews[0] = new SelectListItem { Text = "Cards", Value = "Cards" };
+    BoardViews[1] = new SelectListItem { Text = "Calendar", Value = "Calendar" };
+
+    //Load Paramerters default values
+    string paramEmail = User.Identity.Name;
+
+    //If Model exists, Load Model values for Parameter
+    if (Model != null)
+    {
+        paramEmail = Model.Email;
+    }
 
     }
     @using (Html.BeginForm())

@@ -41,7 +41,6 @@ namespace MyEventURL.Controllers
         public ActionResult Create()
         {
             this.getUser();
-            ViewBag.EventsList = getEventList(ViewBag.Email);
             return View();
         }
 
@@ -66,7 +65,6 @@ namespace MyEventURL.Controllers
         public ActionResult Edit(int? id)
         {
             this.getUser();
-            ViewBag.EventsList = getEventList(ViewBag.Email);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -138,11 +136,6 @@ namespace MyEventURL.Controllers
                 ViewBag.Domain = emailarray[1];
             }
 
-        }
-
-        private IEnumerable<SelectListItem> getEventList(string email)
-        {
-            return db.Events.Where(e => e.Email == email).Select(e => new SelectListItem { Value = e.EventId.ToString(), Text = e.Title });
         }
 
         protected override void Dispose(bool disposing)
