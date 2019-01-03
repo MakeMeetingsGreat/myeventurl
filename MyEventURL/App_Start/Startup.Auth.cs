@@ -23,7 +23,7 @@ namespace MyEventURL
         public void ConfigureAuth(IAppBuilder app)
         {
 #if DEBUG
-                postLogoutRedirectUri = "https://localhost:44311/";
+                postLogoutRedirectUri = "https://localhost:44311";
 #endif
 
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
@@ -35,8 +35,8 @@ namespace MyEventURL
                 {
                     ClientId = clientId,
                     Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri,
-                    RedirectUri = postLogoutRedirectUri
+                    PostLogoutRedirectUri = EnsureTrailingSlash(postLogoutRedirectUri),
+                    RedirectUri = EnsureTrailingSlash(postLogoutRedirectUri)
                 });
         }
 

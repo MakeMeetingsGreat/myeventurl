@@ -474,7 +474,7 @@
     <Content Include="Views\Events\Delete.cshtml" />
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\Events\_DetailsLogin.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Components\_Admin.cshtml" />
     <Content Include="Views\Addin\Index.cshtml" />
     <Content Include="Views\Events\Create.cshtml" />
@@ -487,6 +487,8 @@
     <Content Include="Views\Boards\Edit.cshtml" />
     <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Boards\_BoardForm.cshtml" />
+    <Content Include="Views\Addin\_Index.cshtml" />
+    <Content Include="Views\Home\_About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

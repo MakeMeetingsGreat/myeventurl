@@ -16,7 +16,9 @@ namespace MyEventURL.Controllers
             // Send an OpenID Connect sign-in request.
             if (!Request.IsAuthenticated)
             {
-                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties {
+                    RedirectUri = (HttpContext.Request.Params["path"]!=null) ? HttpContext.Request.Params["path"] : "/"
+                },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }
         }

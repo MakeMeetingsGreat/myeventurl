@@ -23,24 +23,7 @@
                             <div class="col-md-2"><img src="~/Content/view.png" /></div><div class="col-md-offset-2">Openness helps people prioritize projects! In order to promote opennesss, we ask that you generally license your contributions under a free and open license.</div>
                         </div>
 
-                        <h3>About</h3>
-                        <p>The app makes it easy for people share their event:</p>
-
-                        <h4>Event Site</h4>
-                        In less than a minute you can have a website for your event.  Visitors can convert the event to local time to see if they can attend.  Visitors can add the event to their calendar in one click.
-
-                        <h4>Engaged Visitors</h4>
-                        You can get data on how many people visit your event site and add your event to their calendar.  In addition, you can use your event sites to interact with visitors via surveys, event summaries, and comments.
-
-                        <h4>Team Calendars</h4>
-                        You can group events onto a board.  You can embed your board whever your team works - SharePoint, Microsoft Teams, and More!
-                        <br /><br />
-
-                        <h3>Terms of Use</h3>
-
-                        By using this site, you accept our: <br />
-                        <button data-toggle="modal" data-target="#termsmodal" style="width:100px; height:50px; vertical-align:bottom">Terms of Use</button> &nbsp; <button data-toggle="modal" data-target="#privacymodal" style="width:100px; height:50px; vertical-align:bottom">Privacy Policy</button>
-
+                        @Html.Partial("_About")
                     </div>
 
                     <div class="col-md-6 col-md-offset-1">
@@ -54,51 +37,14 @@
                 </div>
 
                 <script>
-
-(function(d, s, id) {
-
-    var js, fjs = d.getElementsByTagName(s)[0];
-
-    if (d.getElementById(id)) return;
-
-    js = d.createElement(s); js.id = id;
-
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=908917155889295";
-
-    fjs.parentNode.insertBefore(js, fjs);
-
-}(document, 'script', 'facebook-jssdk'));
+                    (function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=908917155889295";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
                 </script>
 
-                <!-- Modal -->
-                <div class="modal fade" id="privacymodal" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Privacy Policy</h4>
-                            </div>
-                            <div class="modal-body" style="height:400px">
-                                <iframe src="https://avisuj.github.io/makemeetingsgreat/privacy.html" name="privacy" style="border:0px; width:100%; height:370px"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="termsmodal" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Terms of Use</h4>
-                            </div>
-                            <div class="modal-body" style="height:400px">
-                                <iframe src="https://avisuj.github.io/makemeetingsgreat/usage.html" name="usage" style="border:0px; width:100%; height:370px"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 

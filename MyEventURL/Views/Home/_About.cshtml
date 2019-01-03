@@ -1,0 +1,57 @@
+﻿<h3>About</h3>
+<p>MyEventURL makes it easy for people share their event:</p>
+<ul>
+    <li>
+        <h4>Event Site</h4>
+        In less than a minute you can have a website for your event.  Visitors can convert the event to local time to see if they can attend.  Visitors can add the event to their calendar in one click.
+    </li>
+    <li>
+        <h4>Engaged Visitors</h4>
+        You can get data on how many people visit your event site and add your event to their calendar.  In addition, you can use your event sites to interact with visitors via surveys, event summaries, and comments.
+    </li>
+    <li>
+        <h4>Team Calendars</h4>
+        You can group events onto a board.  You can embed your board whever your team works - SharePoint, Microsoft Teams, and More!
+    </li>
+</ul>
+
+<h3>Resources</h3>
+Before using this site please review: <br />
+<button data-toggle="modal" data-target="#termsmodal" style="width:100px; height:50px; vertical-align:bottom">Terms of Use</button> &nbsp; <button data-toggle="modal" data-target="#privacymodal" style="width:100px; height:50px; vertical-align:bottom">Privacy Policy</button>
+<script>
+    $.ready.then(function () {
+        if (url("?action") == "terms") $("#termsmodal").modal("show");
+        if (url("?action") == "privacy") $("#privacymodal").modal("show");
+    });
+</script>
+<!-- Modal -->
+<div class="modal fade" id="privacymodal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Privacy Policy</h4>
+            </div>
+            <div class="modal-body" style="height:400px">
+                <iframe src="https://avisuj.github.io/makemeetingsgreat/privacy.html" name="privacy" style="border:0px; width:100%; height:370px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="termsmodal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Terms of Use</h4>
+            </div>
+            <div class="modal-body" style="height:400px">
+                <iframe src="https://avisuj.github.io/makemeetingsgreat/usage.html" name="usage" style="border:0px; width:100%; height:370px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
