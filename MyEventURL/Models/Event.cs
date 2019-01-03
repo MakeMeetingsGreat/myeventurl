@@ -12,18 +12,24 @@ namespace MyEventURL
     public class Event
     {
         public int EventId { get; set;}
+        [Display(Name = "Start*")]
         public DateTime Start { get; set; }
+        [Display(Name = "End*")]
         public DateTime End { get; set; }
-        [Display(Name = "Time Zone")]
+        [Display(Name = "Time Zone*")]
         public string Timezone { get; set; }
-        [Display(Name = "Subject")]
+        [Display(Name = "Subject*")]
         [Required]
         public string Title { get; set; }
+        [Display(Name = "Description*")]
         [Required]
         public string Description { get; set; }
+        [Display(Name = "Location*")]
         [Required]
         public string Location { get; set; }
+        [Display(Name = "Organizer*")]
         public string Organizer { get; set; }
+        [Display(Name = "Email*")]
         [Required(ErrorMessage = "Please sign in")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

@@ -12,7 +12,7 @@ namespace MyEventURL
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/underscore.js",
                         "~/Scripts/url.js",
-                        "~/Scripts/jquery.validate*",
+                        //"~/Scripts/jquery.validate*",
                         "~/Scripts/chosen*",
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/jquery-ui*"));

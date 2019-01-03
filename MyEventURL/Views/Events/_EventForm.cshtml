@@ -4,6 +4,21 @@
 
     //This Form is currently leveraged by Events Create and Edit Views.
 
+    //getuser
+    string[] emailarray = null;
+    ViewBag.Email = User.Identity.Name;
+    if (ViewBag.Email != "")
+    {
+        if (ViewBag.Email.Contains("#"))
+        {
+            emailarray = ViewBag.Email.Split('#');
+            ViewBag.Email = emailarray[emailarray.Length - 1];
+        }
+        emailarray = ViewBag.Email.Split('@');
+        ViewBag.UserName = emailarray[0];
+        ViewBag.Domain = emailarray[1];
+    }
+
     //Preload a BackGround array for to populate the Background Select
     var Background = new SelectListItem[6];
     Background[0] = new SelectListItem { Text = "Grey", Value = "Grey" };
