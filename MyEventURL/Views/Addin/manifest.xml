@@ -20,11 +20,11 @@
   <Description DefaultValue="An app that makes it easy to publish a meeting from your calendar.  Sharing meetings should be easy."/>
 
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
-  <IconUrl DefaultValue="https://myeventurl.com/Content/Addin/icon-32.png" />
+  <IconUrl DefaultValue="https://www.myeventurl.com/Content/Addin/mini_128_128.png" />
   <HighResolutionIconUrl DefaultValue="https://www.myeventurl.com/Content/Addin/mini_128_128.png"/>
 
   <!--If you plan to submit this add-in to the Office Store, uncomment the SupportUrl element below-->
-  <SupportUrl DefaultValue="http://chat.makemeetingsgreat.com" />
+  <SupportUrl DefaultValue="https://github.com/MakeMeetingsGreat/myeventurl/issues" />
 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
