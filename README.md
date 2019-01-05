@@ -1,4 +1,4 @@
-# myeventurl
+# <a href="https://www.myeventurl.com">MyEventUrl</a>
 Publishing your events should be easy.
 
 You can get support through:
