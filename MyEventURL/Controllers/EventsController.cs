@@ -47,7 +47,7 @@ namespace MyEventURL.Controllers
             this.getUser();
             if (id == null)
             {
-                return View();                ;
+                return View();                
             }
             Event @event = db.Events.Find(id);
             if (@event == null)

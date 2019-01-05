@@ -1,0 +1,52 @@
+﻿@Html.Partial("~/Views/Components/_EventCard.cshtml")
+
+<div id="board" class="row">
+    <div hidden>Search <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px"></div>
+    <div v-for="Card in FilteredEvents" class="col-md-4">
+        <eventcard :id="Card.EventId"
+                   :title="Card.Title"
+                   :description="Card.Description"
+                   :location="Card.Location"
+                   :start="Card.Start"
+                   :timezone="Card.Timezone"
+                   :cstyle="Card.Style"
+                   width="100%"
+                   chars="100">
+        </eventcard>
+    </div>
+</div>
+
+<script>
+    var board = new Vue({
+        el: "#board",
+        data: {
+            Events: [],
+            EventId: "@Model.Events",
+            SearchQuery: '',
+        },
+        computed: {
+            FilteredEvents: function () {
+                        return this.Events.filter(function (elem) {
+                            return _.toArray(elem).toString().indexOf(board.SearchQuery) > -1;
+                        })
+            },
+            EventIdArray: function () {
+                return this.EventId.split(';');
+            }
+        },
+        methods: {
+            runLoadEvents: function () {
+                for (i = 0; i < this.EventIdArray.length; i++) {
+                    var query = "/odata/GetEvent?$select=Title,Description,Location,Start,TimeZone,Style,EventId&$filter=EventId eq " + this.EventIdArray[i];
+                    console.log(query);
+                    axios.get(query)
+                        .then(function (results) {
+                            board.Events.push(results.data.value[0]);
+                        })
+                }
+            }
+        }
+    })
+
+    $.ready.then(function () { board.runLoadEvents(); })
+</script>

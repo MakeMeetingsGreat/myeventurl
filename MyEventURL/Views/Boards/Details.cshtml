@@ -2,41 +2,43 @@
 
 @{
     ViewBag.Title = "Details";
+
+    if (ViewBag.Embed)
+    {
+        Layout = "~/Views/Shared/_BlankLayout.cshtml";
+    }
+
 }
 
-<h2>Details</h2>
+<div style="margin:10px"><h2>@Html.DisplayFor(model => model.BoardName)</h2></div>
 
-<div>
-    <h4>Board</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+@{
+    string[] emailarray = Model.Email.Split('@');
+    if ((Model.Private == true) && (ViewBag.Domain != emailarray[1]))
+    {
+        <div class="alert alert-danger" style="margin:10px">
+            This is a private event.  Only @emailarray[1] users can view the event.
+        </div>
+        @Html.Partial("~/Views/Shared/_Login.cshtml")
+    }
+    else if (Model.View == "Cards")
+    {
+        @Html.Partial("_CardView")
+    }
+    else if (Model.View == "Calendar")
+    {
+        <iframe src="/Boards/CalendarView" id="CalendarFrame" style="border:none; width:100%; overflow:hidden"></iframe>
+    }
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+<script>
+    function resizeIFrameToFitContent( iFrame ) {
+        //iFrame.width = iFrame.contentWindow.document.body.clientWidth;
+        iFrame.height = iFrame.contentWindow.document.body.clientHeight;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Events)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Events)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.View)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.View)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BoardID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    setInterval(function () {
+        var iFrame = $('#CalendarFrame');
+        resizeIFrameToFitContent(iFrame[0]);
+    },1000)
+</script>

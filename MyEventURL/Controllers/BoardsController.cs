@@ -7,12 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyEventURL.Models;
+using System.Text.RegularExpressions;
 
 namespace MyEventURL.Controllers
 {
     public class BoardsController : Controller
     {
         private MyEventURLContext db = new MyEventURLContext();
+
+        public ActionResult CalendarView()
+        {
+            this.getUser();
+            return View();
+        }
 
         // GET: Boards
         public ActionResult Index()
@@ -22,8 +29,15 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Boards/Details/5
+        [RemoveXFrameOptions]
         public ActionResult Details(int? id)
         {
+            //If embeding board, use a blank layout.
+            var URI = HttpContext.Request.Url.AbsoluteUri;
+            var rgx = new Regex(@"[\s\S]*embed=true[\s\S]*");
+
+            ViewBag.Embed = (rgx.IsMatch(URI)) ? true : false;
+            
             this.getUser();
             if (id == null)
             {
@@ -38,6 +52,8 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Boards/Create
+        //[Authorize]
+        [RemoveXFrameOptions]
         public ActionResult Create()
         {
             this.getUser();
@@ -49,7 +65,7 @@ namespace MyEventURL.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BoardID,Events,View,TeamCalendar,BoardName")] Board board)
+        public ActionResult Create([Bind(Include = "Events,View,Email,BoardName,TeamCalendar,Private")] Board board)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +78,8 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Boards/Edit/5
+        //[Authorize]
+        [RemoveXFrameOptions]
         public ActionResult Edit(int? id)
         {
             this.getUser();
@@ -82,7 +100,7 @@ namespace MyEventURL.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BoardID,Created,Events,View,TeamCalendar,BoardName")] Board board)
+        public ActionResult Edit([Bind(Include = "BoardID,Created,Events,View,Email,BoardName,TeamCalendar,Private")] Board board)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +112,8 @@ namespace MyEventURL.Controllers
         }
 
         // GET: Boards/Delete/5
+        [Authorize]
+        [RemoveXFrameOptions]
         public ActionResult Delete(int? id)
         {
             this.getUser();

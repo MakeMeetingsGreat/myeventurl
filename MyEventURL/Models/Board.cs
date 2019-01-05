@@ -15,6 +15,7 @@ namespace MyEventURL.Models
         public string Email { get; set; }
         public string BoardName { get; set; }
         public bool TeamCalendar { get; set; }
+        public bool Private { get; set; }
 
         public Board()
         {

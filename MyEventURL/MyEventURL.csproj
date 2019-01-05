@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201812300951307_BoardName.Designer.cs">
       <DependentUpon>201812300951307_BoardName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901031125049_privateboard.cs" />
+    <Compile Include="Migrations\201901031125049_privateboard.Designer.cs">
+      <DependentUpon>201901031125049_privateboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Event.cs" />
@@ -489,6 +493,8 @@
     <Content Include="Views\Boards\_BoardForm.cshtml" />
     <Content Include="Views\Addin\_Index.cshtml" />
     <Content Include="Views\Home\_About.cshtml" />
+    <Content Include="Views\Boards\_CardView.cshtml" />
+    <Content Include="Views\Boards\CalendarView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -518,6 +524,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812300951307_BoardName.resx">
       <DependentUpon>201812300951307_BoardName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901031125049_privateboard.resx">
+      <DependentUpon>201901031125049_privateboard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
