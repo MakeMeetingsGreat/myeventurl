@@ -1,13 +1,5 @@
-﻿@model IEnumerable<MyEventURL.Models.Board>
+﻿@model IEnumerable<MyEventURL.Board>
 
-@{
-    ViewBag.Title = "Index";
-    string Events = "1,2,3";
-    var EventsList = Events.Split(',');
-    Events = "";
-    Events = EventsList.ToString();
-    Output.Write(EventsList[0]);
-}
 <h2>Index</h2>
 
 <p>
