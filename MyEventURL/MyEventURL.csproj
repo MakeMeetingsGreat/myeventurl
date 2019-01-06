@@ -451,7 +451,9 @@
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
     <Content Include="Views\Addin\.gitignore" />
-    <Content Include="Views\Addin\manifest.xml" />
+    <Content Include="Views\Addin\manifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
