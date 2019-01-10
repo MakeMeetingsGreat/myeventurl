@@ -118,29 +118,29 @@
             this.runAddView();
         },
         methods: {
-            evalUser() {
+            evalUser: function () {
                 return this.Event.Email == Account.Email;
             },
-            evalForms() {
+            evalForms: function () {
                 return this.Event.Forms != null;
             },
-            evalIcon() {
+            evalIcon: function () {
                 return this.Event.Icon == true;
             },
-            evalSway() {
+            evalSway: function () {
                 return this.Event.Sway != null;
             },
-            getForms() {
+            getForms: function () {
                 iframemodal.setTitle("Survey");
                 iframemodal.setSrc(this.FormsLink);
                 $("#iframemodal").modal("show");
             },
-            getSway() {
+            getSway: function () {
                 iframemodal.setTitle("More Info");
                 iframemodal.setSrc(this.SwayLink);
                 $("#iframemodal").modal("show");
             },
-            runAddView() {
+            runAddView: function () {
                 axios.get("/odata/GetEvent(@Model.EventId)")
                     .then(function (success) {
                         EventDetails.Event = success.data;
@@ -150,7 +150,7 @@
                         axios.put("/api/EventAPI/" + EventDetails.Event.EventId, EventDetails.Event);
                     })
             },
-            runAddEngagement() {
+            runAddEngagement: function () {
                 axios.get("/odata/GetEvent(@Model.EventId)")
                     .then(function (success) {
                         EventDetails.Event = success.data;
@@ -160,10 +160,10 @@
                         axios.put("/api/EventAPI/" + EventDetails.Event.EventId, EventDetails.Event);
                     })
             },
-            runConvertTZ() {
+            runConvertTZ: function () {
                 this.StartMoment = (this.StartMoment.tz() == this.LocalTz) ? this.StartMoment.tz(this.Event.Timezone) : this.StartMoment.tz(this.LocalTz);
             },
-            runNoReply(email) {
+            runNoReply: function (email) {
                 var splitemail = email.split("@@");
                 splitemail[0] = "no_reply";
                 return splitemail.join("@@");
