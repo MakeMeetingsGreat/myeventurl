@@ -1,6 +1,8 @@
-﻿@{ 
+﻿@{
     Layout = "~/Views/Shared/_BlankLayout.cshtml";
 }
+@Html.Partial("~/Views/Components/_EventCard.cshtml")
+
 <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -213,7 +215,7 @@
     <b-container>
         <div class="b-calendar">
             <b-row>
-                <b-col md="4">
+                <b-col md="4" style="min-width:350px">
                     <div class="b-calendar__information">
                         <div class="today d-flex justify-content-center align-items-center">
                             <div class="weekDay">
@@ -225,6 +227,20 @@
                             <div class="month">
                                 {{selectedDayAndMonth.month | capitalize}}
                             </div>
+
+                            <div v-for="Card in selectedDayEvents">
+                                <eventcard :id="Card.EventId"
+                                           :title="Card.Title"
+                                           :description="Card.Description"
+                                           :location="Card.Location"
+                                           :start="Card.Start"
+                                           :timezone="Card.Timezone"
+                                           :cstyle="Card.Style"
+                                           width="100%"
+                                           chars="100">
+                                </eventcard>
+                            </div>
+
                             <a href="#" id="goTodayLink" v-on:click="goToday" v-show="!todayInCurrentMonthAndYear || !todayIsEqualSelectDate">
                                 Today
                             </a>
@@ -278,7 +294,7 @@
                                  v-for="date in dateList" :key="date.key" :data-date="date.date" v-on:click="setSelectedDate(date.moment)">
                                 <span class="day">{{date.dayNumber}}</span>
                                 <span class="weekday">{{date.weekDay}}</span>
-                                <div><span class="event">&nbsp;&equiv;</span></div>
+                                <div><span class="event" v-if="date.event!=-1">&nbsp;&equiv;</span></div>
                                 <div class="additional" v-show="date.additional">
                                     <span class="year" v-show="date.additional.year">{{date.additional.year}}</span>
                                     <span class="month" v-show="date.additional.month">{{date.additional.month}}</span>
@@ -293,15 +309,20 @@
 </div>
 
 <script>
-    new Vue({
+    var app = new Vue({
         el: "#app",
         data: {
             today: moment(),
             dateContext: moment(),
             selectedDate: moment(),
             days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            events: [],
+            board: [],
         },
         computed: {
+            eventsarray: function () {
+                return this.board.Events.split(';');
+            },
             year: function () {
                 return this.dateContext.format("Y");
             },
@@ -415,7 +436,8 @@
                             formattedPreviousYear +
                             formattedPreviousMonth +
                             formattedDay
-                        )
+                        ),
+                        event: "test"
                     };
                 });
 
@@ -446,7 +468,8 @@
                             formattedCurrentYear +
                             formattedCurrentMonth +
                             formattedDay
-                        )
+                        ),
+                        event: (this.events != null) ? this.getEventKey(formattedDay + "." + formattedCurrentMonth + "." + formattedCurrentYear) : "-1"
                     };
                 }
 
@@ -495,7 +518,8 @@
                                 formattedNextYear +
                                 formattedNextMonth +
                                 formattedDay
-                            )
+                            ),
+                            event: "test"
                         };
                     }
                 }
@@ -533,11 +557,33 @@
             selectedWeekDay: function () {
                 return this.selectedDate.format("dddd");
             },
+            selectedDayEvents: function () {
+                var dayevents = [];
+                var selectedday = _.indexBy(this.dateList, 'date')[this.selectedDate.format("DD.MM.YYYY")].event
+                if (selectedday != -1) selectedday.forEach(function (eventkey) { dayevents.push(app.events[eventkey]) })
+                return (dayevents);
+            },
             todayIsEqualSelectDate: function () {
                 return (
                     this.selectedDate.format("YYYYMMDD") ===
                     this.today.format("YYYYMMDD")
                 );
+            }
+        },
+        created: function () {
+            if (url("?board") > 0) {
+                axios.get("/odata/GetBoard(" + url("?board") + ")")
+                    .then(function (result) {
+                        app.board = result.data;
+                    })
+                    .then(function () {
+                        app.eventsarray.forEach(function (event) {
+                            axios.get("/odata/GetEvent(" + event + ")")
+                                .then(function (result) {
+                                    app.events.push(result.data);
+                                })
+                        })
+                    })
             }
         },
         methods: {
@@ -549,6 +595,14 @@
             },
             setSelectedDate: function (moment) {
                 this.selectedDate = moment;
+            },
+            getEventKey: function (date) {
+                var eventarr = [];
+                this.events.forEach(function (event, key) {
+                    if (moment(event.Start).format("DD.MM.YYYY") == date) eventarr.push(key)
+                });
+                if (eventarr.length < 1) eventarr = -1;
+                return eventarr;
             },
             goToday: function () {
                 this.selectedDate = this.today;
