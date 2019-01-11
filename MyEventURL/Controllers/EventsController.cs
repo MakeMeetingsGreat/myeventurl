@@ -62,12 +62,21 @@ namespace MyEventURL.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Start,End,Timezone,Title,Description,Location,Organizer,Email,Reminder,sway,NoReply,Forms,Style,Private,Icon,search,Views,Engaged")] Event @event)
-        {
+        public ActionResult Create([Bind(Include = "Start,End,Timezone,Title,Description,Location,Organizer,Email,Reminder,sway,NoReply,Forms,Style,Private,Icon,search,Views,Engaged,Board")] Event @event)
+        {           
             if (ModelState.IsValid)
             {
+                int boardid = (Request.Form["Board"] != "") ? Convert.ToInt32(Request.Form["Board"]) : 0;
                 db.Events.Add(@event);
                 db.SaveChanges();
+                if (boardid > 0)
+                {
+                    var addboard = db.Boards.Where(b => b.BoardID == boardid).First();
+                    addboard.Events += ";" + @event.EventId;
+                    db.Entry(addboard).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                
                 return View("Close");
             }
 

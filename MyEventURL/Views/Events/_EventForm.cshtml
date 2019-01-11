@@ -187,6 +187,13 @@
             </div>
         </div>
 
+        <!-- BoardId -->
+        <div class="form-group" style="visibility:hidden">
+            <div class="col-md-10">
+                @Html.Editor("Board", "", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
     </div>
 }
 
@@ -273,6 +280,7 @@
 
     //Document is read, start loading valuse for the form
     $(function () {
+        $('#Board').val(url("?board"));
         var startDateTextBox = $('#Start');
         var endDateTextBox = $('#End');
 
