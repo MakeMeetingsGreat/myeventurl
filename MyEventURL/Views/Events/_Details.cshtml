@@ -89,8 +89,8 @@
         el: '#eventdetails',
         data: {
             Event: [],
-            StartMoment: moment.tz('@Model.Start', '@Model.Timezone'),
-            EndMoment: moment.tz('@Model.End', '@Model.Timezone'),
+            StartMoment: moment.tz('@Model.Start', 'MM/DD/YYYY hh:mm A', '@Model.Timezone'),
+            EndMoment: moment.tz('@Model.End', 'MM/DD/YYYY hh:mm A', '@Model.Timezone'),
             LocalTz: moment.tz.guess(),
             momentjsformat: "MM/DD/YYYY hh:mm A",
         },
