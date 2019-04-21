@@ -10,6 +10,23 @@
 
 }
 
+@{ if (Model.TeamCalendar)
+    {
+        @Html.Partial("~/Views/Components/_IframeModal.cshtml")
+
+        <script>
+            function runCreateEvent(BoardID) {
+                iframemodal.setTitle("Create an Event");
+                iframemodal.setSrc("/Events/Create?board=" + BoardID);
+                $("#iframemodal").modal({ backdrop: 'static', show: true });
+            }
+        </script>
+        <div style="width:200px; float:left; position:absolute; left:100px; height:50px;"><a href="javascript:runCreateEvent(@Model.BoardID)" style="width:200px; height:50px;" class="btn btn-info">Create Event</a></div>
+
+
+    }
+}
+
 <div style="margin:10px"><h2>@Model.BoardName</h2></div>
 
 @{
@@ -27,18 +44,20 @@
     }
     else if (Model.View == "Calendar")
     {
-        <iframe src="/Boards/CalendarView" id="CalendarFrame" style="border:none; width:100%; overflow:hidden"></iframe>
+        <iframe src="/Boards/CalendarView?board=@Model.BoardID" id="CalendarFrame" style="border:none; width:100%; overflow:hidden"></iframe>
+
+        <script>
+            function resizeIFrameToFitContent(iFrame) {
+                //iFrame.width = iFrame.contentWindow.document.body.clientWidth;
+                iFrame.height = iFrame.contentWindow.document.body.clientHeight;
+            }
+
+            setInterval(function () {
+                var iFrame = $('#CalendarFrame');
+                resizeIFrameToFitContent(iFrame[0]);
+            }, 1000)
+        </script>
+
     }
 }
 
-<script>
-    function resizeIFrameToFitContent(iFrame) {
-        //iFrame.width = iFrame.contentWindow.document.body.clientWidth;
-        iFrame.height = iFrame.contentWindow.document.body.clientHeight;
-    }
-
-    setInterval(function () {
-        var iFrame = $('#CalendarFrame');
-        resizeIFrameToFitContent(iFrame[0]);
-    }, 1000)
-</script>

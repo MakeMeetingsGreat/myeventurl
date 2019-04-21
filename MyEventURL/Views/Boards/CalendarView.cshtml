@@ -132,7 +132,6 @@
             background-color: #fff;
             height: 1px;
             width: 100%;
-            z-index: 1;
         }
 
         .b-calendar__dates .date {
@@ -215,7 +214,7 @@
     <b-container>
         <div class="b-calendar">
             <b-row>
-                <b-col md="4" style="min-width:350px">
+                <b-col md="4" style="min-width:300px">
                     <div class="b-calendar__information">
                         <div class="today d-flex justify-content-center align-items-center">
                             <div class="weekDay">
@@ -437,7 +436,7 @@
                             formattedPreviousMonth +
                             formattedDay
                         ),
-                        event: "test"
+                        event: (this.events != null) ? this.getEventKey(formattedDay + "." + formattedCurrentMonth + "." + formattedCurrentYear) : "-1"
                     };
                 });
 
@@ -519,7 +518,7 @@
                                 formattedNextMonth +
                                 formattedDay
                             ),
-                            event: "test"
+                            event: (this.events != null) ? this.getEventKey(formattedDay + "." + formattedCurrentMonth + "." + formattedCurrentYear) : "-1"
                         };
                     }
                 }
@@ -559,7 +558,7 @@
             },
             selectedDayEvents: function () {
                 var dayevents = [];
-                var selectedday = _.indexBy(this.dateList, 'date')[this.selectedDate.format("DD.MM.YYYY")].event
+                var selectedday = (_.indexBy(this.dateList, 'date')[this.selectedDate.format("DD.MM.YYYY")] != null) ? _.indexBy(this.dateList, 'date')[this.selectedDate.format("DD.MM.YYYY")].event : -1;
                 if (selectedday != -1) selectedday.forEach(function (eventkey) { dayevents.push(app.events[eventkey]) })
                 return (dayevents);
             },
@@ -629,5 +628,3 @@
         }
     });
 </script>
-
-CalendarView
