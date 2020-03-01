@@ -40,10 +40,10 @@
                 <h3>Description:</h3>
                 <p class="lead">{{Event.Description}}</p>
 
-                <div title="Add to Calendar" class="addeventatc btn btn-default btn-lg" style="z-index:1;">
+                <div title="Add to Calendar" class="addeventatc btn btn-default btn-lg" data-direct="outlook" style="z-index:1;">
                     Add to Calendar &raquo;
-                    <span class="start">{{StartMoment.format(momentjsformat)}}</span>
-                    <span class="end">{{EndMoment.format(momentjsformat)}}</span>
+                    <span class="start">{{Event.Start}}</span>
+                    <span class="end">{{Event.End}}</span>
                     <span class="timezone">{{Event.Timezone}}</span>
                     <span class="title">{{Event.Title}}</span>
                     <span class="description">{{Event.Description}}</span>
