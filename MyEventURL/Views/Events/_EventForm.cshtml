@@ -1,9 +1,6 @@
 ﻿@model MyEventURL.Event
 
 @{
-    <!-- Office JavaScript API
-    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-    -->
     //This Form is currently leveraged by Events Create and Edit Views.
 
     //getuser
@@ -212,71 +209,6 @@
         Account.UserName = emailarray[0];
         Account.Domain = emailarray[1];
     }
-
-    //Load Account details from Office Context
-    Office.onReady()
-        .then(function () {
-            runLoadAccount();
-
-            if (@paramEventId == 0) {
-                $('#Organizer').val(Account.UserName);
-
-                var item = Office.context.mailbox.item;
-
-                if (item != null) {
-                    item.start.getAsync(function (result) {
-                        if (result.error) {
-                            //console.log(result.error);
-                        } else {
-                            // Access the asyncContext that was passed to the setAsync function
-                            var start = moment(result.value).format('MM/DD/YYYY HH:mm:ss A');
-                            $("#Start").val(start);
-                        }
-                    });
-
-                    item.end.getAsync(function (result) {
-                        if (result.error) {
-                            //console.log(result.error);
-                        } else {
-                            // Access the asyncContext that was passed to the setAsync function
-                            var end = moment(result.value).format('MM/DD/YYYY HH:mm:ss A');
-                            $("#End").val(end);
-                        }
-                    })
-
-                    item.location.getAsync(function (result) {
-                        if (result.error) {
-                            //console.log(result.error);
-                        } else {
-                            // Access the asyncContext that was passed to the setAsync function
-                            $("#Location").val(result.value);
-                        }
-                    });
-
-                    item.subject.getAsync(function (result) {
-                        if (result.error) {
-                            //console.log(result.error);
-                        } else {
-                            // Access the asyncContext that was passed to the setAsync function
-                            $("#Title").val(result.value);
-                        }
-                    });
-
-
-                    item.body.getAsync("text",function (result) {
-                        if (result.error) {
-                            //console.log(result.error);
-                        } else {
-                            // Access the asyncContext that was passed to the setAsync function
-                            var body = result.value.replace(/(\r\n|\n|\r)/gm, "");
-                            //console.log(body);
-                            $("#Description").val(body);
-                        }
-                    });
-                }
-            }
-        })
-
 
     //Document is read, start loading valuse for the form
     $(function () {
