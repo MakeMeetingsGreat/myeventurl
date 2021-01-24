@@ -285,6 +285,8 @@
     <Content Include="Scripts\chosen.proto.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\prototype.js" />
+    <Content Include="Scripts\vue.js" />
+    <Content Include="Scripts\vue.min.js" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -447,8 +449,6 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\url.js" />
     <Content Include="Scripts\url.min.js" />
-    <Content Include="Scripts\vue.js" />
-    <Content Include="Scripts\vue.min.js" />
     <Content Include="Views\Addin\.gitignore" />
     <Content Include="Views\Addin\manifest.xml">
       <SubType>Designer</SubType>
