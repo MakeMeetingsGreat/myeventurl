@@ -38,9 +38,10 @@
         },
         computed: {
             FilteredEvents: function () {
-                return this.Events.filter(function (elem) {
-                    return _.toArray(elem).toString().indexOf(index.SearchQuery) > -1;
-                })
+                return this.Events.filter(
+                    function (elem) {
+                        return _.toArray(elem).toString().toLowerCase().indexOf(index.SearchQuery.toLowerCase()) > -1;
+                    })
             }
         },
         mounted: function () {
