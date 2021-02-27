@@ -7,22 +7,25 @@
         border:0px;
     }
 </style>
-<div style="align-content:center; width:100%">
-    <img src="~/Content/color_logo_transparent.png" style="width:80%" /><br/>
-    Search: <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px">
-</div>
+
 <div id="index" class="card-columns">
-    <div v-for="Card in FilteredEvents" class="card">
-        <eventcard :id="Card.EventId"
-                   :title="Card.Title"
-                   :description="Card.Description"
-                   :location="Card.Location"
-                   :start="Card.Start"
-                   :timezone="Card.Timezone"
-                   :cstyle="Card.Style"
-                   width="100%"
-                   chars="200">
-        </eventcard>
+    <div style="align-content:center; width:100%">
+        <img src="~/Content/color_logo_transparent.png" style="width:80%" /><br />
+        Search: <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px">
+    </div>
+    <div class="card-columns">
+        <div v-for="Card in FilteredEvents" class="card">
+            <eventcard :id="Card.EventId"
+                       :title="Card.Title"
+                       :description="Card.Description"
+                       :location="Card.Location"
+                       :start="Card.Start"
+                       :timezone="Card.Timezone"
+                       :cstyle="Card.Style"
+                       width="100%"
+                       chars="200">
+            </eventcard>
+        </div>
     </div>
 </div>
 
