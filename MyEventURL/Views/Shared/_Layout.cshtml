@@ -29,9 +29,10 @@
     </script>
 </head>
 <body>
+    https://www.myeventurl.com/Content/white_logo_transparent.png
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-            <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
+            <img src="~/Content/white_logo_transparent.png" alt="myeventurl logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -39,9 +40,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active nav-link">@Html.ActionLink("Home", "Index", "Home")</li>
-                <li class="nav-item active nav-link">@Html.ActionLink("About", "About", "Home")</li>
-                <li class="nav-item active nav-link">@Html.ActionLink("Manage", "Index", "Events")</li>
+                <li class="nav-item nav-link">@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="nav-item nav-link">@Html.ActionLink("About", "About", "Home")</li>
+                <li class="nav-item nav-link">@Html.ActionLink("Manage", "Index", "Events")</li>
             </ul>
         </div>
         @Html.Partial("_LoginPartial")
