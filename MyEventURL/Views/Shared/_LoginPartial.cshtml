@@ -10,7 +10,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item nav-link"><a href="http://register.makemeetingsgreat.com">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="http://register.makemeetingsgreat.com">Register</a></li>
         <li class="nav-item">@Html.ActionLink("Sign in", "SignIn", "Account", routeValues: new { path = Context.Request.RawUrl }, htmlAttributes: new { id = "loginLink", @class = "nav-link" })</li>
     </ul>
 }
