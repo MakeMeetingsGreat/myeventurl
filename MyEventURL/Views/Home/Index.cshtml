@@ -9,9 +9,9 @@
     </div>
 </div>
 
-<div id="index" class="row">
+<div id="index" class="card-columns">
     Search <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px">
-    <div v-for="Card in FilteredEvents" class="col-md-4">
+    <div v-for="Card in FilteredEvents" class="card">
         <eventcard :id="Card.EventId"
                    :title="Card.Title"
                    :description="Card.Description"
