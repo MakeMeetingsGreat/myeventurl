@@ -169,3 +169,16 @@
         }
     })
 </script>
+<scipt>
+    /* Attach events after the button has been loaded */
+    window.addeventasync = function(){
+
+        /* Capture click on button */
+        addeventatc.register('button-click', function(obj){
+
+        /* Log */
+        console.log('button-click -> ' + obj.id);
+
+        });
+    }
+</scipt>
