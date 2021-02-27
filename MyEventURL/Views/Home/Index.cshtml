@@ -2,9 +2,16 @@
     ViewBag.Title = "Home Page";
 }
 @Html.Partial("~/Views/Components/_EventCard.cshtml")
-<img src="~/Content/color_logo_transparent.png" width="100%" />
-<div id="index" class="card-columns">
+<style>
+    .card {
+        border:0px;
+    }
+</style>
+<div style="align-content:center; width:100%">
+    <img src="~/Content/color_logo_transparent.png" style="width:80%" />
     Search <input name="query" v-model="SearchQuery" style="min-width:100%; margin:10px">
+</div>
+<div id="index" class="card-columns">
     <div v-for="Card in FilteredEvents" class="card">
         <eventcard :id="Card.EventId"
                    :title="Card.Title"
@@ -13,7 +20,8 @@
                    :start="Card.Start"
                    :timezone="Card.Timezone"
                    :cstyle="Card.Style"
-                   width="100%">
+                   width="100%"
+                   chars="999">
         </eventcard>
     </div>
 </div>
